@@ -1651,6 +1651,32 @@
 		return RangeParagraphsList;
 	};
 
+	ApiRange.prototype.AddComment = function (Comment, Autor, IsSpecial, Level, forceAdd) {
+		if (typeof Autor !== 'string') Autor = ''
+		var oDocument = private_GetLogicDocument()
+
+		var CommentData = new AscCommon.CCommentData()
+		CommentData.SetText(Comment)
+		CommentData.SetUserName(Autor)
+		CommentData.SetIsSpecial(IsSpecial || false)
+		CommentData.SetLevel(Level || 0)
+
+		oDocument.Selection.Use = true
+		oDocument.SetContentSelection(this.StartPos, this.EndPos, 0, 0, 0)
+
+		var COMENT = oDocument.AddComment(CommentData, false, forceAdd)
+		oDocument.RemoveSelection()
+
+		if (null != COMENT) {
+			editor.sync_AddComment(COMENT.Get_Id(), CommentData)
+		}
+
+		return {
+			id: COMENT.Get_Id(),
+			text: COMENT.GetQuoteText()
+		}
+	}
+
 	/**
 	 * Sets the selection to the specified range.
 	 * @memberof ApiRange
@@ -3519,6 +3545,28 @@
 	{
 		return new ApiDocument(this.WordControl.m_oLogicDocument);
 	};
+
+	Api.prototype.SetZoomAndScrollY = function (zoom, y) {
+		if (zoom) {
+			editor.zoom(zoom)
+		}
+		editor.ViewScrollToY(y)
+	}
+
+	Api.prototype.AddCommentById = function (commentId, message, author) {
+		var comment = AscCommon.g_oTableId.Get_ById(commentId)
+		if (comment instanceof AscCommon.CComment) {
+			return comment.ChangeNormal(message, author)
+		}
+	}
+
+	Api.prototype.MoveToComment = function (commentId) {
+		var comment = AscCommon.g_oTableId.Get_ById(commentId)
+		if (comment instanceof AscCommon.CComment) {
+			var data = comment.GetPosition2()
+			editor.WordControl.ScrollToPosition3(data[0], data[1])
+		}
+	}
 	/**
 	 * Creates a new paragraph.
 	 * @memberof Api
@@ -3966,6 +4014,10 @@
 		return true;
 	};
 
+	Api.prototype.ClearHistory = function () {
+		AscCommon.History.Clear()
+	}
+
 	/**
 	 * Returns the mail merge template document.
 	 * @memberof Api
@@ -4131,7 +4183,7 @@
 	 * @param {string} Autor - The author's name (not obligatory).
 	 * @returns {bool} - returns false if params are invalid.
 	 */
-	Api.prototype.AddComment = function(oElement, Comment, Autor)
+	Api.prototype.AddComment = function(oElement, Comment, Autor, IsSpecial, Level)
 	{
 		if (!Comment || typeof(Comment) !== "string")
 			return false;
@@ -4167,6 +4219,8 @@
 			var CommentData = new AscCommon.CCommentData();
 			CommentData.SetText(Comment);
 			CommentData.SetUserName(Autor);
+			CommentData.SetIsSpecial(IsSpecial)
+			CommentData.SetLevel(Level)
 
 			var oDocument = private_GetLogicDocument();
 			
@@ -4194,7 +4248,39 @@
 		}
 	};
 
-	
+	Api.prototype.AddComments = function (params, clearHistory) {
+		if (Object.prototype.toString.call(params) === '[object Array]') {
+			var commentIds = params.map(function (v) {
+				var lineNumber = v['lineNumber']
+				var isAll = v['isAll']
+				var left = v['left']
+				var right = v['right']
+				var oDocument = private_GetLogicDocument()
+				var op = oDocument.GetElement(lineNumber)
+				if (isAll) {
+					var oParagraph = new ApiParagraph(oDocument.Content[lineNumber])
+					return oParagraph.AddComment(
+						v['message'],
+						v['author'],
+						v['isSpecial'],
+						v['level'],
+						true
+					)
+				} else {
+					var range = new ApiRange(op, left, right)
+					if (!range.StartPos || !range.EndPos) {
+						return -1
+					}
+					return range.AddComment(v['message'], v['author'], v['isSpecial'], v['level'], true)
+				}
+			})
+			if (clearHistory) {
+				this.ClearHistory()
+			}
+			return commentIds
+		}
+		throw new Error('AddComments params must be Array')
+	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	//
@@ -4244,6 +4330,59 @@
 
 		return null;
 	};
+
+	ApiDocumentContent.prototype.GetDetails = function () {
+		return this.Document.Content.map(getElementsByContent).filter(function (v) {
+			return v.type !== 'unsupported'
+		})
+	}
+
+	function getElementsByContent(ele) {
+		if (ele instanceof Paragraph) {
+			return {
+				type: 'paragraph',
+				id: ele.GetId(),
+				text: ele.GetText(),
+				// content: (ele.Content || []).map(getElementsByContent).filter(function (v) {
+				// 	return v.type !== 'unsupported'
+				// })
+			}
+		} else if (ele instanceof CTable) {
+			return {
+				type: 'table',
+				rows: ele.GetRowsCount(),
+				content: (ele.Content || []).map(getElementsByContent).filter(function (v) {
+					return v.type !== 'unsupported'
+				})
+			}
+		} else if (ele instanceof ParaRun) {
+			return {
+				type: 'run',
+				text: ele.GetText(),
+			}
+		} else if (ele instanceof CTableRow) {
+			return {
+				type: 'row',
+				content: (ele.Content || []).map(getElementsByContent).filter(function (v) {
+					return v.type !== 'unsupported'
+				})
+			}
+		} else if (ele instanceof CTableCell) {
+			return {
+				type: 'cell',
+				content: getElementsByContent(ele.Content)
+			}
+		} else if (ele instanceof CDocumentContent) {
+			return (ele.Content || []).map(getElementsByContent).filter(function (v) {
+				return v.type !== 'unsupported'
+			})
+		} else {
+			return {
+				type: 'unsupported'
+			}
+		}
+	}
+
 	/**
 	 * Adds a paragraph or a table or a blockLvl content control using its position in the document content.
 	 * @memberof ApiDocumentContent
@@ -4851,8 +4990,12 @@
 			editor.sync_AddComment(COMENT.Get_Id(), CommentData);
 		}
 
-		return true;
-	};
+		return COMENT.Get_Id()
+	}
+
+	ApiDocument.prototype.RemoveAllSpecialComments = function () {
+		return this.Document.RemoveAllSpecialComments()
+	}
 	/**
 	 * Returns a bookmark range.
 	 * @memberof ApiDocument
@@ -5516,10 +5659,10 @@
 	 * @param {string} Autor - The author's name (not obligatory).
 	 * @returns {bool} - returns false if params are invalid.
 	 */
-	ApiParagraph.prototype.AddComment = function(Comment, Autor)
+	ApiParagraph.prototype.AddComment = function(Comment, Autor, IsSpecial, Level, forceAdd)
 	{
-		if (!Comment || typeof(Comment) !== "string")
-			return false;
+		// if (!Comment || typeof(Comment) !== "string")
+		// 	return false;
 	
 		if (typeof(Autor) !== "string")
 			Autor = "";
@@ -5527,6 +5670,8 @@
 		var CommentData = new AscCommon.CCommentData();
 		CommentData.SetText(Comment);
 		CommentData.SetUserName(Autor);
+		CommentData.SetIsSpecial(IsSpecial || false)
+		CommentData.SetLevel(Level || 0)
 
 		var oDocument = private_GetLogicDocument()
 
@@ -5548,7 +5693,10 @@
 			editor.sync_AddComment(COMENT.Get_Id(), CommentData);
 		}
 
-		return true;
+		return {
+			id: COMENT.Get_Id(),
+			text: COMENT.GetQuoteText()
+		}
 	};
 	/**
 	 * Adds a hyperlink to a paragraph. 
@@ -6429,6 +6577,9 @@
 	{
 		return "run";
 	};
+	ApiRun.prototype.GetId = function () {
+		return this.Run.Id
+	}
 	/**
 	 * Returns the text properties of the current run.
 	 * @memberof ApiRun
@@ -13190,9 +13341,13 @@
 	// Export
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Api.prototype["GetDocument"]                     = Api.prototype.GetDocument;
+	Api.prototype['SetZoomAndScrollY'] = Api.prototype.SetZoomAndScrollY
+	Api.prototype['AddCommentById'] = Api.prototype.AddCommentById
+	Api.prototype['MoveToComment'] = Api.prototype.MoveToComment
 	Api.prototype["CreateParagraph"]                 = Api.prototype.CreateParagraph;
 	Api.prototype["CreateTable"]                     = Api.prototype.CreateTable;
 	Api.prototype["AddComment"]                      = Api.prototype.AddComment;
+	Api.prototype['AddComments'] = Api.prototype.AddComments
 	Api.prototype["CreateRun"]                       = Api.prototype.CreateRun;
 	Api.prototype["CreateHyperlink"]                 = Api.prototype.CreateHyperlink;
 	Api.prototype["CreateImage"]                     = Api.prototype.CreateImage;
@@ -13215,6 +13370,7 @@
 	Api.prototype["CreateBlockLvlSdt"]               = Api.prototype.CreateBlockLvlSdt;
 	Api.prototype["Save"]               			 = Api.prototype.Save;
 	Api.prototype["LoadMailMergeData"]               = Api.prototype.LoadMailMergeData;
+	Api.prototype['ClearHistory'] = Api.prototype.ClearHistory
 	Api.prototype["GetMailMergeTemplateDocContent"]  = Api.prototype.GetMailMergeTemplateDocContent;
 	Api.prototype["GetMailMergeReceptionsCount"]     = Api.prototype.GetMailMergeReceptionsCount;
 	Api.prototype["ReplaceDocumentContent"]          = Api.prototype.ReplaceDocumentContent;
@@ -13228,6 +13384,7 @@
 	ApiDocumentContent.prototype["GetClassType"]     = ApiDocumentContent.prototype.GetClassType;
 	ApiDocumentContent.prototype["GetElementsCount"] = ApiDocumentContent.prototype.GetElementsCount;
 	ApiDocumentContent.prototype["GetElement"]       = ApiDocumentContent.prototype.GetElement;
+	ApiDocumentContent.prototype['GetDetails'] = ApiDocumentContent.prototype.GetDetails
 	ApiDocumentContent.prototype["AddElement"]       = ApiDocumentContent.prototype.AddElement;
 	ApiDocumentContent.prototype["Push"]             = ApiDocumentContent.prototype.Push;
 	ApiDocumentContent.prototype["RemoveAllElements"]= ApiDocumentContent.prototype.RemoveAllElements;
@@ -13242,6 +13399,7 @@
 	ApiRange.prototype["GetText"]                    = ApiRange.prototype.GetText;
 	ApiRange.prototype["GetAllParagraphs"]           = ApiRange.prototype.GetAllParagraphs;
 	ApiRange.prototype["Select"]                     = ApiRange.prototype.Select;
+	ApiRange.prototype['AddComment'] = ApiRange.prototype.AddComment
 	ApiRange.prototype["ExpandTo"]                   = ApiRange.prototype.ExpandTo;
 	ApiRange.prototype["IntersectWith"]              = ApiRange.prototype.IntersectWith;
 	ApiRange.prototype["SetBold"]                    = ApiRange.prototype.SetBold;
@@ -13288,6 +13446,8 @@
 	ApiDocument.prototype["Push"]                    = ApiDocument.prototype.Push;
 	ApiDocument.prototype["DeleteBookmark"]          = ApiDocument.prototype.DeleteBookmark;
 	ApiDocument.prototype["AddComment"]              = ApiDocument.prototype.AddComment;
+	ApiDocument.prototype['RemoveAllSpecialComments'] =
+		ApiDocument.prototype.RemoveAllSpecialComments
 	ApiDocument.prototype["GetBookmarkRange"]        = ApiDocument.prototype.GetBookmarkRange;
 	ApiDocument.prototype["GetSections"]             = ApiDocument.prototype.GetSections;
 	ApiDocument.prototype["GetAllTablesOnPage"]      = ApiDocument.prototype.GetAllTablesOnPage;
@@ -13301,6 +13461,7 @@
 	ApiDocument.prototype["ToHtml"]                  = ApiDocument.prototype.ToHtml;
 
 	ApiParagraph.prototype["GetClassType"]           = ApiParagraph.prototype.GetClassType;
+	ApiParagraph.prototype['GetId'] = ApiParagraph.prototype.GetId
 	ApiParagraph.prototype["AddText"]                = ApiParagraph.prototype.AddText;
 	ApiParagraph.prototype["AddPageBreak"]           = ApiParagraph.prototype.AddPageBreak;
 	ApiParagraph.prototype["AddLineBreak"]           = ApiParagraph.prototype.AddLineBreak;
@@ -13363,6 +13524,7 @@
 
 
 	ApiRun.prototype["GetClassType"]                 = ApiRun.prototype.GetClassType;
+	ApiRun.prototype['GetId'] = ApiRun.prototype.GetId
 	ApiRun.prototype["GetTextPr"]                    = ApiRun.prototype.GetTextPr;
 	ApiRun.prototype["ClearContent"]                 = ApiRun.prototype.ClearContent;
 	ApiRun.prototype["AddText"]                      = ApiRun.prototype.AddText;

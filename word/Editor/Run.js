@@ -6772,7 +6772,8 @@ ParaRun.prototype.Draw_Lines = function(PDSL)
 			case para_Space:
 			{
 				// Пробелы, идущие в конце строки, не подчеркиваем и не зачеркиваем
-				if (PDSL.Spaces > 0)
+				// 段落尾部空格被删除
+				if (true)
 				{
 					if (true === bRemReview)
 					{

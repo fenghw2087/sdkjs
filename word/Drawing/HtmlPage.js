@@ -1106,6 +1106,56 @@ function CEditorPage(api)
 		this.OnUpdateOverlay();
 	};
 
+	this.ScrollToPosition2 = function(y, PageNum) {
+		var nValueScrollVer = this.GetVerticalScrollTo(y, PageNum);
+		var _hh = this.m_oEditor.HtmlElement.height;
+        _hh /= AscCommon.AscBrowser.retinaPixelRatio;
+		this.m_oScrollVerApi.scrollToY(parseInt(nValueScrollVer - _hh * 0.4), false);
+	}
+
+	this.ScrollToPosition3 = function(y, PageNum) {
+		var moveCommentMode = window['userCustomConfig'] ? window['userCustomConfig']['moveCommentMode'] : ''
+		if (moveCommentMode === 'every') {
+			this.ScrollToPosition2(y, PageNum)
+			return
+		} else if (moveCommentMode === 'origin') {
+			this.ScrollToPosition(0, y, PageNum)
+			return
+		}
+		if (PageNum < 0 || PageNum >= this.m_oDrawingDocument.m_lCountCalculatePages)
+			return;
+
+		var _h       = 5;
+		var rectSize = (_h * this.m_nZoomValue * g_dKoef_mm_to_pix / 100);
+		var pos      = this.m_oDrawingDocument.ConvertCoordsToCursor2(0, y, PageNum);
+
+		if (true === pos.Error)
+			return;
+
+        var _hh = this.m_oEditor.HtmlElement.height;
+        _hh /= AscCommon.AscBrowser.retinaPixelRatio;
+
+        var boxY = 0;
+        var boxB = _hh - rectSize;
+
+		var nValueScrollVer = 0;
+		if (pos.Y < boxY)
+		{
+			nValueScrollVer = this.GetVerticalScrollTo(y, PageNum);
+		}
+		if (pos.Y > boxB)
+		{
+			var _mem        = y + _h + 10 - g_dKoef_pix_to_mm * _hh * 100 / this.m_nZoomValue;
+			nValueScrollVer = this.GetVerticalScrollTo(_mem, PageNum);
+		}
+
+		var isNeedScroll = false;
+		if (0 != nValueScrollVer)
+		{
+			this.ScrollToPosition2(y, PageNum)
+		}
+	}
+
 	this.ScrollToPosition = function(x, y, PageNum, height)
 	{
 		if (PageNum < 0 || PageNum >= this.m_oDrawingDocument.m_lCountCalculatePages)
@@ -2570,7 +2620,146 @@ function CEditorPage(api)
 		{
 			oWordControl.MobileTouchManager.iScroll.y = -oWordControl.m_dScrollY;
 		}
+		var userCustomConfig = window['userCustomConfig'] || {}
+		if (userCustomConfig['scrollEvent']) {
+			if (!this.send2Parent) {
+				this.send2Parent = debounce(function (y) {
+					var params = {
+						type: 'plugin-event',
+						zoom: oWordControl.m_nZoomValue
+					}
+					params['frameEditorId'] = window['frameEditorId']
+					params['eventType'] = 'pageScroll'
+					params['scrollY'] = y
+					window['parent']['postMessage'](params, "*")
+				}, userCustomConfig['scrollThrottle'] || 200, { leading: true })
+			}
+			this.send2Parent(scrollPositionY)
+		}
 	};
+
+	function debounce(func, wait, options) {
+		var lastArgs,
+			lastThis,
+			maxWait,
+			result,
+			timerId,
+			lastCallTime,
+			lastInvokeTime = 0,
+			leading = false,
+			maxing = false,
+			trailing = true;
+	  
+		if (typeof func != 'function') {
+		  throw new TypeError(FUNC_ERROR_TEXT);
+		}
+		leading = !!options.leading;
+		maxing = 'maxWait' in options;
+		maxWait = 10000;
+		trailing = 'trailing' in options ? !!options.trailing : trailing;
+	  
+		function invokeFunc(time) {
+		  var args = lastArgs,
+			  thisArg = lastThis;
+	  
+		  lastArgs = lastThis = undefined;
+		  lastInvokeTime = time;
+		  result = func.apply(thisArg, args);
+		  return result;
+		}
+	  
+		function leadingEdge(time) {
+		  // Reset any `maxWait` timer.
+		  lastInvokeTime = time;
+		  // Start the timer for the trailing edge.
+		  timerId = setTimeout(timerExpired, wait);
+		  // Invoke the leading edge.
+		  return leading ? invokeFunc(time) : result;
+		}
+	  
+		function remainingWait(time) {
+		  var timeSinceLastCall = time - lastCallTime,
+			  timeSinceLastInvoke = time - lastInvokeTime,
+			  timeWaiting = wait - timeSinceLastCall;
+	  
+		  return maxing
+			? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+			: timeWaiting;
+		}
+	  
+		function shouldInvoke(time) {
+		  var timeSinceLastCall = time - lastCallTime,
+			  timeSinceLastInvoke = time - lastInvokeTime;
+	  
+		  // Either this is the first call, activity has stopped and we're at the
+		  // trailing edge, the system time has gone backwards and we're treating
+		  // it as the trailing edge, or we've hit the `maxWait` limit.
+		  return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+			(timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+		}
+	  
+		function timerExpired() {
+		  var time = Date.now();
+		  if (shouldInvoke(time)) {
+			return trailingEdge(time);
+		  }
+		  // Restart the timer.
+		  timerId = setTimeout(timerExpired, remainingWait(time));
+		}
+	  
+		function trailingEdge(time) {
+		  timerId = undefined;
+	  
+		  // Only invoke if we have `lastArgs` which means `func` has been
+		  // debounced at least once.
+		  if (trailing && lastArgs) {
+			return invokeFunc(time);
+		  }
+		  lastArgs = lastThis = undefined;
+		  return result;
+		}
+	  
+		function cancel() {
+		  if (timerId !== undefined) {
+			clearTimeout(timerId);
+		  }
+		  lastInvokeTime = 0;
+		  lastArgs = lastCallTime = lastThis = timerId = undefined;
+		}
+	  
+		function flush() {
+		  return timerId === undefined ? result : trailingEdge(Date.now());
+		}
+	  
+		function debounced() {
+		  var time = Date.now(),
+			  isInvoking = shouldInvoke(time);
+	  
+		  lastArgs = arguments;
+		  lastThis = this;
+		  lastCallTime = time;
+	  
+		  if (isInvoking) {
+			if (timerId === undefined) {
+			  return leadingEdge(lastCallTime);
+			}
+			if (maxing) {
+			  // Handle invocations in a tight loop.
+			  clearTimeout(timerId);
+			  timerId = setTimeout(timerExpired, wait);
+			  return invokeFunc(lastCallTime);
+			}
+		  }
+		  if (timerId === undefined) {
+			timerId = setTimeout(timerExpired, wait);
+		  }
+		  return result;
+		}
+		debounced.cancel = cancel;
+		debounced.flush = flush;
+		return debounced;
+	}
+
 	this.CorrectSpeedVerticalScroll = function(newScrollPos)
 	{
 		// без понтов.

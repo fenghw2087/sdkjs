@@ -647,6 +647,7 @@
 			if (_iframe)
 			{
 				runObject.startData.setAttribute("type", "init");
+				runObject.startData.setAttribute('frameEditorId', window['frameEditorId']);
 				_iframe.contentWindow.postMessage(runObject.startData.serialize(), "*");
 			}
 
@@ -1047,7 +1048,7 @@
 						var _script = "(function(){ var Api = window.g_asc_plugins.api;\n" + value.replace(/\\/g, "\\\\") + "\n})();";
 						eval(_script);
 					}
-					else if (!window.g_asc_plugins.api.isLongAction() && (pluginData.getAttribute("resize") || window.g_asc_plugins.api.asc_canPaste()))
+					else
 					{
 						window.g_asc_plugins.api._beforeEvalCommand();
 

@@ -1763,6 +1763,10 @@
                                 window["_private_emulate_upload"] = undefined;
                             }
                         }
+						// 将用户自定义配置放在window下
+						if (data['command'] === 'init') {
+							window['userCustomConfig'] = data['data']['customConfig']
+						}
 					} catch (err)
 					{
 					}
@@ -3472,6 +3476,16 @@
 
 			send                                      = function ()
 			{
+				var isOnline = window.location.href.indexOf('https') > -1
+				if (isOnline) {
+                    if (url.indexOf('cache') > -1) {
+                        var urlArr = url.split('/cache/')
+                        urlArr.shift()
+                        urlArr.unshift(window.location.origin + '/only-office')
+                        url = urlArr.join('/cache/')
+                    }
+                }
+
 				httpRequest.open(type, url, async);
 				if (type === "POST")
 					httpRequest.setRequestHeader("Content-Type", contentType);
@@ -4530,7 +4544,11 @@
 	function loadScriptWithBackoff(backoff, url, onSuccess, onError){
 		var script = document.createElement('script');
 		script.type = 'text/javascript';
+		var sdkVersion = window['__hy_ai_sdkVersion']
 		script.src = url;
+		if (sdkVersion) {
+			script.src += '?v=' + sdkVersion;
+		}
 		script.onload = onSuccess;
 		script.onerror = function() {
 			backoff.attempt(onError, function() {

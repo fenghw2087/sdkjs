@@ -7633,15 +7633,15 @@ function CStyles(bCreateDefault)
 			this.Add(oHeadingStyle.CreateLinkedCharacterStyle("Heading " + (nLvl + 1) + " Char", this.Default.Character));
 		}
 
-		// Создаем стандартный стиль для нумерованных параграфов
-		var oListParagraph = new CStyle("List Paragraph", this.Default.Paragraph, null, styletype_Paragraph);
-		oListParagraph.CreateListParagraph();
-		this.Default.ParaList = this.Add(oListParagraph);
+		// // Создаем стандартный стиль для нумерованных параграфов
+		// var oListParagraph = new CStyle("List Paragraph", this.Default.Paragraph, null, styletype_Paragraph);
+		// oListParagraph.CreateListParagraph();
+		// this.Default.ParaList = this.Add(oListParagraph);
 
-		// Создаем стандартный стиль для таблиц
-		var Style_Table = new CStyle("Normal Table", null, null, styletype_Table);
-		Style_Table.Create_NormalTable();
-		this.Default.Table = this.Add(Style_Table);
+		// // Создаем стандартный стиль для таблиц
+		// var Style_Table = new CStyle("Normal Table", null, null, styletype_Table);
+		// Style_Table.Create_NormalTable();
+		// this.Default.Table = this.Add(Style_Table);
 
 		// Создаем стиль "Без интервала"
 		var oNoSpacing = new CStyle("No Spacing", null, null, styletype_Paragraph);
@@ -7649,77 +7649,77 @@ function CStyles(bCreateDefault)
 		this.Default.NoSpacing = this.Add(oNoSpacing);
 
 		// Создаем стиль "Заголовок"
-		var oTitle = new CStyle("Title", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
-		oTitle.CreateTitle();
-		this.Default.Title = this.Add(oTitle);
-		this.Add(oTitle.CreateLinkedCharacterStyle("Title Char", this.Default.Character));
+		// var oTitle = new CStyle("Title", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
+		// oTitle.CreateTitle();
+		// this.Default.Title = this.Add(oTitle);
+		// this.Add(oTitle.CreateLinkedCharacterStyle("Title Char", this.Default.Character));
 
 		// Создаем стиль "Подзаголовок"
-		var oSubtitle = new CStyle("Subtitle", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
-		oSubtitle.CreateSubtitle();
-		this.Default.Subtitle = this.Add(oSubtitle);
-		this.Add(oSubtitle.CreateLinkedCharacterStyle("Subtitle Char", this.Default.Character));
+		// var oSubtitle = new CStyle("Subtitle", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
+		// oSubtitle.CreateSubtitle();
+		// this.Default.Subtitle = this.Add(oSubtitle);
+		// this.Add(oSubtitle.CreateLinkedCharacterStyle("Subtitle Char", this.Default.Character));
 
-		// Создаем стиль "Цитата"
-		var oQuote = new CStyle("Quote", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
-		oQuote.CreateQuote();
-		this.Default.Quote = this.Add(oQuote);
-		this.Add(oQuote.CreateLinkedCharacterStyle("Quote Char"), this.Default.Character);
+		// // Создаем стиль "Цитата"
+		// var oQuote = new CStyle("Quote", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
+		// oQuote.CreateQuote();
+		// this.Default.Quote = this.Add(oQuote);
+		// this.Add(oQuote.CreateLinkedCharacterStyle("Quote Char"), this.Default.Character);
 
-		// Создаем стиль "Выделенная цитата"
-		var oIntenseQuote = new CStyle("Intense Quote", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
-		oIntenseQuote.CreateIntenseQuote();
-		this.Default.IntenseQuote = this.Add(oIntenseQuote);
-		this.Add(oIntenseQuote.CreateLinkedCharacterStyle("Intense Quote Char"), this.Default.Character);
+		// // Создаем стиль "Выделенная цитата"
+		// var oIntenseQuote = new CStyle("Intense Quote", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
+		// oIntenseQuote.CreateIntenseQuote();
+		// this.Default.IntenseQuote = this.Add(oIntenseQuote);
+		// this.Add(oIntenseQuote.CreateLinkedCharacterStyle("Intense Quote Char"), this.Default.Character);
 
-		// Создаем стандартный стиль верхнего колонтитула
-		var oHeader = new CStyle("Header", this.Default.Paragraph, null, styletype_Paragraph);
-		oHeader.CreateHeader();
-		this.Default.Header = this.Add(oHeader);
-		this.Add(oHeader.CreateLinkedCharacterStyle("Header Char", this.Default.Character));
+		// // Создаем стандартный стиль верхнего колонтитула
+		// var oHeader = new CStyle("Header", this.Default.Paragraph, null, styletype_Paragraph);
+		// oHeader.CreateHeader();
+		// this.Default.Header = this.Add(oHeader);
+		// this.Add(oHeader.CreateLinkedCharacterStyle("Header Char", this.Default.Character));
 
-		// Создаем стандартный стиль нижнего колонтитула
-		var oFooter = new CStyle("Footer", this.Default.Paragraph, null, styletype_Paragraph);
-		oFooter.CreateFooter();
-		this.Default.Footer = this.Add(oFooter);
-		this.Add(oFooter.CreateLinkedCharacterStyle("Footer Char", this.Default.Character));
+		// // Создаем стандартный стиль нижнего колонтитула
+		// var oFooter = new CStyle("Footer", this.Default.Paragraph, null, styletype_Paragraph);
+		// oFooter.CreateFooter();
+		// this.Default.Footer = this.Add(oFooter);
+		// this.Add(oFooter.CreateLinkedCharacterStyle("Footer Char", this.Default.Character));
 
-		// Create default style for objects caption
-		var oCaption = new CStyle("Caption", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
-		oCaption.CreateCaption();
-		this.Default.Caption = this.Add(oCaption);
-		this.Add(oFooter.CreateLinkedCharacterStyle("Caption Char", this.Default.Caption));
+		// // Create default style for objects caption
+		// var oCaption = new CStyle("Caption", this.Default.Paragraph, this.Default.Paragraph, styletype_Paragraph);
+		// oCaption.CreateCaption();
+		// this.Default.Caption = this.Add(oCaption);
+		// this.Add(oFooter.CreateLinkedCharacterStyle("Caption Char", this.Default.Caption));
 
-        var fUF = AscCommonWord.CreateThemeUnifill;
+        // var fUF = AscCommonWord.CreateThemeUnifill;
 
-		// Создаем стиль для таблиц, который будет применяться к новым таблицам
-		var Style_TableGrid = new CStyle("Table Grid", this.Default.Table, null, styletype_Table);
-		Style_TableGrid.Create_TableGrid();
-		this.Default.TableGrid = this.Add(Style_TableGrid);
+		// // Создаем стиль для таблиц, который будет применяться к новым таблицам
+		// var Style_TableGrid = new CStyle("Table Grid", this.Default.Table, null, styletype_Table);
+		// Style_TableGrid.Create_TableGrid();
+		// this.Default.TableGrid = this.Add(Style_TableGrid);
 
-        var Style_TableGridLight = new CStyle("Table Grid Light", this.Default.Table, null, styletype_Table);
-		Style_TableGridLight.Create_TableGrid_Light(fUF(EThemeColor.themecolorText1, 0x50, null));
-        this.Add(Style_TableGridLight);
+        // var Style_TableGridLight = new CStyle("Table Grid Light", this.Default.Table, null, styletype_Table);
+		// Style_TableGridLight.Create_TableGrid_Light(fUF(EThemeColor.themecolorText1, 0x50, null));
+        // this.Add(Style_TableGridLight);
 
-        var Style_Plain_Table_1 = new CStyle("Plain Table 1", this.Default.Table, null, styletype_Table);
-		Style_Plain_Table_1.Create_Table_Plain_1(fUF(EThemeColor.themecolorText1, 0x50, null), fUF(EThemeColor.themecolorText1, 0x0D, null));
-        this.Add(Style_Plain_Table_1);
+        // var Style_Plain_Table_1 = new CStyle("Plain Table 1", this.Default.Table, null, styletype_Table);
+		// Style_Plain_Table_1.Create_Table_Plain_1(fUF(EThemeColor.themecolorText1, 0x50, null), fUF(EThemeColor.themecolorText1, 0x0D, null));
+        // this.Add(Style_Plain_Table_1);
 
-        var Style_Plain_Table_2 = new CStyle("Plain Table 2", this.Default.Table, null, styletype_Table);
-		Style_Plain_Table_2.Create_Table_Plain_2( fUF(EThemeColor.themecolorText1, null, null));
-        this.Add(Style_Plain_Table_2);
+        // var Style_Plain_Table_2 = new CStyle("Plain Table 2", this.Default.Table, null, styletype_Table);
+		// Style_Plain_Table_2.Create_Table_Plain_2( fUF(EThemeColor.themecolorText1, null, null));
+        // this.Add(Style_Plain_Table_2);
 
-        var Style_Plain_Table_3 = new CStyle("Plain Table 3", this.Default.Table, null, styletype_Table);
-		Style_Plain_Table_3.Create_Table_Plain_3(fUF(EThemeColor.themecolorText1, null, null), fUF(EThemeColor.themecolorText1, 0x0D, null));
-        this.Add(Style_Plain_Table_3);
+        // var Style_Plain_Table_3 = new CStyle("Plain Table 3", this.Default.Table, null, styletype_Table);
+		// Style_Plain_Table_3.Create_Table_Plain_3(fUF(EThemeColor.themecolorText1, null, null), fUF(EThemeColor.themecolorText1, 0x0D, null));
+        // this.Add(Style_Plain_Table_3);
 
-        var Style_Plain_Table_4 = new CStyle("Plain Table 4", this.Default.Table, null, styletype_Table);
-		Style_Plain_Table_4.Create_Table_Plain_4( fUF(EThemeColor.themecolorText1, 0x0D, null));
-        this.Add(Style_Plain_Table_4);
+        // var Style_Plain_Table_4 = new CStyle("Plain Table 4", this.Default.Table, null, styletype_Table);
+		// Style_Plain_Table_4.Create_Table_Plain_4( fUF(EThemeColor.themecolorText1, 0x0D, null));
+        // this.Add(Style_Plain_Table_4);
 
-        var Style_Plain_Table_5 = new CStyle("Plain Table 5", this.Default.Table, null, styletype_Table);
-		Style_Plain_Table_5.Create_Table_Plain_5(fUF(EThemeColor.themecolorNone, null, null), fUF(EThemeColor.themecolorText1, 0x0D, null));
-        this.Add(Style_Plain_Table_5);
+        // var Style_Plain_Table_5 = new CStyle("Plain Table 5", this.Default.Table, null, styletype_Table);
+		// Style_Plain_Table_5.Create_Table_Plain_5(fUF(EThemeColor.themecolorNone, null, null), fUF(EThemeColor.themecolorText1, 0x0D, null));
+        // this.Add(Style_Plain_Table_5);
 
         /*
          // Создаем стандартный стиль для таблиц
@@ -7734,482 +7734,482 @@ function CStyles(bCreateDefault)
          */
 
 
-        var Style_Table_Grid_1_Accent = new CStyle("Grid Table 1 Light", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_1_Accent.Create_Table_Grid_1(fUF(EThemeColor.themecolorText1, 0x95, null),  fUF(EThemeColor.themecolorText1, 0x67, null));
-		this.Add( Style_Table_Grid_1_Accent );
-
-		var Style_Table_Grid_1_Accent_1 = new CStyle("Grid Table 1 Light - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_1_Accent_1.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent1, 0x95, null), fUF(EThemeColor.themecolorAccent1, 0x67, null));
-		this.Add( Style_Table_Grid_1_Accent_1 );
-
-		var Style_Table_Grid_1_Accent_2 = new CStyle("Grid Table 1 Light - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_1_Accent_2.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent2, 0x95, null), fUF(EThemeColor.themecolorAccent2, 0x67, null));
-		this.Add( Style_Table_Grid_1_Accent_2 );
-
-		var Style_Table_Grid_1_Accent_3 = new CStyle("Grid Table 1 Light - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_1_Accent_3.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent3, 0x95, null), fUF(EThemeColor.themecolorAccent3, 0x67, null));
-		this.Add( Style_Table_Grid_1_Accent_3 );
-
-		var Style_Table_Grid_1_Accent_4 = new CStyle("Grid Table 1 Light - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_1_Accent_4.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent4, 0x95, null), fUF(EThemeColor.themecolorAccent4, 0x67, null));
-		this.Add( Style_Table_Grid_1_Accent_4 );
-
-		var Style_Table_Grid_1_Accent_5 = new CStyle("Grid Table 1 Light - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_1_Accent_5.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent5, 0x95, null), fUF(EThemeColor.themecolorAccent5, 0x67, null));
-		this.Add( Style_Table_Grid_1_Accent_5 );
-
-		var Style_Table_Grid_1_Accent_6 = new CStyle("Grid Table 1 Light - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_1_Accent_6.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent6, 0x95, null), fUF(EThemeColor.themecolorAccent6, 0x67, null));
-        this.Add( Style_Table_Grid_1_Accent_6 );
-
-		var Style_Table_Grid_Accent = new CStyle("Grid Table 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent.Create_Table_Grid_2(fUF(EThemeColor.themecolorText1, 0x95, null), fUF(EThemeColor.themecolorText1, 0x34, null));
-		this.Add( Style_Table_Grid_Accent);
-
-		var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 2 - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_1.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_1 );
-
-		var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 2 - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_2.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null),fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_2 );
-
-		var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 2 - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_3.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_3 );
-
-		var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 2 - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_4.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_4 );
-
-		var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 2 - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_5.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_5 );
-
-		var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 2 - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_6.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_6 );
-
-		var Style_Table_Grid_Accent = new CStyle("Grid Table 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent.Create_Table_Grid_3(fUF(EThemeColor.themecolorText1, 0x95, null), fUF(EThemeColor.themecolorText1, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent);
-
-		var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 3 - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_1.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_1 );
-
-		var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 3 - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_2.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_2 );
-
-		var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 3 - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_3.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_3 );
-
-		var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 3 - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_4.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_4 );
-
-		var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 3 - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_5.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_5 );
-
-		var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 3 - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_6.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_Grid_Accent_6 );
-
-		var Style_Table_Grid_Accent = new CStyle("Grid Table 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent.Create_Table_Grid_4(fUF(EThemeColor.themecolorText1, null, null), fUF(EThemeColor.themecolorText1, 0x34, null), fUF(EThemeColor.themecolorText1, 0x90, null));
-		this.Add( Style_Table_Grid_Accent);
-
-		var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 4 - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_1.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x32, null), fUF(EThemeColor.themecolorAccent1, 0x90, null));
-		this.Add( Style_Table_Grid_Accent_1 );
-
-		var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 4 - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_2.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorAccent2, 0x90, null));
-		this.Add( Style_Table_Grid_Accent_2 );
-
-		var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 4 - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_3.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorAccent3, 0x90, null));
-		this.Add( Style_Table_Grid_Accent_3 );
-
-		var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 4 - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_4.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorAccent4, 0x90, null));
-		this.Add( Style_Table_Grid_Accent_4 );
-
-		var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 4 - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_5.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorAccent5, 0x90, null));
-		this.Add( Style_Table_Grid_Accent_5 );
-
-		var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 4 - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_6.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorAccent6, 0x90, null));
-		this.Add( Style_Table_Grid_Accent_6 );
-
-		var Style_Table_Grid_Accent = new CStyle("Grid Table 5 Dark", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent.Create_Table_Grid_5(fUF(EThemeColor.themecolorText1, null, null), fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorText1, 0x75, null));
-		this.Add( Style_Table_Grid_Accent);
-
-		var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 5 Dark- Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_1.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent1, 0x75, null));
-		this.Add( Style_Table_Grid_Accent_1 );
-
-		var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 5 Dark - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_2.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent2, null, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent2, 0x75, null));
-		this.Add( Style_Table_Grid_Accent_2 );
-
-		var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 5 Dark - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_3.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent3, null, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent3, 0x75, null));
-		this.Add( Style_Table_Grid_Accent_3 );
-
-		var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 5 Dark- Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_4.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent4, null, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent4, 0x75, null));
-		this.Add( Style_Table_Grid_Accent_4 );
-
-		var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 5 Dark - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_5.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent5, 0x75, null));
-		this.Add( Style_Table_Grid_Accent_5 );
-
-		var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 5 Dark - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_6.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent6, 0x75, null));
-		this.Add( Style_Table_Grid_Accent_6 );
-
-		var Style_Table_Grid_Accent = new CStyle("Grid Table 6 Colorful", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent.Create_Table_Grid_6(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorText1, 0x34, null), fUF(EThemeColor.themecolorText1, 0x80, 0x95));
-		this.Add( Style_Table_Grid_Accent);
-
-		var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 6 Colorful - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_1.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent1, 0x80, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorAccent1, 0x80, 0x95));
-		this.Add( Style_Table_Grid_Accent_1 );
-
-		var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 6 Colorful - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_2.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorAccent2, 0x97, 0x95));
-		this.Add( Style_Table_Grid_Accent_2 );
-
-		var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 6 Colorful - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_3.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorAccent3, 0xFE, 0x95));
-		this.Add( Style_Table_Grid_Accent_3 );
-
-		var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 6 Colorful - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_4.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorAccent4, 0x9A, 0x95));
-		this.Add( Style_Table_Grid_Accent_4 );
-
-		var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 6 Colorful - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_5.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorAccent5, null, 0x95));
-		this.Add( Style_Table_Grid_Accent_5 );
-
-		var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 6 Colorful - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_6.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null),  fUF(EThemeColor.themecolorAccent5, null, 0x95));
-		this.Add( Style_Table_Grid_Accent_6 );
-
-		var Style_Table_Grid_Accent = new CStyle("Grid Table 7 Colorful", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent.Create_Table_Grid_7(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorText1, 0x0D, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorText1, 0x80, 0x95));
-		this.Add( Style_Table_Grid_Accent);
-
-		var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 7 Colorful - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_1.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent1, 0x80, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent1, 0x80, 0x95));
-		this.Add( Style_Table_Grid_Accent_1 );
-
-		var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 7 Colorful - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_2.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent2, 0x97, 0x95));
-		this.Add( Style_Table_Grid_Accent_2 );
-
-		var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 7 Colorful - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_3.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent3, 0xFE, 0x95));
-		this.Add( Style_Table_Grid_Accent_3 );
-
-		var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 7 Colorful - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_4.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent4, 0x9A, 0x95));
-		this.Add( Style_Table_Grid_Accent_4 );
-
-		var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 7 Colorful - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_5.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent5, 0x90, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent5, null, 0x95));
-		this.Add( Style_Table_Grid_Accent_5 );
-
-		var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 7 Colorful - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_Grid_Accent_6.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent6, 0x90, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent6, null, 0x95));
-        this.Add( Style_Table_Grid_Accent_6 );
-
-        var Style_Table_List_1_Accent = new CStyle("List Table 1 Light", this.Default.Table, null, styletype_Table );
-		Style_Table_List_1_Accent.Create_Table_List_1(fUF(EThemeColor.themecolorText1, null, null),  fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_List_1_Accent );
-
-		var Style_Table_List_1_Accent_1 = new CStyle("List Table 1 Light - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_List_1_Accent_1.Create_Table_List_1(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_List_1_Accent_1 );
-
-		var Style_Table_List_1_Accent_2 = new CStyle("List Table 1 Light - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_List_1_Accent_2.Create_Table_List_1(fUF(EThemeColor.themecolorAccent2, null, null), fUF(EThemeColor.themecolorAccent2, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_List_1_Accent_2 );
-
-		var Style_Table_List_1_Accent_3 = new CStyle("List Table 1 Light - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_List_1_Accent_3.Create_Table_List_1(fUF(EThemeColor.themecolorAccent3, null, null), fUF(EThemeColor.themecolorAccent3, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_List_1_Accent_3 );
-
-		var Style_Table_List_1_Accent_4 = new CStyle("List Table 1 Light - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_List_1_Accent_4.Create_Table_List_1(fUF(EThemeColor.themecolorAccent4, null, null), fUF(EThemeColor.themecolorAccent4, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_List_1_Accent_4 );
-
-		var Style_Table_List_1_Accent_5 = new CStyle("List Table 1 Light - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_List_1_Accent_5.Create_Table_List_1(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
-		this.Add( Style_Table_List_1_Accent_5 );
-
-		var Style_Table_List_1_Accent_6 = new CStyle("List Table 1 Light - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_List_1_Accent_6.Create_Table_List_1(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
-        this.Add( Style_Table_List_1_Accent_6 );
-
-        var Style_Table_List_2_Accent = new CStyle("List Table 2", this.Default.Table, null, styletype_Table );
-		Style_Table_List_2_Accent.Create_Table_List_2(fUF(EThemeColor.themecolorText1, 0x90, null),  fUF(EThemeColor.themecolorText1, 0x40, null));
-		this.Add( Style_Table_List_2_Accent );
-
-		var Style_Table_List_2_Accent_1 = new CStyle("List Table 2 - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_List_2_Accent_1.Create_Table_List_2(fUF(EThemeColor.themecolorAccent1, 0x90, null), fUF(EThemeColor.themecolorAccent1, 0x40, null));
-		this.Add( Style_Table_List_2_Accent_1 );
-
-		var Style_Table_List_2_Accent_2 = new CStyle("List Table 2 - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_List_2_Accent_2.Create_Table_List_2(fUF(EThemeColor.themecolorAccent2, 0x90, null), fUF(EThemeColor.themecolorAccent2, 0x40, null));
-		this.Add( Style_Table_List_2_Accent_2 );
-
-		var Style_Table_List_2_Accent_3 = new CStyle("List Table 2 - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_List_2_Accent_3.Create_Table_List_2(fUF(EThemeColor.themecolorAccent3, 0x90, null), fUF(EThemeColor.themecolorAccent3, 0x40, null));
-		this.Add( Style_Table_List_2_Accent_3 );
-
-		var Style_Table_List_2_Accent_4 = new CStyle("List Table 2 - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_List_2_Accent_4.Create_Table_List_2(fUF(EThemeColor.themecolorAccent4, 0x90, null), fUF(EThemeColor.themecolorAccent4, 0x40, null));
-		this.Add( Style_Table_List_2_Accent_4 );
-
-		var Style_Table_List_2_Accent_5 = new CStyle("List Table 2 - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_List_2_Accent_5.Create_Table_List_2(fUF(EThemeColor.themecolorAccent5, 0x90, null), fUF(EThemeColor.themecolorAccent5, 0x40, null));
-		this.Add( Style_Table_List_2_Accent_5 );
-
-		var Style_Table_List_2_Accent_6 = new CStyle("List Table 2 - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_List_2_Accent_6.Create_Table_List_2(fUF(EThemeColor.themecolorAccent6, 0x90, null), fUF(EThemeColor.themecolorAccent6, 0x40, null));
-        this.Add( Style_Table_List_2_Accent_6 );
-
-        var Style_Table_List_3_Accent = new CStyle("List Table 3", this.Default.Table, null, styletype_Table );
-		Style_Table_List_3_Accent.Create_Table_List_3(fUF(EThemeColor.themecolorText1, null, null),  fUF(EThemeColor.themecolorText1, 0x26, null));
-		this.Add( Style_Table_List_3_Accent );
-
-		var Style_Table_List_3_Accent_1 = new CStyle("List Table 3 - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_List_3_Accent_1.Create_Table_List_3(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x67, null));
-		this.Add( Style_Table_List_3_Accent_1 );
-
-		var Style_Table_List_3_Accent_2 = new CStyle("List Table 3 - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_List_3_Accent_2.Create_Table_List_3(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x67, null));
-		this.Add( Style_Table_List_3_Accent_2 );
-
-		var Style_Table_List_3_Accent_3 = new CStyle("List Table 3 - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_List_3_Accent_3.Create_Table_List_3(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorAccent3, 0x67, null));
-		this.Add( Style_Table_List_3_Accent_3 );
-
-		var Style_Table_List_3_Accent_4 = new CStyle("List Table 3 - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_List_3_Accent_4.Create_Table_List_3(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x67, null));
-		this.Add( Style_Table_List_3_Accent_4 );
-
-		var Style_Table_List_3_Accent_5 = new CStyle("List Table 3 - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_List_3_Accent_5.Create_Table_List_3(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorAccent5, 0x67, null));
-		this.Add( Style_Table_List_3_Accent_5 );
-
-		var Style_Table_List_3_Accent_6 = new CStyle("List Table 3 - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_List_3_Accent_6.Create_Table_List_3(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorAccent6, 0x67, null));
-        this.Add( Style_Table_List_3_Accent_6 );
-
-        var Style_Table_List_4_Accent = new CStyle("List Table 4", this.Default.Table, null, styletype_Table );
-		Style_Table_List_4_Accent.Create_Table_List_4(fUF(EThemeColor.themecolorText1, null, null),  fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorText1, null, null));
-		this.Add( Style_Table_List_4_Accent );
-
-		var Style_Table_List_4_Accent_1 = new CStyle("List Table 4 - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_List_4_Accent_1.Create_Table_List_4(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x40, null), fUF(EThemeColor.themecolorAccent1, 0x90, null));
-		this.Add( Style_Table_List_4_Accent_1 );
-
-		var Style_Table_List_4_Accent_2 = new CStyle("List Table 4 - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_List_4_Accent_2.Create_Table_List_4(fUF(EThemeColor.themecolorAccent2, null, null), fUF(EThemeColor.themecolorAccent2, 0x40, null), fUF(EThemeColor.themecolorAccent2, 0x90, null));
-		this.Add( Style_Table_List_4_Accent_2 );
-
-		var Style_Table_List_4_Accent_3 = new CStyle("List Table 4 - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_List_4_Accent_3.Create_Table_List_4(fUF(EThemeColor.themecolorAccent3, null, null), fUF(EThemeColor.themecolorAccent3, 0x40, null), fUF(EThemeColor.themecolorAccent3, 0x90, null));
-		this.Add( Style_Table_List_4_Accent_3 );
-
-		var Style_Table_List_4_Accent_4 = new CStyle("List Table 4 - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_List_4_Accent_4.Create_Table_List_4(fUF(EThemeColor.themecolorAccent4, null, null), fUF(EThemeColor.themecolorAccent4, 0x40, null), fUF(EThemeColor.themecolorAccent4, 0x90, null));
-		this.Add( Style_Table_List_4_Accent_4 );
-
-		var Style_Table_List_4_Accent_5 = new CStyle("List Table 4 - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_List_4_Accent_5.Create_Table_List_4(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x40, null), fUF(EThemeColor.themecolorAccent5, 0x90, null));
-		this.Add( Style_Table_List_4_Accent_5 );
-
-		var Style_Table_List_4_Accent_6 = new CStyle("List Table 4 - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_List_4_Accent_6.Create_Table_List_4(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x40, null), fUF(EThemeColor.themecolorAccent6, 0x90, null));
-        this.Add( Style_Table_List_4_Accent_6 );
-
-        var Style_Table_List_5_Accent = new CStyle("List Table 5 Dark", this.Default.Table, null, styletype_Table );
-		Style_Table_List_5_Accent.Create_Table_List_5(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorLight1, null, null));
-		this.Add( Style_Table_List_5_Accent );
-
-		var Style_Table_List_5_Accent_1 = new CStyle("List Table 5 Dark - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_List_5_Accent_1.Create_Table_List_5(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorLight1, null, null));
-		this.Add( Style_Table_List_5_Accent_1 );
-
-		var Style_Table_List_5_Accent_2 = new CStyle("List Table 5 Dark - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_List_5_Accent_2.Create_Table_List_5(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorLight1, null, null));
-		this.Add( Style_Table_List_5_Accent_2 );
-
-		var Style_Table_List_5_Accent_3 = new CStyle("List Table 5 Dark - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_List_5_Accent_3.Create_Table_List_5(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorLight1, null, null));
-		this.Add( Style_Table_List_5_Accent_3 );
-
-		var Style_Table_List_5_Accent_4 = new CStyle("List Table 5 Dark - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_List_5_Accent_4.Create_Table_List_5(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorLight1, null, null));
-		this.Add( Style_Table_List_5_Accent_4 );
-
-		var Style_Table_List_5_Accent_5 = new CStyle("List Table 5 Dark - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_List_5_Accent_5.Create_Table_List_5(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorLight1, null, null));
-		this.Add( Style_Table_List_5_Accent_5 );
-
-		var Style_Table_List_5_Accent_6 = new CStyle("List Table 5 Dark - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_List_5_Accent_6.Create_Table_List_5(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorLight1, null, null));
-        this.Add( Style_Table_List_5_Accent_6 );
-
-        var Style_Table_List_6_Accent = new CStyle("List Table 6 Colorful", this.Default.Table, null, styletype_Table );
-		Style_Table_List_6_Accent.Create_Table_List_6(fUF(EThemeColor.themecolorText1, 0x80, null),  fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorText1, null, null));
-		this.Add( Style_Table_List_6_Accent );
-
-		var Style_Table_List_6_Accent_1 = new CStyle("List Table 6 Colorful - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_List_6_Accent_1.Create_Table_List_6(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x40, null), fUF(EThemeColor.themecolorAccent1, null, 0x95));
-		this.Add( Style_Table_List_6_Accent_1 );
-
-		var Style_Table_List_6_Accent_2 = new CStyle("List Table 6 Colorful - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_List_6_Accent_2.Create_Table_List_6(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x40, null), fUF(EThemeColor.themecolorAccent2, 0x97, 0x95));
-		this.Add( Style_Table_List_6_Accent_2 );
-
-		var Style_Table_List_6_Accent_3 = new CStyle("List Table 6 Colorful - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_List_6_Accent_3.Create_Table_List_6(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorAccent3, 0x40, null), fUF(EThemeColor.themecolorAccent3, 0x98, 0x95));
-		this.Add( Style_Table_List_6_Accent_3 );
-
-		var Style_Table_List_6_Accent_4 = new CStyle("List Table 6 Colorful - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_List_6_Accent_4.Create_Table_List_6(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x40, null), fUF(EThemeColor.themecolorAccent4, 0x9A, 0x95));
-		this.Add( Style_Table_List_6_Accent_4 );
-
-		var Style_Table_List_6_Accent_5 = new CStyle("List Table 6 Colorful - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_List_6_Accent_5.Create_Table_List_6(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorAccent5, 0x40, null), fUF(EThemeColor.themecolorAccent5, 0x9A, 0x95));
-		this.Add( Style_Table_List_6_Accent_5 );
-
-		var Style_Table_List_6_Accent_6 = new CStyle("List Table 6 Colorful - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_List_6_Accent_6.Create_Table_List_6(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorAccent6, 0x40, null), fUF(EThemeColor.themecolorAccent6, 0x98, 0x95));
-        this.Add( Style_Table_List_6_Accent_6 );
-
-        var Style_Table_List_7_Accent = new CStyle("List Table 7 Colorful", this.Default.Table, null, styletype_Table );
-		Style_Table_List_7_Accent.Create_Table_List_7(fUF(EThemeColor.themecolorText1, 0x80, null),  fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorText1, 0x80, 0x95));
-		this.Add( Style_Table_List_7_Accent );
-
-		var Style_Table_List_7_Accent_1 = new CStyle("List Table 7 Colorful - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_List_7_Accent_1.Create_Table_List_7(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent1, null, 0x95));
-		this.Add( Style_Table_List_7_Accent_1 );
-
-		var Style_Table_List_7_Accent_2 = new CStyle("List Table 7 Colorful - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_List_7_Accent_2.Create_Table_List_7(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent2, 0x97, 0x95));
-		this.Add( Style_Table_List_7_Accent_2 );
-
-		var Style_Table_List_7_Accent_3 = new CStyle("List Table 7 Colorful - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_List_7_Accent_3.Create_Table_List_7(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorAccent3, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent3, 0x98, 0x95));
-		this.Add( Style_Table_List_7_Accent_3 );
-
-		var Style_Table_List_7_Accent_4 = new CStyle("List Table 7 Colorful - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_List_7_Accent_4.Create_Table_List_7(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent4, 0x9A, 0x95));
-		this.Add( Style_Table_List_7_Accent_4 );
-
-		var Style_Table_List_7_Accent_5 = new CStyle("List Table 7 Colorful - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_List_7_Accent_5.Create_Table_List_7(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorAccent5, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent5, 0x9A, 0x95));
-		this.Add( Style_Table_List_7_Accent_5 );
-
-		var Style_Table_List_7_Accent_6 = new CStyle("List Table 7 Colorful - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_List_7_Accent_6.Create_Table_List_7(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorAccent6, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent6, 0x98, 0x95));
-        this.Add( Style_Table_List_7_Accent_6 );
-
-         // Стандартные стили таблиц
-		var Style_Table_Lined_Accent = new CStyle("Lined - Accent", this.Default.Table, null, styletype_Table );
-		Style_Table_Lined_Accent.Create_Table_Lined(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorText1, 0x0D, null));
-		this.Add( Style_Table_Lined_Accent );
-
-		var Style_Table_Lined_Accent1 = new CStyle("Lined - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_Lined_Accent1.Create_Table_Lined(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x50, null));
-		this.Add( Style_Table_Lined_Accent1 );
-
-		var Style_Table_Lined_Accent2 = new CStyle("Lined - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Lined_Accent2.Create_Table_Lined(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null));
-		this.Add( Style_Table_Lined_Accent2 );
-
-		var Style_Table_Lined_Accent3 = new CStyle("Lined - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Lined_Accent3.Create_Table_Lined(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null));
-		this.Add( Style_Table_Lined_Accent3 );
-
-		var Style_Table_Lined_Accent4 = new CStyle("Lined - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Lined_Accent4.Create_Table_Lined(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null));
-		this.Add( Style_Table_Lined_Accent4 );
-
-		var Style_Table_Lined_Accent5 = new CStyle("Lined - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_Lined_Accent5.Create_Table_Lined(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null));
-		this.Add( Style_Table_Lined_Accent5 );
-
-		var Style_Table_Lined_Accent6 = new CStyle("Lined - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_Lined_Accent6.Create_Table_Lined(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null));
-		this.Add( Style_Table_Lined_Accent6 );
-
-        var Style_Table_BorderedLined_Accent0 = new CStyle("Bordered & Lined - Accent", this.Default.Table, null, styletype_Table );
-		Style_Table_BorderedLined_Accent0.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorText1, 0x0D, null), fUF(EThemeColor.themecolorText1, 0x0D, null), fUF(EThemeColor.themecolorText1, 0xA6, null));
-		this.Add( Style_Table_BorderedLined_Accent0 );
-
-        var Style_Table_BorderedLined_Accent1 = new CStyle("Bordered & Lined - Accent 1", this.Default.Table, null, styletype_Table );
-        Style_Table_BorderedLined_Accent1.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x50, null), fUF(EThemeColor.themecolorAccent1, 0x50, null), fUF(EThemeColor.themecolorAccent1, null, 0x95));
-        this.Add( Style_Table_BorderedLined_Accent1 );
-
-        var Style_Table_BorderedLined_Accent2 = new CStyle("Bordered & Lined - Accent 2", this.Default.Table, null, styletype_Table );
-        Style_Table_BorderedLined_Accent2.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorAccent2, null, 0x95));
-        this.Add( Style_Table_BorderedLined_Accent2 );
-
-		var Style_Table_BorderedLined_Accent3 = new CStyle("Bordered & Lined - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_BorderedLined_Accent3.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorAccent3, null, 0x95));
-		this.Add( Style_Table_BorderedLined_Accent3 );
-
-        var Style_Table_BorderedLined_Accent4 = new CStyle("Bordered & Lined - Accent 4", this.Default.Table, null, styletype_Table );
-        Style_Table_BorderedLined_Accent4.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorAccent4, null, 0x95));
-        this.Add( Style_Table_BorderedLined_Accent4 );
-
-        var Style_Table_BorderedLined_Accent5 = new CStyle("Bordered & Lined - Accent 5", this.Default.Table, null, styletype_Table );
-        Style_Table_BorderedLined_Accent5.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorAccent5, null, 0x95));
-        this.Add( Style_Table_BorderedLined_Accent5 );
-
-        var Style_Table_BorderedLined_Accent6 = new CStyle("Bordered & Lined - Accent 6", this.Default.Table, null, styletype_Table );
-        Style_Table_BorderedLined_Accent6.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorAccent6, null, 0x95));
-		this.Add( Style_Table_BorderedLined_Accent6 );
-
-		var Style_Table_Bordered_Accent = new CStyle("Bordered", this.Default.Table, null, styletype_Table );
-		Style_Table_Bordered_Accent.Create_Grid_Table_Light(fUF(EThemeColor.themecolorText1, 0x80, null),  fUF(EThemeColor.themecolorText1, 0x26, null));
-		this.Add( Style_Table_Bordered_Accent );
-
-		var Style_Table_Bordered_Accent_1 = new CStyle("Bordered - Accent 1", this.Default.Table, null, styletype_Table );
-		Style_Table_Bordered_Accent_1.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x67, null));
-		this.Add( Style_Table_Bordered_Accent_1 );
-
-		var Style_Table_Bordered_Accent_2 = new CStyle("Bordered - Accent 2", this.Default.Table, null, styletype_Table );
-		Style_Table_Bordered_Accent_2.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x67, null));
-		this.Add( Style_Table_Bordered_Accent_2 );
-
-		var Style_Table_Bordered_Accent_3 = new CStyle("Bordered - Accent 3", this.Default.Table, null, styletype_Table );
-		Style_Table_Bordered_Accent_3.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorAccent3, 0x67, null));
-		this.Add( Style_Table_Bordered_Accent_3 );
-
-		var Style_Table_Bordered_Accent_4 = new CStyle("Bordered - Accent 4", this.Default.Table, null, styletype_Table );
-		Style_Table_Bordered_Accent_4.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x67, null));
-		this.Add( Style_Table_Bordered_Accent_4 );
-
-		var Style_Table_Bordered_Accent_5 = new CStyle("Bordered - Accent 5", this.Default.Table, null, styletype_Table );
-		Style_Table_Bordered_Accent_5.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorAccent5, 0x67, null));
-		this.Add( Style_Table_Bordered_Accent_5 );
-
-		var Style_Table_Bordered_Accent_6 = new CStyle("Bordered - Accent 6", this.Default.Table, null, styletype_Table );
-		Style_Table_Bordered_Accent_6.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorAccent6, 0x67, null));
-		this.Add( Style_Table_Bordered_Accent_6 );
+        // var Style_Table_Grid_1_Accent = new CStyle("Grid Table 1 Light", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_1_Accent.Create_Table_Grid_1(fUF(EThemeColor.themecolorText1, 0x95, null),  fUF(EThemeColor.themecolorText1, 0x67, null));
+		// this.Add( Style_Table_Grid_1_Accent );
+
+		// var Style_Table_Grid_1_Accent_1 = new CStyle("Grid Table 1 Light - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_1_Accent_1.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent1, 0x95, null), fUF(EThemeColor.themecolorAccent1, 0x67, null));
+		// this.Add( Style_Table_Grid_1_Accent_1 );
+
+		// var Style_Table_Grid_1_Accent_2 = new CStyle("Grid Table 1 Light - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_1_Accent_2.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent2, 0x95, null), fUF(EThemeColor.themecolorAccent2, 0x67, null));
+		// this.Add( Style_Table_Grid_1_Accent_2 );
+
+		// var Style_Table_Grid_1_Accent_3 = new CStyle("Grid Table 1 Light - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_1_Accent_3.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent3, 0x95, null), fUF(EThemeColor.themecolorAccent3, 0x67, null));
+		// this.Add( Style_Table_Grid_1_Accent_3 );
+
+		// var Style_Table_Grid_1_Accent_4 = new CStyle("Grid Table 1 Light - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_1_Accent_4.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent4, 0x95, null), fUF(EThemeColor.themecolorAccent4, 0x67, null));
+		// this.Add( Style_Table_Grid_1_Accent_4 );
+
+		// var Style_Table_Grid_1_Accent_5 = new CStyle("Grid Table 1 Light - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_1_Accent_5.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent5, 0x95, null), fUF(EThemeColor.themecolorAccent5, 0x67, null));
+		// this.Add( Style_Table_Grid_1_Accent_5 );
+
+		// var Style_Table_Grid_1_Accent_6 = new CStyle("Grid Table 1 Light - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_1_Accent_6.Create_Table_Grid_1(fUF(EThemeColor.themecolorAccent6, 0x95, null), fUF(EThemeColor.themecolorAccent6, 0x67, null));
+        // this.Add( Style_Table_Grid_1_Accent_6 );
+
+		// var Style_Table_Grid_Accent = new CStyle("Grid Table 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent.Create_Table_Grid_2(fUF(EThemeColor.themecolorText1, 0x95, null), fUF(EThemeColor.themecolorText1, 0x34, null));
+		// this.Add( Style_Table_Grid_Accent);
+
+		// var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 2 - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_1.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_1 );
+
+		// var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 2 - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_2.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null),fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_2 );
+
+		// var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 2 - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_3.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_3 );
+
+		// var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 2 - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_4.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_4 );
+
+		// var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 2 - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_5.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_5 );
+
+		// var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 2 - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_6.Create_Table_Grid_2(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_6 );
+
+		// var Style_Table_Grid_Accent = new CStyle("Grid Table 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent.Create_Table_Grid_3(fUF(EThemeColor.themecolorText1, 0x95, null), fUF(EThemeColor.themecolorText1, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent);
+
+		// var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 3 - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_1.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_1 );
+
+		// var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 3 - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_2.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_2 );
+
+		// var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 3 - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_3.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_3 );
+
+		// var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 3 - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_4.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_4 );
+
+		// var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 3 - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_5.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_5 );
+
+		// var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 3 - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_6.Create_Table_Grid_3(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_Grid_Accent_6 );
+
+		// var Style_Table_Grid_Accent = new CStyle("Grid Table 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent.Create_Table_Grid_4(fUF(EThemeColor.themecolorText1, null, null), fUF(EThemeColor.themecolorText1, 0x34, null), fUF(EThemeColor.themecolorText1, 0x90, null));
+		// this.Add( Style_Table_Grid_Accent);
+
+		// var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 4 - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_1.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x32, null), fUF(EThemeColor.themecolorAccent1, 0x90, null));
+		// this.Add( Style_Table_Grid_Accent_1 );
+
+		// var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 4 - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_2.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorAccent2, 0x90, null));
+		// this.Add( Style_Table_Grid_Accent_2 );
+
+		// var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 4 - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_3.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorAccent3, 0x90, null));
+		// this.Add( Style_Table_Grid_Accent_3 );
+
+		// var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 4 - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_4.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorAccent4, 0x90, null));
+		// this.Add( Style_Table_Grid_Accent_4 );
+
+		// var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 4 - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_5.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorAccent5, 0x90, null));
+		// this.Add( Style_Table_Grid_Accent_5 );
+
+		// var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 4 - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_6.Create_Table_Grid_4(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorAccent6, 0x90, null));
+		// this.Add( Style_Table_Grid_Accent_6 );
+
+		// var Style_Table_Grid_Accent = new CStyle("Grid Table 5 Dark", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent.Create_Table_Grid_5(fUF(EThemeColor.themecolorText1, null, null), fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorText1, 0x75, null));
+		// this.Add( Style_Table_Grid_Accent);
+
+		// var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 5 Dark- Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_1.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent1, 0x75, null));
+		// this.Add( Style_Table_Grid_Accent_1 );
+
+		// var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 5 Dark - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_2.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent2, null, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent2, 0x75, null));
+		// this.Add( Style_Table_Grid_Accent_2 );
+
+		// var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 5 Dark - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_3.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent3, null, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent3, 0x75, null));
+		// this.Add( Style_Table_Grid_Accent_3 );
+
+		// var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 5 Dark- Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_4.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent4, null, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent4, 0x75, null));
+		// this.Add( Style_Table_Grid_Accent_4 );
+
+		// var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 5 Dark - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_5.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent5, 0x75, null));
+		// this.Add( Style_Table_Grid_Accent_5 );
+
+		// var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 5 Dark - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_6.Create_Table_Grid_5(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent6, 0x75, null));
+		// this.Add( Style_Table_Grid_Accent_6 );
+
+		// var Style_Table_Grid_Accent = new CStyle("Grid Table 6 Colorful", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent.Create_Table_Grid_6(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorText1, 0x34, null), fUF(EThemeColor.themecolorText1, 0x80, 0x95));
+		// this.Add( Style_Table_Grid_Accent);
+
+		// var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 6 Colorful - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_1.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent1, 0x80, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorAccent1, 0x80, 0x95));
+		// this.Add( Style_Table_Grid_Accent_1 );
+
+		// var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 6 Colorful - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_2.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorAccent2, 0x97, 0x95));
+		// this.Add( Style_Table_Grid_Accent_2 );
+
+		// var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 6 Colorful - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_3.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorAccent3, 0xFE, 0x95));
+		// this.Add( Style_Table_Grid_Accent_3 );
+
+		// var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 6 Colorful - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_4.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorAccent4, 0x9A, 0x95));
+		// this.Add( Style_Table_Grid_Accent_4 );
+
+		// var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 6 Colorful - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_5.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorAccent5, null, 0x95));
+		// this.Add( Style_Table_Grid_Accent_5 );
+
+		// var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 6 Colorful - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_6.Create_Table_Grid_6(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null),  fUF(EThemeColor.themecolorAccent5, null, 0x95));
+		// this.Add( Style_Table_Grid_Accent_6 );
+
+		// var Style_Table_Grid_Accent = new CStyle("Grid Table 7 Colorful", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent.Create_Table_Grid_7(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorText1, 0x0D, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorText1, 0x80, 0x95));
+		// this.Add( Style_Table_Grid_Accent);
+
+		// var Style_Table_Grid_Accent_1 = new CStyle("Grid Table 7 Colorful - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_1.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent1, 0x80, null), fUF(EThemeColor.themecolorAccent1, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent1, 0x80, 0x95));
+		// this.Add( Style_Table_Grid_Accent_1 );
+
+		// var Style_Table_Grid_Accent_2 = new CStyle("Grid Table 7 Colorful - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_2.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent2, 0x97, 0x95));
+		// this.Add( Style_Table_Grid_Accent_2 );
+
+		// var Style_Table_Grid_Accent_3 = new CStyle("Grid Table 7 Colorful - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_3.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent3, 0xFE, 0x95));
+		// this.Add( Style_Table_Grid_Accent_3 );
+
+		// var Style_Table_Grid_Accent_4 = new CStyle("Grid Table 7 Colorful - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_4.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent4, 0x9A, 0x95));
+		// this.Add( Style_Table_Grid_Accent_4 );
+
+		// var Style_Table_Grid_Accent_5 = new CStyle("Grid Table 7 Colorful - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_5.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent5, 0x90, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent5, null, 0x95));
+		// this.Add( Style_Table_Grid_Accent_5 );
+
+		// var Style_Table_Grid_Accent_6 = new CStyle("Grid Table 7 Colorful - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_Grid_Accent_6.Create_Table_Grid_7(fUF(EThemeColor.themecolorAccent6, 0x90, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent6, null, 0x95));
+        // this.Add( Style_Table_Grid_Accent_6 );
+
+        // var Style_Table_List_1_Accent = new CStyle("List Table 1 Light", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_1_Accent.Create_Table_List_1(fUF(EThemeColor.themecolorText1, null, null),  fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_List_1_Accent );
+
+		// var Style_Table_List_1_Accent_1 = new CStyle("List Table 1 Light - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_1_Accent_1.Create_Table_List_1(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_List_1_Accent_1 );
+
+		// var Style_Table_List_1_Accent_2 = new CStyle("List Table 1 Light - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_1_Accent_2.Create_Table_List_1(fUF(EThemeColor.themecolorAccent2, null, null), fUF(EThemeColor.themecolorAccent2, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_List_1_Accent_2 );
+
+		// var Style_Table_List_1_Accent_3 = new CStyle("List Table 1 Light - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_1_Accent_3.Create_Table_List_1(fUF(EThemeColor.themecolorAccent3, null, null), fUF(EThemeColor.themecolorAccent3, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_List_1_Accent_3 );
+
+		// var Style_Table_List_1_Accent_4 = new CStyle("List Table 1 Light - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_1_Accent_4.Create_Table_List_1(fUF(EThemeColor.themecolorAccent4, null, null), fUF(EThemeColor.themecolorAccent4, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_List_1_Accent_4 );
+
+		// var Style_Table_List_1_Accent_5 = new CStyle("List Table 1 Light - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_1_Accent_5.Create_Table_List_1(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
+		// this.Add( Style_Table_List_1_Accent_5 );
+
+		// var Style_Table_List_1_Accent_6 = new CStyle("List Table 1 Light - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_1_Accent_6.Create_Table_List_1(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x40, null), fUF(EThemeColor.themecolorNone, null, null));
+        // this.Add( Style_Table_List_1_Accent_6 );
+
+        // var Style_Table_List_2_Accent = new CStyle("List Table 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_2_Accent.Create_Table_List_2(fUF(EThemeColor.themecolorText1, 0x90, null),  fUF(EThemeColor.themecolorText1, 0x40, null));
+		// this.Add( Style_Table_List_2_Accent );
+
+		// var Style_Table_List_2_Accent_1 = new CStyle("List Table 2 - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_2_Accent_1.Create_Table_List_2(fUF(EThemeColor.themecolorAccent1, 0x90, null), fUF(EThemeColor.themecolorAccent1, 0x40, null));
+		// this.Add( Style_Table_List_2_Accent_1 );
+
+		// var Style_Table_List_2_Accent_2 = new CStyle("List Table 2 - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_2_Accent_2.Create_Table_List_2(fUF(EThemeColor.themecolorAccent2, 0x90, null), fUF(EThemeColor.themecolorAccent2, 0x40, null));
+		// this.Add( Style_Table_List_2_Accent_2 );
+
+		// var Style_Table_List_2_Accent_3 = new CStyle("List Table 2 - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_2_Accent_3.Create_Table_List_2(fUF(EThemeColor.themecolorAccent3, 0x90, null), fUF(EThemeColor.themecolorAccent3, 0x40, null));
+		// this.Add( Style_Table_List_2_Accent_3 );
+
+		// var Style_Table_List_2_Accent_4 = new CStyle("List Table 2 - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_2_Accent_4.Create_Table_List_2(fUF(EThemeColor.themecolorAccent4, 0x90, null), fUF(EThemeColor.themecolorAccent4, 0x40, null));
+		// this.Add( Style_Table_List_2_Accent_4 );
+
+		// var Style_Table_List_2_Accent_5 = new CStyle("List Table 2 - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_2_Accent_5.Create_Table_List_2(fUF(EThemeColor.themecolorAccent5, 0x90, null), fUF(EThemeColor.themecolorAccent5, 0x40, null));
+		// this.Add( Style_Table_List_2_Accent_5 );
+
+		// var Style_Table_List_2_Accent_6 = new CStyle("List Table 2 - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_2_Accent_6.Create_Table_List_2(fUF(EThemeColor.themecolorAccent6, 0x90, null), fUF(EThemeColor.themecolorAccent6, 0x40, null));
+        // this.Add( Style_Table_List_2_Accent_6 );
+
+        // var Style_Table_List_3_Accent = new CStyle("List Table 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_3_Accent.Create_Table_List_3(fUF(EThemeColor.themecolorText1, null, null),  fUF(EThemeColor.themecolorText1, 0x26, null));
+		// this.Add( Style_Table_List_3_Accent );
+
+		// var Style_Table_List_3_Accent_1 = new CStyle("List Table 3 - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_3_Accent_1.Create_Table_List_3(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x67, null));
+		// this.Add( Style_Table_List_3_Accent_1 );
+
+		// var Style_Table_List_3_Accent_2 = new CStyle("List Table 3 - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_3_Accent_2.Create_Table_List_3(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x67, null));
+		// this.Add( Style_Table_List_3_Accent_2 );
+
+		// var Style_Table_List_3_Accent_3 = new CStyle("List Table 3 - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_3_Accent_3.Create_Table_List_3(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorAccent3, 0x67, null));
+		// this.Add( Style_Table_List_3_Accent_3 );
+
+		// var Style_Table_List_3_Accent_4 = new CStyle("List Table 3 - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_3_Accent_4.Create_Table_List_3(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x67, null));
+		// this.Add( Style_Table_List_3_Accent_4 );
+
+		// var Style_Table_List_3_Accent_5 = new CStyle("List Table 3 - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_3_Accent_5.Create_Table_List_3(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorAccent5, 0x67, null));
+		// this.Add( Style_Table_List_3_Accent_5 );
+
+		// var Style_Table_List_3_Accent_6 = new CStyle("List Table 3 - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_3_Accent_6.Create_Table_List_3(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorAccent6, 0x67, null));
+        // this.Add( Style_Table_List_3_Accent_6 );
+
+        // var Style_Table_List_4_Accent = new CStyle("List Table 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_4_Accent.Create_Table_List_4(fUF(EThemeColor.themecolorText1, null, null),  fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorText1, null, null));
+		// this.Add( Style_Table_List_4_Accent );
+
+		// var Style_Table_List_4_Accent_1 = new CStyle("List Table 4 - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_4_Accent_1.Create_Table_List_4(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x40, null), fUF(EThemeColor.themecolorAccent1, 0x90, null));
+		// this.Add( Style_Table_List_4_Accent_1 );
+
+		// var Style_Table_List_4_Accent_2 = new CStyle("List Table 4 - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_4_Accent_2.Create_Table_List_4(fUF(EThemeColor.themecolorAccent2, null, null), fUF(EThemeColor.themecolorAccent2, 0x40, null), fUF(EThemeColor.themecolorAccent2, 0x90, null));
+		// this.Add( Style_Table_List_4_Accent_2 );
+
+		// var Style_Table_List_4_Accent_3 = new CStyle("List Table 4 - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_4_Accent_3.Create_Table_List_4(fUF(EThemeColor.themecolorAccent3, null, null), fUF(EThemeColor.themecolorAccent3, 0x40, null), fUF(EThemeColor.themecolorAccent3, 0x90, null));
+		// this.Add( Style_Table_List_4_Accent_3 );
+
+		// var Style_Table_List_4_Accent_4 = new CStyle("List Table 4 - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_4_Accent_4.Create_Table_List_4(fUF(EThemeColor.themecolorAccent4, null, null), fUF(EThemeColor.themecolorAccent4, 0x40, null), fUF(EThemeColor.themecolorAccent4, 0x90, null));
+		// this.Add( Style_Table_List_4_Accent_4 );
+
+		// var Style_Table_List_4_Accent_5 = new CStyle("List Table 4 - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_4_Accent_5.Create_Table_List_4(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x40, null), fUF(EThemeColor.themecolorAccent5, 0x90, null));
+		// this.Add( Style_Table_List_4_Accent_5 );
+
+		// var Style_Table_List_4_Accent_6 = new CStyle("List Table 4 - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_4_Accent_6.Create_Table_List_4(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x40, null), fUF(EThemeColor.themecolorAccent6, 0x90, null));
+        // this.Add( Style_Table_List_4_Accent_6 );
+
+        // var Style_Table_List_5_Accent = new CStyle("List Table 5 Dark", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_5_Accent.Create_Table_List_5(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorLight1, null, null));
+		// this.Add( Style_Table_List_5_Accent );
+
+		// var Style_Table_List_5_Accent_1 = new CStyle("List Table 5 Dark - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_5_Accent_1.Create_Table_List_5(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorLight1, null, null));
+		// this.Add( Style_Table_List_5_Accent_1 );
+
+		// var Style_Table_List_5_Accent_2 = new CStyle("List Table 5 Dark - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_5_Accent_2.Create_Table_List_5(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorLight1, null, null));
+		// this.Add( Style_Table_List_5_Accent_2 );
+
+		// var Style_Table_List_5_Accent_3 = new CStyle("List Table 5 Dark - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_5_Accent_3.Create_Table_List_5(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorLight1, null, null));
+		// this.Add( Style_Table_List_5_Accent_3 );
+
+		// var Style_Table_List_5_Accent_4 = new CStyle("List Table 5 Dark - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_5_Accent_4.Create_Table_List_5(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorLight1, null, null));
+		// this.Add( Style_Table_List_5_Accent_4 );
+
+		// var Style_Table_List_5_Accent_5 = new CStyle("List Table 5 Dark - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_5_Accent_5.Create_Table_List_5(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorLight1, null, null));
+		// this.Add( Style_Table_List_5_Accent_5 );
+
+		// var Style_Table_List_5_Accent_6 = new CStyle("List Table 5 Dark - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_5_Accent_6.Create_Table_List_5(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorLight1, null, null));
+        // this.Add( Style_Table_List_5_Accent_6 );
+
+        // var Style_Table_List_6_Accent = new CStyle("List Table 6 Colorful", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_6_Accent.Create_Table_List_6(fUF(EThemeColor.themecolorText1, 0x80, null),  fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorText1, null, null));
+		// this.Add( Style_Table_List_6_Accent );
+
+		// var Style_Table_List_6_Accent_1 = new CStyle("List Table 6 Colorful - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_6_Accent_1.Create_Table_List_6(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x40, null), fUF(EThemeColor.themecolorAccent1, null, 0x95));
+		// this.Add( Style_Table_List_6_Accent_1 );
+
+		// var Style_Table_List_6_Accent_2 = new CStyle("List Table 6 Colorful - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_6_Accent_2.Create_Table_List_6(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x40, null), fUF(EThemeColor.themecolorAccent2, 0x97, 0x95));
+		// this.Add( Style_Table_List_6_Accent_2 );
+
+		// var Style_Table_List_6_Accent_3 = new CStyle("List Table 6 Colorful - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_6_Accent_3.Create_Table_List_6(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorAccent3, 0x40, null), fUF(EThemeColor.themecolorAccent3, 0x98, 0x95));
+		// this.Add( Style_Table_List_6_Accent_3 );
+
+		// var Style_Table_List_6_Accent_4 = new CStyle("List Table 6 Colorful - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_6_Accent_4.Create_Table_List_6(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x40, null), fUF(EThemeColor.themecolorAccent4, 0x9A, 0x95));
+		// this.Add( Style_Table_List_6_Accent_4 );
+
+		// var Style_Table_List_6_Accent_5 = new CStyle("List Table 6 Colorful - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_6_Accent_5.Create_Table_List_6(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorAccent5, 0x40, null), fUF(EThemeColor.themecolorAccent5, 0x9A, 0x95));
+		// this.Add( Style_Table_List_6_Accent_5 );
+
+		// var Style_Table_List_6_Accent_6 = new CStyle("List Table 6 Colorful - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_6_Accent_6.Create_Table_List_6(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorAccent6, 0x40, null), fUF(EThemeColor.themecolorAccent6, 0x98, 0x95));
+        // this.Add( Style_Table_List_6_Accent_6 );
+
+        // var Style_Table_List_7_Accent = new CStyle("List Table 7 Colorful", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_7_Accent.Create_Table_List_7(fUF(EThemeColor.themecolorText1, 0x80, null),  fUF(EThemeColor.themecolorText1, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorText1, 0x80, 0x95));
+		// this.Add( Style_Table_List_7_Accent );
+
+		// var Style_Table_List_7_Accent_1 = new CStyle("List Table 7 Colorful - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_7_Accent_1.Create_Table_List_7(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent1, null, 0x95));
+		// this.Add( Style_Table_List_7_Accent_1 );
+
+		// var Style_Table_List_7_Accent_2 = new CStyle("List Table 7 Colorful - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_7_Accent_2.Create_Table_List_7(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent2, 0x97, 0x95));
+		// this.Add( Style_Table_List_7_Accent_2 );
+
+		// var Style_Table_List_7_Accent_3 = new CStyle("List Table 7 Colorful - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_7_Accent_3.Create_Table_List_7(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorAccent3, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent3, 0x98, 0x95));
+		// this.Add( Style_Table_List_7_Accent_3 );
+
+		// var Style_Table_List_7_Accent_4 = new CStyle("List Table 7 Colorful - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_7_Accent_4.Create_Table_List_7(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent4, 0x9A, 0x95));
+		// this.Add( Style_Table_List_7_Accent_4 );
+
+		// var Style_Table_List_7_Accent_5 = new CStyle("List Table 7 Colorful - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_7_Accent_5.Create_Table_List_7(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorAccent5, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent5, 0x9A, 0x95));
+		// this.Add( Style_Table_List_7_Accent_5 );
+
+		// var Style_Table_List_7_Accent_6 = new CStyle("List Table 7 Colorful - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_List_7_Accent_6.Create_Table_List_7(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorAccent6, 0x40, null), fUF(EThemeColor.themecolorLight1, null, null), fUF(EThemeColor.themecolorAccent6, 0x98, 0x95));
+        // this.Add( Style_Table_List_7_Accent_6 );
+
+        //  // Стандартные стили таблиц
+		// var Style_Table_Lined_Accent = new CStyle("Lined - Accent", this.Default.Table, null, styletype_Table );
+		// Style_Table_Lined_Accent.Create_Table_Lined(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorText1, 0x0D, null));
+		// this.Add( Style_Table_Lined_Accent );
+
+		// var Style_Table_Lined_Accent1 = new CStyle("Lined - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_Lined_Accent1.Create_Table_Lined(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x50, null));
+		// this.Add( Style_Table_Lined_Accent1 );
+
+		// var Style_Table_Lined_Accent2 = new CStyle("Lined - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Lined_Accent2.Create_Table_Lined(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null));
+		// this.Add( Style_Table_Lined_Accent2 );
+
+		// var Style_Table_Lined_Accent3 = new CStyle("Lined - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Lined_Accent3.Create_Table_Lined(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null));
+		// this.Add( Style_Table_Lined_Accent3 );
+
+		// var Style_Table_Lined_Accent4 = new CStyle("Lined - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Lined_Accent4.Create_Table_Lined(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null));
+		// this.Add( Style_Table_Lined_Accent4 );
+
+		// var Style_Table_Lined_Accent5 = new CStyle("Lined - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_Lined_Accent5.Create_Table_Lined(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null));
+		// this.Add( Style_Table_Lined_Accent5 );
+
+		// var Style_Table_Lined_Accent6 = new CStyle("Lined - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_Lined_Accent6.Create_Table_Lined(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null));
+		// this.Add( Style_Table_Lined_Accent6 );
+
+        // var Style_Table_BorderedLined_Accent0 = new CStyle("Bordered & Lined - Accent", this.Default.Table, null, styletype_Table );
+		// Style_Table_BorderedLined_Accent0.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorText1, 0x80, null), fUF(EThemeColor.themecolorText1, 0x0D, null), fUF(EThemeColor.themecolorText1, 0x0D, null), fUF(EThemeColor.themecolorText1, 0xA6, null));
+		// this.Add( Style_Table_BorderedLined_Accent0 );
+
+        // var Style_Table_BorderedLined_Accent1 = new CStyle("Bordered & Lined - Accent 1", this.Default.Table, null, styletype_Table );
+        // Style_Table_BorderedLined_Accent1.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent1, 0xEA, null), fUF(EThemeColor.themecolorAccent1, 0x50, null), fUF(EThemeColor.themecolorAccent1, 0x50, null), fUF(EThemeColor.themecolorAccent1, null, 0x95));
+        // this.Add( Style_Table_BorderedLined_Accent1 );
+
+        // var Style_Table_BorderedLined_Accent2 = new CStyle("Bordered & Lined - Accent 2", this.Default.Table, null, styletype_Table );
+        // Style_Table_BorderedLined_Accent2.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorAccent2, 0x32, null), fUF(EThemeColor.themecolorAccent2, null, 0x95));
+        // this.Add( Style_Table_BorderedLined_Accent2 );
+
+		// var Style_Table_BorderedLined_Accent3 = new CStyle("Bordered & Lined - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_BorderedLined_Accent3.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent3, 0xFE, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorAccent3, 0x34, null), fUF(EThemeColor.themecolorAccent3, null, 0x95));
+		// this.Add( Style_Table_BorderedLined_Accent3 );
+
+        // var Style_Table_BorderedLined_Accent4 = new CStyle("Bordered & Lined - Accent 4", this.Default.Table, null, styletype_Table );
+        // Style_Table_BorderedLined_Accent4.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorAccent4, 0x34, null), fUF(EThemeColor.themecolorAccent4, null, 0x95));
+        // this.Add( Style_Table_BorderedLined_Accent4 );
+
+        // var Style_Table_BorderedLined_Accent5 = new CStyle("Bordered & Lined - Accent 5", this.Default.Table, null, styletype_Table );
+        // Style_Table_BorderedLined_Accent5.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent5, null, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorAccent5, 0x34, null), fUF(EThemeColor.themecolorAccent5, null, 0x95));
+        // this.Add( Style_Table_BorderedLined_Accent5 );
+
+        // var Style_Table_BorderedLined_Accent6 = new CStyle("Bordered & Lined - Accent 6", this.Default.Table, null, styletype_Table );
+        // Style_Table_BorderedLined_Accent6.Create_Table_BorderedAndLined(fUF(EThemeColor.themecolorAccent6, null, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorAccent6, 0x34, null), fUF(EThemeColor.themecolorAccent6, null, 0x95));
+		// this.Add( Style_Table_BorderedLined_Accent6 );
+
+		// var Style_Table_Bordered_Accent = new CStyle("Bordered", this.Default.Table, null, styletype_Table );
+		// Style_Table_Bordered_Accent.Create_Grid_Table_Light(fUF(EThemeColor.themecolorText1, 0x80, null),  fUF(EThemeColor.themecolorText1, 0x26, null));
+		// this.Add( Style_Table_Bordered_Accent );
+
+		// var Style_Table_Bordered_Accent_1 = new CStyle("Bordered - Accent 1", this.Default.Table, null, styletype_Table );
+		// Style_Table_Bordered_Accent_1.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent1, null, null), fUF(EThemeColor.themecolorAccent1, 0x67, null));
+		// this.Add( Style_Table_Bordered_Accent_1 );
+
+		// var Style_Table_Bordered_Accent_2 = new CStyle("Bordered - Accent 2", this.Default.Table, null, styletype_Table );
+		// Style_Table_Bordered_Accent_2.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent2, 0x97, null), fUF(EThemeColor.themecolorAccent2, 0x67, null));
+		// this.Add( Style_Table_Bordered_Accent_2 );
+
+		// var Style_Table_Bordered_Accent_3 = new CStyle("Bordered - Accent 3", this.Default.Table, null, styletype_Table );
+		// Style_Table_Bordered_Accent_3.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent3, 0x98, null), fUF(EThemeColor.themecolorAccent3, 0x67, null));
+		// this.Add( Style_Table_Bordered_Accent_3 );
+
+		// var Style_Table_Bordered_Accent_4 = new CStyle("Bordered - Accent 4", this.Default.Table, null, styletype_Table );
+		// Style_Table_Bordered_Accent_4.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent4, 0x9A, null), fUF(EThemeColor.themecolorAccent4, 0x67, null));
+		// this.Add( Style_Table_Bordered_Accent_4 );
+
+		// var Style_Table_Bordered_Accent_5 = new CStyle("Bordered - Accent 5", this.Default.Table, null, styletype_Table );
+		// Style_Table_Bordered_Accent_5.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent5, 0x9A, null), fUF(EThemeColor.themecolorAccent5, 0x67, null));
+		// this.Add( Style_Table_Bordered_Accent_5 );
+
+		// var Style_Table_Bordered_Accent_6 = new CStyle("Bordered - Accent 6", this.Default.Table, null, styletype_Table );
+		// Style_Table_Bordered_Accent_6.Create_Grid_Table_Light(fUF(EThemeColor.themecolorAccent6, 0x98, null), fUF(EThemeColor.themecolorAccent6, 0x67, null));
+		// this.Add( Style_Table_Bordered_Accent_6 );
 
         // Создаем стиль гиперссылки
         var oHyperlink = new CStyle("Hyperlink", null, null, styletype_Character );

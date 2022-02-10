@@ -56,10 +56,15 @@ function CCommentData()
 	this.m_nDurableId = null;
     this.m_aReplies   = [];
     this.m_sUserData  = "";    // Пользовательские данные (этого нет в формате)
+	this.m_isSepcial = false
+	this.m_level = 0
 
     this.Copy = function()
     {
         var NewData = new CCommentData();
+		if (this.m_isSepcial) {
+			return NewData
+		}
 
         NewData.m_sText      = this.m_sText;
         NewData.m_sTime      = this.m_sTime;
@@ -72,6 +77,8 @@ function CCommentData()
         NewData.m_bSolved    = this.m_bSolved;
 		NewData.m_nDurableId = this.m_nDurableId;
 		NewData.m_sUserData  = this.m_sUserData;
+		NewData.m_isSepcial = this.m_isSepcial
+		NewData.m_level = this.m_level
 
         var Count = this.m_aReplies.length;
         for (var Pos = 0; Pos < Count; Pos++)
@@ -140,6 +147,22 @@ function CCommentData()
         return this.m_aReplies[Index];
     };
 
+	this.Set_isSpecial = function (isSpecial) {
+		this.m_isSepcial = isSpecial
+	}
+
+	this.Get_isSpecial = function () {
+		return this.m_isSepcial
+	}
+
+	this.Get_Level = function () {
+		return this.m_level
+	}
+
+	this.Set_Level = function (level) {
+		this.m_level = level
+	}
+
     this.Read_FromAscCommentData = function(AscCommentData)
     {
         this.m_sText      = AscCommentData.asc_getText();
@@ -189,6 +212,8 @@ function CCommentData()
 		Writer.WriteString2( this.m_sProviderId );
         Writer.WriteString2( this.m_sUserName );
 		Writer.WriteString2( this.m_sInitials );
+		Writer.WriteBool(this.m_isSepcial)
+		Writer.WriteLong(this.m_level)
 
 		if ( null === this.m_nDurableId )
 			Writer.WriteBool( true );
@@ -234,6 +259,8 @@ function CCommentData()
 		this.m_sProviderId = Reader.GetString2();
         this.m_sUserName = Reader.GetString2();
 		this.m_sInitials = Reader.GetString2();
+		this.m_isSepcial = Reader.GetBool()
+		this.m_level = Reader.GetLong()
 
 		if (!Reader.GetBool())
 			this.m_nDurableId = Reader.GetULong();
@@ -318,6 +345,18 @@ CCommentData.prototype.SetUserData = function(sData)
 {
 	this.m_sUserData = sData;
 };
+CCommentData.prototype.GetIsSpecial = function () {
+	return this.m_isSepcial
+}
+CCommentData.prototype.SetIsSpecial = function (m_isSepcial) {
+	this.m_isSepcial = m_isSepcial
+}
+CCommentData.prototype.GetLevel = function () {
+	return this.m_level
+}
+CCommentData.prototype.SetLevel = function (m_level) {
+	this.m_level = m_level
+}
 CCommentData.prototype.ConvertToSimpleObject = function()
 {
 	var obj = {};
@@ -329,6 +368,8 @@ CCommentData.prototype.ConvertToSimpleObject = function()
 	obj["Solved"]    = this.m_bSolved;
 	obj["UserData"]  = this.m_sUserData;
 	obj["Replies"]   = [];
+	obj['IsSpecial'] = this.m_isSepcial
+	obj['Level'] = this.m_level
 
 	for (var nIndex = 0, nCount = this.m_aReplies.length; nIndex < nCount; ++nIndex)
 	{
@@ -359,6 +400,9 @@ CCommentData.prototype.ReadFromSimpleObject = function(oData)
 
 	if (oData["UserData"])
 		this.m_sUserData = oData["UserData"];
+
+	if (oData['IsSpecial']) this.m_isSepcial = oData['IsSpecial']
+	if (oData['Level']) this.m_level = oData['Level']
 
 	if (oData["Replies"] && oData["Replies"].length)
 	{
@@ -431,6 +475,15 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 
 		// Добавляем данный класс в таблицу Id (обязательно в конце конструктора)
 		AscCommon.g_oTableId.Add(this, this.Id);
+	}
+	CComment.prototype.IsSpecial = function () {
+		return this.GetUserName() === '__hy_ai'
+	}
+	CComment.prototype.GetIsSpecial = function () {
+		return this.Data.GetIsSpecial()
+	}
+	CComment.prototype.GetLevel = function () {
+		return this.Data.GetLevel()
 	}
 	CComment.prototype.Copy = function()
 	{
@@ -635,6 +688,11 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 
 		return "";
 	};
+	CComment.prototype.GetQuoteText = function () {
+		if (this.Data) return this.Data.GetQuoteText()
+
+		return ''
+	}
 	CComment.prototype.IsQuoted = function()
 	{
 		return (this.Data && null !== this.Data.GetQuoteText());
@@ -716,6 +774,96 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 
 		return null;
 	};
+
+	CComment.prototype.GetPosition2 = function () {
+		var pos = this.GetDocumentPosition()
+		var pId = pos[pos.length - 1].Class.GetId()
+		var oParagraph = g_oTableId.Get_ById(pId)
+		var contents = oParagraph.Content
+		var pages = oParagraph.Pages
+		var lines = oParagraph.Lines
+		var lineIndex = 0
+		var pageIndex = 0
+		for (var i = 0; i < contents.length; i += 1) {
+			var item = contents[i]
+			if (item instanceof ParaComment && item.GetCommentId() === this.Id) {
+				lineIndex = item.StartLine
+				break
+			}
+		}
+		for (var i = 0; i < pages.length; i += 1) {
+			var page = pages[i]
+			if (lineIndex >= page.StartLine && lineIndex <= page.EndLine) {
+				pageIndex = i
+			}
+		}
+		var line = lines[lineIndex]
+		var y = pages[pageIndex].Y + line.Y
+		return [y, oParagraph.PageNum + pageIndex]
+	}
+
+	CComment.prototype.ChangeNormal = function (message, author) {
+		var pos = this.GetDocumentPosition()
+		var pId = pos[pos.length - 1].Class.GetId()
+		var oParagraph = g_oTableId.Get_ById(pId)
+		var contents = oParagraph.Content
+		var firstRun = null
+		var endRun = null
+		var startIndex = -1
+		var endIndex = -1
+		for (var i = 0; i < contents.length; i += 1) {
+			var item = contents[i]
+			var item2 = contents[contents.length - 1 - i]
+			if (!firstRun) {
+				if (item instanceof ParaComment) {
+					if (startIndex > -1) continue
+					var cid = item.GetCommentId()
+					if (cid !== this.Id) continue
+					if (item.IsCommentStart()) {
+						startIndex = i
+					}
+				} else if (startIndex > -1) {
+					firstRun = contents[i]
+				}
+			}
+			if (!endRun) {
+				if (item2 instanceof ParaComment) {
+					if (endIndex > -1) continue
+					var cid = item2.GetCommentId()
+					if (cid !== this.Id) continue
+					if (!item2.IsCommentStart()) {
+						endIndex = i
+					}
+				} else if (endIndex > -1) {
+					endRun = contents[contents.length - 1 - i]
+				}
+			}
+		}
+
+		if (!firstRun || !endRun) {
+			return false
+		}
+		var oDocument = oParagraph.LogicDocument
+
+		var StartPos = firstRun.GetDocumentPositionFromObject()
+		var EndPos = endRun.GetDocumentPositionFromObject()
+		StartPos.push({ Class: firstRun, Position: 0 })
+		EndPos.push({ Class: endRun, Position: endRun.Content.length })
+
+		oDocument.Selection.Use = true
+		oDocument.SetContentSelection(StartPos, EndPos, 0, 0, 0)
+		var CommentData = new AscCommon.CCommentData()
+		CommentData.SetText(message)
+		CommentData.SetUserName(author)
+
+		var COMENT = oDocument.AddComment(CommentData, false)
+		oDocument.RemoveSelection()
+
+		if (null != COMENT) {
+			editor.sync_AddComment(COMENT.Get_Id(), CommentData)
+		}
+		return COMENT.Get_Id()
+	}
 
 	var comments_NoComment        = 0;
 	var comments_NonActiveComment = 1;
@@ -951,6 +1099,15 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 
 		return [];
 	};
+	CComments.prototype.GetAllSpecialComments = function () {
+		var result = {}
+		for (var key in this.m_aComments) {
+			if (this.m_aComments[key].GetIsSpecial()) {
+				result[key] = this.m_aComments[key]
+			}
+		}
+		return result
+	}
 	CComments.prototype.GetAllComments              = function()
 	{
 		return this.m_arrCommentsById;
@@ -1158,6 +1315,11 @@ function ParaComment(Start, Id)
 	CParagraphContentBase.call(this);
     this.Id = AscCommon.g_oIdCounter.Get_NewId();
 
+	var comment = g_oTableId.Get_ById(Id)
+	if (comment && comment.GetIsSpecial) {
+		this.isSpecialComment = comment.GetIsSpecial()
+	}
+
     this.Paragraph = null;
 
     this.Start     = Start;
@@ -1188,6 +1350,9 @@ ParaComment.prototype.GetId = function()
 };
 ParaComment.prototype.Copy = function(Selected, oPr)
 {
+	if (this.isSpecialComment) {
+		return null
+	}
     var sId = this.CommentId;
     if(oPr && oPr.Comparison)
     {

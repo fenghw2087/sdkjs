@@ -9007,7 +9007,9 @@ CStylesPainter.prototype.get_MergedStyles = function ()
 	return this.mergedStyles;
 };
 
-
+CStylesPainter.prototype.set_MergedStyles = function (mergedStyles) {
+	this.mergedStyles = mergedStyles
+}
 
 function TransformRectByMatrix(m, arr, offX, offY, koefX, koefY)
 {
@@ -9034,3 +9036,4 @@ window['AscCommon'].CDrawingDocument = CDrawingDocument;
 
 window['AscCommonWord'].CStylesPainter = CStylesPainter;
 CStylesPainter.prototype['get_MergedStyles'] = CStylesPainter.prototype.get_MergedStyles;
+CStylesPainter.prototype['set_MergedStyles'] = CStylesPainter.prototype.set_MergedStyles

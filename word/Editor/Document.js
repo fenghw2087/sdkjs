@@ -11070,6 +11070,32 @@ CDocument.prototype.OnMouseDown = function(e, X, Y, PageIndex)
 		var oInlineSdt       = oSelectedContent.GetInlineLevelSdt();
 		var oBlockSdt        = oSelectedContent.GetBlockLevelSdt();
 
+		var oP = oSelectedContent.m_pParagraph
+		if (oP) {
+			var comments = oP.GetCurrentComments()
+			var hideComments = window['__hy_ai_hideComments'] || []
+			var commentIds = Object.keys(comments).filter(function (v) {
+				return hideComments.indexOf(v) === -1
+			})
+			window['__hy_ai_activeComments'] = commentIds
+			var data = {
+				type: 'plugin-event',
+				data: commentIds
+			}
+			data['frameEditorId'] = window['frameEditorId']
+			data['eventType'] = 'commentClick'
+			window['parent']['postMessage'](data, '*')
+		} else {
+			window['__hy_ai_activeComments'] = []
+			var data = {
+				type: 'plugin-event',
+				data: []
+			}
+			data['eventType'] = 'commentClick'
+			data['frameEditorId'] = window['frameEditorId']
+			window['parent']['postMessage'](data, '*')
+		}
+
 		if ((oInlineSdt && oInlineSdt.IsCheckBox()) || (oBlockSdt && oBlockSdt.IsCheckBox()))
 		{
 			var oCC = (oInlineSdt && oInlineSdt.IsCheckBox()) ? oInlineSdt : oBlockSdt;
@@ -13817,11 +13843,9 @@ CDocument.prototype.Set_SelectionState2 = function(State)
 //----------------------------------------------------------------------------------------------------------------------
 // Функции для работы с комментариями
 //----------------------------------------------------------------------------------------------------------------------
-CDocument.prototype.AddComment = function(CommentData, isForceGlobal)
-{
-	if (true === isForceGlobal || true != this.CanAddComment())
-	{
-		CommentData.Set_QuoteText(null);
+CDocument.prototype.AddComment = function (CommentData, isForceGlobal, forceAdd) {
+	if ((true === isForceGlobal || true != this.CanAddComment()) && !forceAdd) {
+		CommentData.Set_QuoteText(null)
 		var Comment = new AscCommon.CComment(this.Comments, CommentData);
 		this.Comments.Add(Comment);
 

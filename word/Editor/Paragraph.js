@@ -889,6 +889,7 @@ Paragraph.prototype.private_UpdateSelectionPosOnRemove = function(nPosition, nCo
  */
 Paragraph.prototype.Internal_Content_Add = function(Pos, Item, bCorrectPos)
 {
+	if (!Item) return
 	History.Add(new CChangesParagraphAddItem(this, Pos, [Item]));
 	this.Content.splice(Pos, 0, Item);
 	this.private_UpdateTrackRevisions();
@@ -2380,6 +2381,7 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 
 			//----------------------------------------------------------------------------------------------------------
 			// Рисуем комментарии
+			// TODO: 绘制评论
 			//----------------------------------------------------------------------------------------------------------
 			var aComm                 = PDSH.Comm;
 			Element                   = ( pGraphics.RENDERER_PDF_FLAG === true ? null : aComm.Get_Next() );
@@ -2388,13 +2390,52 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 			{
 				if (!pGraphics.DrawTextArtComment)
 				{
-					if (Element.Additional.Active === true)
-						pGraphics.b_color1(240, 200, 120, 255);
-					else
-						pGraphics.b_color1(248, 231, 195, 255);
-
-					pGraphics.rect(Element.x0, Element.y0, Element.x1 - Element.x0, Element.y1 - Element.y0);
-					pGraphics.df();
+					var comments = Element.Additional.CommentId.map(function (id) {
+						return g_oTableId.Get_ById(id)
+					})
+					var normalComment = comments.find(function (v) {
+						return !v.GetIsSpecial()
+					})
+					if (normalComment) {
+						if (Element.Additional.Active === true)
+							pGraphics.b_color1(240, 200, 120, 255)
+						else pGraphics.b_color1(248, 231, 195, 255)
+					} else {
+						var hideComments = window['__hy_ai_hideComments'] || []
+						var activeComments = window['__hy_ai_activeComments'] || []
+						var specialComment = comments.filter(function (v) {
+							return v.GetIsSpecial() && hideComments.indexOf(v.Get_Id()) === -1
+						})
+						var isActive = specialComment.some(function (v) {
+							return activeComments.indexOf(v.Get_Id()) > -1
+						})
+						var colorArr = isActive
+							? [
+									[240, 200, 120, 255],
+									[233, 188, 218, 255]
+							  ]
+							: [
+									[248, 231, 195, 255],
+									[251, 234, 205, 255]
+							  ]
+						if (specialComment.length) {
+							pGraphics.b_color1(
+								colorArr[1][0],
+								colorArr[1][1],
+								colorArr[1][2],
+								colorArr[1][3]
+							)
+						} else {
+							pGraphics.b_color1(255, 255, 255, 0)
+						}
+					}
+					pGraphics.rect(
+						Element.x0,
+						Element.y0,
+						Element.x1 - Element.x0,
+						Element.y1 - Element.y0
+					)
+					pGraphics.df()
 
 					DocumentComments.Add_DrawingRect(Element.x0, Element.y0, Element.x1 - Element.x0, Element.y1 - Element.y0, Page_abs, Element.Additional.CommentId, ParentInvertTransform);
 				}

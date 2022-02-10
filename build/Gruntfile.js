@@ -30,202 +30,209 @@
  *
  */
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 	function loadConfig(pathConfigs, name) {
-		let config;
+		let config
 		try {
-			const file = path.join(pathConfigs, name + '.json');
+			const file = path.join(pathConfigs, name + '.json')
 			if (grunt.file.exists(file)) {
-				config = grunt.file.readJSON(file);
-				grunt.log.ok((name + ' config loaded successfully').green);
+				config = grunt.file.readJSON(file)
+				grunt.log.ok((name + ' config loaded successfully').green)
 			}
 		} catch (e) {
-			grunt.log.error().writeln(('could not load' + name + 'config file').red);
+			grunt.log.error().writeln(('could not load' + name + 'config file').red)
 		}
-		return config;
+		return config
 	}
 	function fixPath(obj, basePath = '') {
 		function fixPathArray(arrPaths, basePath = '') {
 			arrPaths.forEach((element, index) => {
-				arrPaths[index] = path.join(basePath, element);
-			});
+				arrPaths[index] = path.join(basePath, element)
+			})
 		}
-		if (Array.isArray(obj))
-			return fixPathArray(obj, basePath);
+		if (Array.isArray(obj)) return fixPathArray(obj, basePath)
 		for (let prop in obj) {
-			fixPath(obj[prop], basePath);
+			fixPath(obj[prop], basePath)
 		}
 	}
 	function fixUrl(arrPaths, basePath = '') {
-		const url = require('url');
+		const url = require('url')
 		arrPaths.forEach((element, index) => {
-			arrPaths[index] = url.resolve(basePath, element);
-		});
+			arrPaths[index] = url.resolve(basePath, element)
+		})
 	}
 	function getConfigs() {
-		const configs = new CConfig(grunt.option('src') || '../');
+		const configs = new CConfig(grunt.option('src') || '../')
 
-		let addons = grunt.option('addon') || [];
+		let addons = grunt.option('addon') || []
 		if (!Array.isArray(addons)) {
-			addons = [addons];
+			addons = [addons]
 		}
-		addons.forEach(element => configs.append(grunt.file.isDir(element) ? element : path.join('../../', element)));
+		addons.forEach((element) =>
+			configs.append(grunt.file.isDir(element) ? element : path.join('../../', element))
+		)
 
-		return configs;
+		return configs
 	}
 	function writeScripts(config, name) {
-		const develop = '../develop/sdkjs/';
-		const fileName = 'scripts.js';
-		const files = ['../vendor/polyfill.js', '../common/applyDocumentChanges.js', '../common/AllFonts.js'].concat(getFilesMin(config), getFilesAll(config));
-		fixUrl(files, '../../../../sdkjs/build/');
+		const develop = '../develop/sdkjs/'
+		const fileName = 'scripts.js'
+		const files = [
+			'../vendor/polyfill.js',
+			'../common/applyDocumentChanges.js',
+			'../common/AllFonts.js'
+		].concat(getFilesMin(config), getFilesAll(config))
+		fixUrl(files, '../../../../sdkjs/build/')
 
-		grunt.file.write(path.join(develop, name, fileName), 'var sdk_scripts = [\n\t"' + files.join('",\n\t"') + '"\n];');
+		grunt.file.write(
+			path.join(develop, name, fileName),
+			'var sdk_scripts = [\n\t"' + files.join('",\n\t"') + '"\n];'
+		)
 	}
 
 	function CConfig(pathConfigs) {
-		this.fonts = null;
-		this.externs = null;
-		this.word = null;
-		this.cell = null;
-		this.slide = null;
+		this.fonts = null
+		this.externs = null
+		this.word = null
+		this.cell = null
+		this.slide = null
 
-		this.append(pathConfigs);
+		this.append(pathConfigs)
 	}
 
 	CConfig.prototype.append = function (basePath = '') {
-		const pathConfigs = path.join(basePath, 'configs');
-		
+		const pathConfigs = path.join(basePath, 'configs')
+
 		function appendOption(name) {
-			const option = loadConfig(pathConfigs, name);
-			if (!option)
-				return;
-			
-			fixPath(option, basePath);
-			
+			const option = loadConfig(pathConfigs, name)
+			if (!option) return
+
+			fixPath(option, basePath)
+
 			if (!this[name]) {
-				this[name] = option;
-				return;
+				this[name] = option
+				return
 			}
-			
+
 			function mergeProps(base, addon) {
-				for (let prop in addon)
-				{
+				for (let prop in addon) {
 					if (Array.isArray(addon[prop])) {
-						base[prop] = Array.isArray(base[prop]) ? base[prop].concat(addon[prop]) : addon[prop];
+						base[prop] = Array.isArray(base[prop])
+							? base[prop].concat(addon[prop])
+							: addon[prop]
 					} else {
-						if (!base[prop]) 
-							base[prop] = {};
-						mergeProps(base[prop], addon[prop]);						
+						if (!base[prop]) base[prop] = {}
+						mergeProps(base[prop], addon[prop])
 					}
 				}
 			}
-			
-			mergeProps(this[name], option);			
+
+			mergeProps(this[name], option)
 		}
-		
-		appendOption.call(this, 'fonts');
-		appendOption.call(this, 'externs');
-		appendOption.call(this, 'word');
-		appendOption.call(this, 'cell');
-		appendOption.call(this, 'slide');
-	};
+
+		appendOption.call(this, 'fonts')
+		appendOption.call(this, 'externs')
+		appendOption.call(this, 'word')
+		appendOption.call(this, 'cell')
+		appendOption.call(this, 'slide')
+	}
 	CConfig.prototype.valid = function () {
-		return this.fonts && this.externs && this.word && this.cell && this.slide;
-	};
+		return this.fonts && this.externs && this.word && this.cell && this.slide
+	}
 
 	function getExterns(config) {
-		var externs = config['externs'];
-		var result = [];
+		var externs = config['externs']
+		var result = []
 		for (var i = 0; i < externs.length; ++i) {
-			result.push('--externs=' + externs[i]);
+			result.push('--externs=' + externs[i])
 		}
-		return result;
+		return result
 	}
 	function getFilesMin(config) {
-		var result = config['min'];
+		var result = config['min']
 		if (grunt.option('mobile')) {
-			result = config['mobile_banners']['min'].concat(result);
+			result = config['mobile_banners']['min'].concat(result)
 		}
 		if (grunt.option('desktop')) {
-			result = result.concat(config['desktop']['min']);
+			result = result.concat(config['desktop']['min'])
 		}
-		return result;
+		return result
 	}
 	function getFilesAll(config) {
-		var result = config['common'];
+		var result = config['common']
 		if (grunt.option('mobile')) {
-			result = config['mobile_banners']['common'].concat(result);
+			result = config['mobile_banners']['common'].concat(result)
 
-			var excludeFiles = config['exclude_mobile'];
-			result = result.filter(function(item) {
-				return -1 === excludeFiles.indexOf(item);
-			});
-			result = result.concat(config['mobile']);
+			var excludeFiles = config['exclude_mobile']
+			result = result.filter(function (item) {
+				return -1 === excludeFiles.indexOf(item)
+			})
+			result = result.concat(config['mobile'])
 		}
 		if (grunt.option('desktop')) {
-			result = result.concat(config['desktop']['common']);
+			result = result.concat(config['desktop']['common'])
 		}
-		return result;
+		return result
 	}
 	function getSdkPath(min, name) {
-		return path.join(name, min ? 'sdk-all-min.js' : 'sdk-all.js');
+		return path.join(name, min ? 'sdk-all-min.js' : 'sdk-all.js')
 	}
 
-	const path = require('path');
-	const level = grunt.option('level') || 'ADVANCED';
-	const formatting = grunt.option('formatting') || '';
-	const beta = grunt.option('beta') || 'false';
+	const path = require('path')
+	const level = grunt.option('level') || 'ADVANCED'
+	const formatting = grunt.option('formatting') || ''
+	const beta = grunt.option('beta') || 'false'
 
 	require('google-closure-compiler').grunt(grunt, {
 		platform: 'java',
 		extraArguments: ['-Xms2048m']
-	});
+	})
 
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-replace');
-	grunt.loadNpmTasks('grunt-split-file');
+	grunt.loadNpmTasks('grunt-contrib-clean')
+	grunt.loadNpmTasks('grunt-contrib-concat')
+	grunt.loadNpmTasks('grunt-contrib-copy')
+	grunt.loadNpmTasks('grunt-replace')
+	grunt.loadNpmTasks('grunt-split-file')
 
 	grunt.registerTask('build-sdk', 'Build SDK', function () {
-		const configs = getConfigs();
+		const configs = getConfigs()
 		if (!configs.valid()) {
-			return;
+			return
 		}
 
-		const configWord = configs.word['sdk'];
-		const configCell = configs.cell['sdk'];
-		const configSlide = configs.slide['sdk'];
+		const configWord = configs.word['sdk']
+		// const configCell = configs.cell['sdk'];
+		// const configSlide = configs.slide['sdk'];
 
-		const deploy = '../deploy/sdkjs/';
+		const deploy = '../deploy/sdkjs/'
 
 		// crete empty.js for polyfills
-		const emptyJs = 'empty.js';
-		grunt.file.write(emptyJs, '');
+		const emptyJs = 'empty.js'
+		grunt.file.write(emptyJs, '')
 
-		const optionsSdkMin ={
+		const optionsSdkMin = {
 			banner: '',
 			footer: 'window["split"]="split";'
-		};
+		}
 		const optionsSdkAll = {
 			banner: '(function(window, undefined) {',
 			footer: '})(window);'
-		};
-		const fontsWasmTmp = 'fonts-wasm-tmp.js';
-		const fontsJsTmp = 'fonts-js-tmp.js';
-		const sdkMinTmp = 'sdk-min-tmp.js';
-		const sdkAllTmp = 'sdk-all-tmp.js';
-		const sdkWordTmp = 'sdk-word-tmp.js';
-		const sdkCellTmp = 'sdk-cell-tmp.js';
-		const sdkSlideTmp = 'sdk-slide-tmp.js';
+		}
+		const fontsWasmTmp = 'fonts-wasm-tmp.js'
+		const fontsJsTmp = 'fonts-js-tmp.js'
+		const sdkMinTmp = 'sdk-min-tmp.js'
+		const sdkAllTmp = 'sdk-all-tmp.js'
+		const sdkWordTmp = 'sdk-word-tmp.js'
+		// const sdkCellTmp = 'sdk-cell-tmp.js'
+		// const sdkSlideTmp = 'sdk-slide-tmp.js'
 
-		const compilerArgs = getExterns(configs.externs);
+		const compilerArgs = getExterns(configs.externs)
 		if (grunt.option('map')) {
-			compilerArgs.push('--property_renaming_report=sdk-all.props.js.map');
-			compilerArgs.push('--variable_renaming_report=sdk-all.vars.js.map');
+			compilerArgs.push('--property_renaming_report=sdk-all.props.js.map')
+			compilerArgs.push('--variable_renaming_report=sdk-all.vars.js.map')
 		}
 		if (formatting) {
-			compilerArgs.push('--formatting=' + formatting);
+			compilerArgs.push('--formatting=' + formatting)
 		}
 
 		grunt.initConfig({
@@ -251,48 +258,57 @@ module.exports = function(grunt) {
 				wordall: {
 					src: [sdkMinTmp, sdkAllTmp],
 					dest: sdkWordTmp
-				},
-				cellsdkmin: {
-					options: optionsSdkMin,
-					src: getFilesMin(configCell),
-					dest: sdkMinTmp
-				},
-				cellsdkall: {
-					options: optionsSdkAll,
-					src: getFilesAll(configCell),
-					dest: sdkAllTmp
-				},
-				cellall: {
-					src: [sdkMinTmp, sdkAllTmp],
-					dest: sdkCellTmp
-				},
-				slidesdkmin: {
-					options: optionsSdkMin,
-					src: getFilesMin(configSlide),
-					dest: sdkMinTmp
-				},
-				slidesdkall: {
-					options: optionsSdkAll,
-					src: getFilesAll(configSlide),
-					dest: sdkAllTmp
-				},
-				slideall: {
-					src: [sdkMinTmp, sdkAllTmp],
-					dest: sdkSlideTmp
 				}
+				// cellsdkmin: {
+				// 	options: optionsSdkMin,
+				// 	src: getFilesMin(configCell),
+				// 	dest: sdkMinTmp
+				// },
+				// cellsdkall: {
+				// 	options: optionsSdkAll,
+				// 	src: getFilesAll(configCell),
+				// 	dest: sdkAllTmp
+				// },
+				// cellall: {
+				// 	src: [sdkMinTmp, sdkAllTmp],
+				// 	dest: sdkCellTmp
+				// },
+				// slidesdkmin: {
+				// 	options: optionsSdkMin,
+				// 	src: getFilesMin(configSlide),
+				// 	dest: sdkMinTmp
+				// },
+				// slidesdkall: {
+				// 	options: optionsSdkAll,
+				// 	src: getFilesAll(configSlide),
+				// 	dest: sdkAllTmp
+				// },
+				// slideall: {
+				// 	src: [sdkMinTmp, sdkAllTmp],
+				// 	dest: sdkSlideTmp
+				// }
 			},
 			'closure-compiler': {
 				js: {
 					options: {
 						args: compilerArgs.concat(
-							'--rewrite_polyfills=true', '--jscomp_off=checkVars',
-							'--warning_level=QUIET', '--compilation_level=' + level,
-							'--module=polyfill:1:', '--js=' + emptyJs,
-							'--module=fontswasm:1:polyfill', '--js=' + fontsWasmTmp,
-							'--module=fontsjs:1:fontswasm', '--js=' + fontsJsTmp,
-							'--module=word:1:fontswasm', '--js=' + sdkWordTmp,
-							'--module=cell:1:fontswasm', '--js=' + sdkCellTmp,
-							'--module=slide:1:fontswasm', '--js=' + sdkSlideTmp)
+							'--rewrite_polyfills=true',
+							'--jscomp_off=checkVars',
+							'--warning_level=QUIET',
+							'--compilation_level=' + level,
+							'--module=polyfill:1:',
+							'--js=' + emptyJs,
+							'--module=fontswasm:1:polyfill',
+							'--js=' + fontsWasmTmp,
+							'--module=fontsjs:1:fontswasm',
+							'--js=' + fontsJsTmp,
+							'--module=word:1:fontswasm',
+							'--js=' + sdkWordTmp
+							// '--module=cell:1:fontswasm',
+							// '--js=' + sdkCellTmp,
+							// '--module=slide:1:fontswasm',
+							// '--js=' + sdkSlideTmp
+						)
 					}
 				}
 			},
@@ -308,60 +324,67 @@ module.exports = function(grunt) {
 						sdkMinTmp,
 						sdkAllTmp,
 						sdkWordTmp,
-						sdkCellTmp,
-						sdkSlideTmp,
+						// sdkCellTmp,
+						// sdkSlideTmp,
 						deploy
 					]
 				}
 			}
-		});
-	});
+		})
+	})
 	grunt.registerTask('license', 'Add license', function () {
-		const appCopyright = "Copyright (C) Ascensio System SIA 2012-" + grunt.template.today('yyyy') +". All rights reserved";
-		const publisherUrl = "https://www.onlyoffice.com/";
-		const fonts = '../common/libfont/';
-		const deploy = '../deploy/sdkjs/';
-		const word = path.join(deploy, 'word');
-		const cell = path.join(deploy, 'cell');
-		const slide = path.join(deploy, 'slide');
-		const polyfill = 'polyfill.js';
-		const fontsWasm = 'fontswasm.js';
-		const fontsJs = 'fontsjs.js';
-		const fontFile = 'fonts.js';
-		const wordJs = 'word.js';
-		const cellJs = 'cell.js';
-		const slideJs = 'slide.js';
-		const license = 'license.header';
-		let splitLine;
+		const appCopyright =
+			'Copyright (C) Ascensio System SIA 2012-' +
+			grunt.template.today('yyyy') +
+			'. All rights reserved'
+		const publisherUrl = 'https://www.onlyoffice.com/'
+		const fonts = '../common/libfont/'
+		const deploy = '../deploy/sdkjs/'
+		const word = path.join(deploy, 'word')
+		// const cell = path.join(deploy, 'cell')
+		// const slide = path.join(deploy, 'slide')
+		const polyfill = 'polyfill.js'
+		const fontsWasm = 'fontswasm.js'
+		const fontsJs = 'fontsjs.js'
+		const fontFile = 'fonts.js'
+		const wordJs = 'word.js'
+		// const cellJs = 'cell.js'
+		// const slideJs = 'slide.js'
+		const license = 'license.header'
+		let splitLine
 		if ('ADVANCED' === level) {
-			splitLine = ('PRETTY_PRINT' === formatting) ? 'window.split = "split";' : 'window.split="split";';
+			splitLine =
+				'PRETTY_PRINT' === formatting ? 'window.split = "split";' : 'window.split="split";'
 		} else {
-			splitLine = ('PRETTY_PRINT' === formatting) ? 'window["split"] = "split";' : 'window["split"]="split";';
+			splitLine =
+				'PRETTY_PRINT' === formatting
+					? 'window["split"] = "split";'
+					: 'window["split"]="split";'
 		}
 		const splitOptions = {
 			separator: splitLine,
-			prefix: ["sdk-all-min", "sdk-all"]
-		};
-		
-		let copyPolyfill = {};
+			prefix: ['sdk-all-min', 'sdk-all']
+		}
+
+		let copyPolyfill = {}
 		if (grunt.option('copy-polyfill')) {
 			copyPolyfill = {
 				expand: true,
 				src: polyfill,
 				dest: '../vendor/'
-			};
+			}
 		}
 
-		const concatSdk = {files:{}};
-		const concatSdkFiles = concatSdk['files'];
-		concatSdkFiles[fontsWasm] = [license, fontsWasm];
-		concatSdkFiles[fontsJs] = [license, fontsJs];
-		concatSdkFiles[getSdkPath(true, word)] = [license, polyfill, getSdkPath(true, word)];
-		concatSdkFiles[getSdkPath(false, word)] = [license, getSdkPath(false, word)];
-		concatSdkFiles[getSdkPath(true, cell)] = [license, polyfill, getSdkPath(true, cell)];
-		concatSdkFiles[getSdkPath(false, cell)] = [license, getSdkPath(false, cell)];
-		concatSdkFiles[getSdkPath(true, slide)] = [license, polyfill, getSdkPath(true, slide)];
-		concatSdkFiles[getSdkPath(false, slide)] = [license, getSdkPath(false, slide)];
+		const concatSdk = { files: {} }
+		const concatSdkFiles = concatSdk['files']
+		concatSdkFiles[fontsWasm] = [license, fontsWasm]
+		concatSdkFiles[fontsJs] = [license, fontsJs]
+		concatSdkFiles[getSdkPath(true, word)] = [license, polyfill, getSdkPath(true, word)]
+		concatSdkFiles[getSdkPath(false, word)] = [license, getSdkPath(false, word)]
+		// concatSdkFiles[getSdkPath(true, cell)] = [license, polyfill, getSdkPath(true, cell)]
+		// concatSdkFiles[getSdkPath(false, cell)] = [license, getSdkPath(false, cell)]
+		// concatSdkFiles[getSdkPath(true, slide)] = [license, polyfill, getSdkPath(true, slide)]
+		// concatSdkFiles[getSdkPath(false, slide)] = [license, getSdkPath(false, slide)]
 
 		grunt.initConfig({
 			splitfile: {
@@ -369,17 +392,17 @@ module.exports = function(grunt) {
 					options: splitOptions,
 					dest: word,
 					src: wordJs
-				},
-				cell: {
-					options: splitOptions,
-					dest: cell,
-					src: cellJs
-				},
-				slide: {
-					options: splitOptions,
-					dest: slide,
-					src: slideJs
 				}
+				// cell: {
+				// 	options: splitOptions,
+				// 	dest: cell,
+				// 	src: cellJs
+				// },
+				// slide: {
+				// 	options: splitOptions,
+				// 	dest: slide,
+				// 	src: slideJs
+				// }
 			},
 			concat: {
 				sdk: concatSdk
@@ -400,11 +423,26 @@ module.exports = function(grunt) {
 						]
 					},
 					files: [
-						{src: [fontsWasm], dest: path.join(fonts, 'wasm', fontFile)},
-						{src: [fontsJs], dest: path.join(fonts, 'js', fontFile)},
-						{expand: true, flatten: true, src: [getSdkPath(true, word), getSdkPath(false, word)], dest: word + '/'},
-						{expand: true, flatten: true, src: [getSdkPath(true, cell), getSdkPath(false, cell)], dest: cell + '/'},
-						{expand: true, flatten: true, src: [getSdkPath(true, slide), getSdkPath(false, slide)], dest: slide + '/'}
+						{ src: [fontsWasm], dest: path.join(fonts, 'wasm', fontFile) },
+						{ src: [fontsJs], dest: path.join(fonts, 'js', fontFile) },
+						{
+							expand: true,
+							flatten: true,
+							src: [getSdkPath(true, word), getSdkPath(false, word)],
+							dest: word + '/'
+						}
+						// {
+						// 	expand: true,
+						// 	flatten: true,
+						// 	src: [getSdkPath(true, cell), getSdkPath(false, cell)],
+						// 	dest: cell + '/'
+						// },
+						// {
+						// 	expand: true,
+						// 	flatten: true,
+						// 	src: [getSdkPath(true, slide), getSdkPath(false, slide)],
+						// 	dest: slide + '/'
+						// }
 					]
 				}
 			},
@@ -430,19 +468,19 @@ module.exports = function(grunt) {
 								'hash/hash/*'
 							],
 							dest: path.join(deploy, 'common')
-						},
-						{
-							expand: true,
-							cwd: '../cell/css',
-							src: '*.css',
-							dest: path.join(cell, 'css')
-						},
-						{
-							expand: true,
-							cwd: '../slide/themes',
-							src: '**/**',
-							dest: path.join(slide, 'themes')
 						}
+						// {
+						// 	expand: true,
+						// 	cwd: '../cell/css',
+						// 	src: '*.css',
+						// 	dest: path.join(cell, 'css')
+						// },
+						// {
+						// 	expand: true,
+						// 	cwd: '../slide/themes',
+						// 	src: '**/**',
+						// 	dest: path.join(slide, 'themes')
+						// }
 					]
 				}
 			},
@@ -455,36 +493,47 @@ module.exports = function(grunt) {
 						polyfill,
 						fontsWasm,
 						fontsJs,
-						wordJs,
-						cellJs,
-						slideJs
+						wordJs
+						//  cellJs, slideJs
 					]
 				}
 			}
 		})
-	});
+	})
 	grunt.registerTask('clean-develop', 'Clean develop scripts', function () {
-		const develop = '../develop/sdkjs/';
+		const develop = '../develop/sdkjs/'
 		grunt.initConfig({
 			clean: {
 				tmp: {
 					options: {
 						force: true
-					}, src: [develop]
+					},
+					src: [develop]
 				}
 			}
-		});
-	});
+		})
+	})
 	grunt.registerTask('build-develop', 'Build develop scripts', function () {
-		const configs = getConfigs();
+		const configs = getConfigs()
 		if (!configs.valid()) {
-			return;
+			return
 		}
 
-		writeScripts(configs.word['sdk'], 'word');
-		writeScripts(configs.cell['sdk'], 'cell');
-		writeScripts(configs.slide['sdk'], 'slide');
-	});
-	grunt.registerTask('default', ['build-sdk', 'concat', 'closure-compiler', 'clean', 'license', 'splitfile', 'concat', 'replace', 'copy', 'clean']);
-	grunt.registerTask('develop', ['clean-develop', 'clean', 'build-develop']);
-};
+		writeScripts(configs.word['sdk'], 'word')
+		writeScripts(configs.cell['sdk'], 'cell')
+		writeScripts(configs.slide['sdk'], 'slide')
+	})
+	grunt.registerTask('default', [
+		'build-sdk',
+		'concat',
+		'closure-compiler',
+		'clean',
+		'license',
+		'splitfile',
+		'concat',
+		'replace',
+		'copy',
+		'clean'
+	])
+	grunt.registerTask('develop', ['clean-develop', 'clean', 'build-develop'])
+}

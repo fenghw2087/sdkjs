@@ -14070,7 +14070,7 @@ CDocument.prototype.GetAllComments = function(isMine, isCurrent)
 			for (var sCommentId in oComments)
 			{
 				var oComment = this.Comments.Get_ById(sCommentId);
-				if (oComment && (!isMine || oComment.IsCurrentUser()))
+				if (oComment && (!isMine || oComment.IsCurrentUser()) && !oComment.GetIsSpecial())
 					arrCommentsId.push(oComment.GetId());
 			}
 		}
@@ -14081,7 +14081,7 @@ CDocument.prototype.GetAllComments = function(isMine, isCurrent)
 		for (var sId in oComments)
 		{
 			var oComment = oComments[sId];
-			if (oComment && (!isMine || oComment.IsCurrentUser()))
+			if (oComment && (!isMine || oComment.IsCurrentUser()) && !oComment.GetIsSpecial())
 				arrCommentsId.push(oComment.GetId());
 		}
 	}

@@ -4252,13 +4252,19 @@
 		if (Object.prototype.toString.call(params) === '[object Array]') {
 			var commentIds = params.map(function (v) {
 				var lineNumber = v['lineNumber']
+				var uid = v['uid']
 				var isAll = v['isAll']
 				var left = v['left']
 				var right = v['right']
 				var oDocument = private_GetLogicDocument()
-				var op = oDocument.GetElement(lineNumber)
+				var op
+				if (uid) {
+					op = AscCommon.g_oTableId.Get_ById(uid)
+				} else {
+					op = oDocument.GetElement(lineNumber)
+				}
 				if (isAll) {
-					var oParagraph = new ApiParagraph(oDocument.Content[lineNumber])
+					var oParagraph = new ApiParagraph(op)
 					return oParagraph.AddComment(
 						v['message'],
 						v['author'],
@@ -5685,7 +5691,7 @@
 		oDocument.Selection.Use = true;
 		oDocument.SetContentSelection(StartPos, EndPos, 0, 0, 0);
 
-		var COMENT = oDocument.AddComment(CommentData, false);
+		var COMENT = oDocument.AddComment(CommentData, false, forceAdd);
 		oDocument.RemoveSelection();
 		
 		if (null != COMENT)

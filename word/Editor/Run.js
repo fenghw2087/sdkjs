@@ -6773,7 +6773,7 @@ ParaRun.prototype.Draw_Lines = function(PDSL)
 			{
 				// Пробелы, идущие в конце строки, не подчеркиваем и не зачеркиваем
 				// 段落尾部空格被删除
-				if (true)
+				if (PDSL.Spaces > 0 || CurTextPr.Underline)
 				{
 					if (true === bRemReview)
 					{

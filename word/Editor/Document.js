@@ -13919,6 +13919,17 @@ CDocument.prototype.RemoveComment = function(Id, bSendEvent, bRecalculate)
 			this.Api.sync_RemoveComment(Id);
 	}
 };
+CDocument.prototype.RemoveAllSpecialComments = function () {
+	var comments = this.Comments.GetAllComments()
+	var result = []
+	for (var id in comments) {
+		if (comments[id].GetIsSpecial()) {
+			this.Comments.Remove_ById(id)
+			result.push(id)
+		}
+	}
+	return result
+}
 CDocument.prototype.CanAddComment = function()
 {
 	if (!this.CanEdit() && !this.IsEditCommentsMode())

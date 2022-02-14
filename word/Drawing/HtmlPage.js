@@ -1113,8 +1113,8 @@ function CEditorPage(api)
 		this.m_oScrollVerApi.scrollToY(parseInt(nValueScrollVer - _hh * 0.4), false);
 	}
 
-	this.ScrollToPosition3 = function(y, PageNum) {
-		var moveCommentMode = window['userCustomConfig'] ? window['userCustomConfig']['moveCommentMode'] : ''
+	this.ScrollToPosition3 = function(y, PageNum, moveCommentMode) {
+		moveCommentMode = moveCommentMode || (window['userCustomConfig'] ? window['userCustomConfig']['moveCommentMode'] : '')
 		if (moveCommentMode === 'every') {
 			this.ScrollToPosition2(y, PageNum)
 			return

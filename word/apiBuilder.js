@@ -3560,11 +3560,19 @@
 		}
 	}
 
-	Api.prototype.MoveToComment = function (commentId) {
+	Api.prototype.MoveToComment = function (commentId, moveCommentMode) {
 		var comment = AscCommon.g_oTableId.Get_ById(commentId)
 		if (comment instanceof AscCommon.CComment) {
 			var data = comment.GetPosition2()
-			editor.WordControl.ScrollToPosition3(data[0], data[1])
+			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode)
+		}
+	}
+
+	Api.prototype.MoveToParagraph = function (id, moveCommentMode) {
+		var p = AscCommon.g_oTableId.Get_ById(id)
+		if (p instanceof Paragraph) {
+			var data = p.GetPosition()
+			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode)
 		}
 	}
 	/**
@@ -13350,6 +13358,7 @@
 	Api.prototype['SetZoomAndScrollY'] = Api.prototype.SetZoomAndScrollY
 	Api.prototype['AddCommentById'] = Api.prototype.AddCommentById
 	Api.prototype['MoveToComment'] = Api.prototype.MoveToComment
+	Api.prototype['MoveToParagraph'] = Api.prototype.MoveToParagraph
 	Api.prototype["CreateParagraph"]                 = Api.prototype.CreateParagraph;
 	Api.prototype["CreateTable"]                     = Api.prototype.CreateTable;
 	Api.prototype["AddComment"]                      = Api.prototype.AddComment;

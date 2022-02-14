@@ -2409,22 +2409,6 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 						var isActive = specialComment.some(function (v) {
 							return activeComments.indexOf(v.Get_Id()) > -1
 						})
-						// var colorArr = isActive
-						// 	? [
-						// 			[240, 200, 120, 255],
-						// 			[233, 188, 218, 255],
-						// 			[255, 197, 61, 255],
-						// 			[77, 180, 169, 255],
-						// 			[236, 94, 80, 255]
-									
-						// 	  ]
-						// 	: [
-						// 			[248, 231, 195, 255],
-						// 			[251, 234, 205, 255],
-						// 			[255, 241, 184, 255],
-						// 			[135, 232, 222, 255],
-						// 			[255, 204, 199, 255]
-						// 	  ]
 						var colorArr = isActive
 							? [
 									[240, 200, 120, 255],
@@ -2437,10 +2421,26 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 							: [
 									[248, 231, 195, 255],
 									[251, 234, 205, 255],
-									[255, 197, 61, 255],
-									[77, 180, 169, 255],
-									[236, 94, 80, 255]
+									[255, 241, 184, 255],
+									[135, 232, 222, 255],
+									[255, 204, 199, 255]
 							  ]
+						// var colorArr = isActive
+						// 	? [
+						// 			[240, 200, 120, 255],
+						// 			[233, 188, 218, 255],
+						// 			[255, 197, 61, 255],
+						// 			[77, 180, 169, 255],
+						// 			[236, 94, 80, 255]
+									
+						// 	  ]
+						// 	: [
+						// 			[248, 231, 195, 255],
+						// 			[251, 234, 205, 255],
+						// 			[255, 197, 61, 255],
+						// 			[77, 180, 169, 255],
+						// 			[236, 94, 80, 255]
+						// 	  ]
 						if (specialComment.length) {
 							var level = specialComment[0].GetLevel() || 1
 							pGraphics.b_color1(
@@ -5928,6 +5928,10 @@ Paragraph.prototype.GetClassByPos = function(oContentPos)
 
 	return null;
 };
+Paragraph.prototype.GetPosition = function() {
+	var pages = this.Pages
+	return [pages[0].Y, this.PageNum]
+}
 /**
  * Получаем по заданной позиции элемент текста
  */

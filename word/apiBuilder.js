@@ -3571,8 +3571,20 @@
 	Api.prototype.MoveToParagraph = function (id, moveCommentMode, screenTop) {
 		var p = AscCommon.g_oTableId.Get_ById(id)
 		if (p instanceof Paragraph) {
-			var data = p.GetPosition()
-			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop)
+			if (p.Parent.Parent && p.Parent.Parent instanceof CTableCell) {
+				var cell = p.Parent.Parent
+				var row = cell.Row
+				var table = cell.GetTable()
+				var rowIndex = row.Index
+				var trb = table.TableRowsBottom[rowIndex]
+				var rowPageIndex = trb.length
+				var y = trb[trb.length - 1]
+				var pageNum = table.PageNum + rowPageIndex - 1
+				editor.WordControl.ScrollToPosition3(y, pageNum, moveCommentMode, screenTop)
+			} else {
+				var data = p.GetPosition()
+				editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop)
+			}
 		}
 	}
 	/**

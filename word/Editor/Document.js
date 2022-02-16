@@ -11081,11 +11081,24 @@ CDocument.prototype.OnMouseDown = function(e, X, Y, PageIndex)
 			var offsetTop = -9999
 			var paraOffsetTop = -9999
 			if (firstCommentId) {
-				var firstComment = g_oTableId.Get_ById(firstCommentId)
-				var commentPos = firstComment.GetPosition2()
-				offsetTop = editor.WordControl.GetVerticalScrollTo(commentPos[0], commentPos[1])
-				var paraPos = oP.GetPosition()
-				paraOffsetTop = editor.WordControl.GetVerticalScrollTo(paraPos[0], paraPos[1])
+				if (oP.Parent.Parent && oP.Parent.Parent instanceof CTableCell) {
+					var cell = oP.Parent.Parent
+					var row = cell.Row
+					var table = cell.GetTable()
+					var rowIndex = row.Index
+					var trb = table.TableRowsBottom[rowIndex]
+					var rowPageIndex = trb.length
+					var y = trb[trb.length - 1]
+					var pageNum = table.PageNum + rowPageIndex - 1
+					paraPos = [y, pageNum]
+					paraOffsetTop = editor.WordControl.GetVerticalScrollTo(paraPos[0], paraPos[1])
+				} else {
+					var firstComment = g_oTableId.Get_ById(firstCommentId)
+					var commentPos = firstComment.GetPosition2()
+					offsetTop = editor.WordControl.GetVerticalScrollTo(commentPos[0], commentPos[1])
+					var paraPos = oP.GetPosition()
+					paraOffsetTop = editor.WordControl.GetVerticalScrollTo(paraPos[0], paraPos[1])
+				}
 			}
 			window['__hy_ai_activeComments'] = commentIds
 			var data = {

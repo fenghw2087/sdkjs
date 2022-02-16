@@ -11077,6 +11077,16 @@ CDocument.prototype.OnMouseDown = function(e, X, Y, PageIndex)
 			var commentIds = Object.keys(comments).filter(function (v) {
 				return hideComments.indexOf(v) === -1
 			})
+			var firstCommentId = commentIds[0]
+			var offsetTop = -9999
+			var paraOffsetTop = -9999
+			if (firstCommentId) {
+				var firstComment = g_oTableId.Get_ById(firstCommentId)
+				var commentPos = firstComment.GetPosition2()
+				offsetTop = editor.WordControl.GetVerticalScrollTo(commentPos[0], commentPos[1])
+				var paraPos = oP.GetPosition()
+				paraOffsetTop = editor.WordControl.GetVerticalScrollTo(paraPos[0], paraPos[1])
+			}
 			window['__hy_ai_activeComments'] = commentIds
 			var data = {
 				type: 'plugin-event',
@@ -11084,6 +11094,10 @@ CDocument.prototype.OnMouseDown = function(e, X, Y, PageIndex)
 			}
 			data['frameEditorId'] = window['frameEditorId']
 			data['eventType'] = 'commentClick'
+			if (offsetTop > -9999) {
+				data['screenTop'] = - editor.WordControl.m_dScrollY + offsetTop
+			}
+			data['paraScreenTop'] = - editor.WordControl.m_dScrollY + paraOffsetTop
 			window['parent']['postMessage'](data, '*')
 		} else {
 			window['__hy_ai_activeComments'] = []

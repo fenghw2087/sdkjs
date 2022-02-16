@@ -1106,17 +1106,21 @@ function CEditorPage(api)
 		this.OnUpdateOverlay();
 	};
 
-	this.ScrollToPosition2 = function(y, PageNum) {
+	this.ScrollToPosition2 = function(y, PageNum, screenTop) {
 		var nValueScrollVer = this.GetVerticalScrollTo(y, PageNum);
-		var _hh = this.m_oEditor.HtmlElement.height;
-        _hh /= AscCommon.AscBrowser.retinaPixelRatio;
-		this.m_oScrollVerApi.scrollToY(parseInt(nValueScrollVer - _hh * 0.4), false);
+		if (screenTop) {
+			this.m_oScrollVerApi.scrollToY(parseInt(nValueScrollVer - screenTop), false);
+		} else {
+			var _hh = this.m_oEditor.HtmlElement.height;
+			_hh /= AscCommon.AscBrowser.retinaPixelRatio;
+			this.m_oScrollVerApi.scrollToY(parseInt(nValueScrollVer - _hh * 0.4), false);
+		}
 	}
 
-	this.ScrollToPosition3 = function(y, PageNum, moveCommentMode) {
+	this.ScrollToPosition3 = function(y, PageNum, moveCommentMode, screenTop) {
 		moveCommentMode = moveCommentMode || (window['userCustomConfig'] ? window['userCustomConfig']['moveCommentMode'] : '')
-		if (moveCommentMode === 'every') {
-			this.ScrollToPosition2(y, PageNum)
+		if (moveCommentMode === 'every' || screenTop > 0) {
+			this.ScrollToPosition2(y, PageNum, screenTop)
 			return
 		} else if (moveCommentMode === 'origin') {
 			this.ScrollToPosition(0, y, PageNum)

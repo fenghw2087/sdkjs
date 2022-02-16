@@ -3560,19 +3560,19 @@
 		}
 	}
 
-	Api.prototype.MoveToComment = function (commentId, moveCommentMode) {
+	Api.prototype.MoveToComment = function (commentId, moveCommentMode, screenTop) {
 		var comment = AscCommon.g_oTableId.Get_ById(commentId)
 		if (comment instanceof AscCommon.CComment) {
 			var data = comment.GetPosition2()
-			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode)
+			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop)
 		}
 	}
 
-	Api.prototype.MoveToParagraph = function (id, moveCommentMode) {
+	Api.prototype.MoveToParagraph = function (id, moveCommentMode, screenTop) {
 		var p = AscCommon.g_oTableId.Get_ById(id)
 		if (p instanceof Paragraph) {
 			var data = p.GetPosition()
-			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode)
+			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop)
 		}
 	}
 	/**

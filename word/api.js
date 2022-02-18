@@ -6903,6 +6903,7 @@ background-repeat: no-repeat;\
 	asc_docs_api.prototype.zoom           = function(percent)
 	{
 		var _old_val                  = this.WordControl.m_nZoomValue;
+		if (_old_val === percent) return
 		this.WordControl.m_nZoomValue = percent;
 		this.WordControl.m_nZoomType  = 0;
 		this.WordControl.zoom_Fire(0, _old_val);

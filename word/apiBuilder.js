@@ -5703,7 +5703,15 @@
 
 		var oFirstun    = this.Paragraph.GetFirstRun();
 		var StartPos	= oFirstun.GetDocumentPositionFromObject();
+		var i = this.Paragraph.Content.length - 2
 		var oEndRun     = this.Paragraph.Content[this.Paragraph.Content.length - 2];
+		while (i > 0) {
+			if (oEndRun instanceof ParaRun) {
+				break
+			}
+			i -= 1
+			oEndRun = this.Paragraph.Content[i]
+		}
 		var EndPos		= oEndRun.GetDocumentPositionFromObject();
 		StartPos.push({Class: oFirstun, Position: 0});
 		EndPos.push({Class: oEndRun, Position: oEndRun.Content.length});

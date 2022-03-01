@@ -7067,7 +7067,7 @@ background-repeat: no-repeat;\
 			if (_count > 0)
 			{
 				this.EndActionLoadImages = 2;
-				this.sync_StartAction(c_oAscAsyncActionType.BlockInteraction, c_oAscAsyncAction.LoadImage);
+				// this.sync_StartAction(c_oAscAsyncActionType.BlockInteraction, c_oAscAsyncAction.LoadImage);
 			}
 
 			var _oldAsyncLoadImages                     = this.ImageLoader.bIsAsyncLoadDocumentImages;

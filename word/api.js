@@ -8130,6 +8130,12 @@ background-repeat: no-repeat;\
 
 	asc_docs_api.prototype._onNeedParams  = function(data, opt_isPassword)
 	{
+		var isIp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/.test(window.location.hostname)
+		if (!isIp && data.indexOf('http') > -1 && data.indexOf('localhost') === -1) {
+			var arr = window.location.href.split(/(\/[\d]+\.[\d]+\.[\d]+[\.|-][\d]+)/)
+			var sp = arr[0]
+			data = data.replace('http:', 'https:').replace(window.location.origin, sp)
+		}
 		var t = this;
 		if (opt_isPassword) {
 			if (this.asc_checkNeedCallback("asc_onAdvancedOptions")) {

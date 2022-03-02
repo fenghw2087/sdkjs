@@ -569,10 +569,11 @@
         this.loadImageByUrl = function(_image, url, isDisableCrypto)
         {
             var _url = url
-            if (url.indexOf('openai.netease.com') > -1) {
+            var isIp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/.test(window.location.hostname)
+            if (!isIp && url.indexOf('http') > -1 && url.indexOf('localhost') === -1) {
                 var arr = window.location.href.split(/(\/[\d]+\.[\d]+\.[\d]+[\.|-][\d]+)/)
                 var sp = arr[0]
-                _url = url.replace('https://openai.netease.com', sp).replace('http://openai.netease.com', sp)
+                _url = _url.replace('http:', 'https:').replace(window.location.origin, sp)
             }
             if (this.isBlockchainSupport && (true !== isDisableCrypto))
                 _image.preload_crypto(_url);

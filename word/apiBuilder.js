@@ -3579,6 +3579,10 @@
 				var trb = table.TableRowsBottom[rowIndex]
 				var rowPageIndex = trb.length
 				var y = trb[trb.length - 1]
+				if (y === 0) {
+					console.log('表格高度计算错误')
+					return
+				}
 				var pageNum = table.PageNum + rowPageIndex - 1
 				editor.WordControl.ScrollToPosition3(y, pageNum, moveCommentMode, screenTop)
 			} else {

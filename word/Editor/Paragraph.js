@@ -2415,7 +2415,8 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 									[233, 188, 218, 255],
 									[255, 197, 61, 255],
 									[77, 180, 169, 255],
-									[236, 94, 80, 255]
+									[236, 94, 80, 255],
+									[146, 84, 222, 255]
 									
 							  ]
 							: [
@@ -2423,7 +2424,8 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 									[251, 234, 205, 255],
 									[255, 241, 184, 255],
 									[135, 232, 222, 255],
-									[255, 204, 199, 255]
+									[255, 204, 199, 255],
+									[211, 173, 247, 255]
 							  ]
 						// var colorArr = isActive
 						// 	? [

@@ -3547,10 +3547,14 @@
 	};
 
 	Api.prototype.SetZoomAndScrollY = function (zoom, y) {
-		if (zoom) {
+		if (zoom > 0) {
 			editor.zoom(zoom)
+		} else if (zoom === -2) {
+			editor.WordControl.zoom_FitToWidth()
 		}
-		editor.ViewScrollToY(y)
+		if (y !== undefined) {
+			editor.ViewScrollToY(y)
+		}
 	}
 
 	Api.prototype.AddCommentById = function (commentId, message, author) {

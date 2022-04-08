@@ -3478,13 +3478,13 @@
 			{
 				var isOnline = window.location.href.indexOf('https') > -1
 				if (isOnline) {
-                    if (url.indexOf('cache') > -1) {
-                        var urlArr = url.split('/cache/')
-                        urlArr.shift()
-                        urlArr.unshift(window.location.origin + '/only-office')
-                        url = urlArr.join('/cache/')
-                    }
-                }
+					if (url.indexOf('cache') > -1) {
+						var urlArr = url.split('/cache/')
+						urlArr.shift()
+						urlArr.unshift(window.location.origin + '/' + (window['__hy_ai_subPath'] || 'only-office'))
+						url = urlArr.join('/cache/')
+					}
+				}
 
 				httpRequest.open(type, url, async);
 				if (type === "POST")

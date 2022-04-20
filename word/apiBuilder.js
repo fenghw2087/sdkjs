@@ -3564,10 +3564,28 @@
 		}
 	}
 
+	Api.prototype.ReplaceCommentText = function (commentId, text) {
+		var comment = AscCommon.g_oTableId.Get_ById(commentId)
+		if (comment instanceof AscCommon.CComment) {
+			var runs = comment.GetAllRuns()
+			var oLogicDocument = private_GetLogicDocument();
+			oLogicDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
+			for (var i = 0; i < runs.length; i++) {
+				var apiRun = new ApiRun(runs[i])
+				apiRun.ClearContent()
+				if (i === runs.length - 1) {
+					apiRun.AddText(text)
+				}
+			}
+			oLogicDocument.RemoveComment(commentId, true)
+		}
+	}
+
 	Api.prototype.MoveToComment = function (commentId, moveCommentMode, screenTop) {
 		var comment = AscCommon.g_oTableId.Get_ById(commentId)
 		if (comment instanceof AscCommon.CComment) {
 			var data = comment.GetPosition2()
+			if (!data.length) return
 			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop)
 		}
 	}
@@ -4072,7 +4090,9 @@
 	};
 
 	Api.prototype.ClearHistory = function () {
-		AscCommon.History.Clear()
+		setTimeout(function () {
+			AscCommon.History.Clear()
+		}, 0)
 	}
 
 	/**
@@ -4320,6 +4340,8 @@
 	}
 
 	Api.prototype.AddComments = function (params, clearHistory) {
+		var oDocument = private_GetLogicDocument();
+		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
 		if (Object.prototype.toString.call(params) === '[object Array]') {
 			var commentIds = params.map(function (v) {
 				var lineNumber = v['lineNumber']
@@ -4327,7 +4349,6 @@
 				var isAll = v['isAll']
 				var left = v['left']
 				var right = v['right']
-				var oDocument = private_GetLogicDocument()
 				var op
 				if (uid) {
 					op = AscCommon.g_oTableId.Get_ById(uid)
@@ -5071,7 +5092,13 @@
 	}
 
 	ApiDocument.prototype.RemoveAllSpecialComments = function () {
+		var oDocument = private_GetLogicDocument();
+		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
 		return this.Document.RemoveAllSpecialComments()
+	}
+
+	ApiDocument.prototype.GetAllSpecialComments = function () {
+		return this.Document.GetAllSpecialComments()
 	}
 	/**
 	 * Returns a bookmark range.
@@ -13428,6 +13455,7 @@
 	Api.prototype["GetDocument"]                     = Api.prototype.GetDocument;
 	Api.prototype['SetZoomAndScrollY'] = Api.prototype.SetZoomAndScrollY
 	Api.prototype['AddCommentById'] = Api.prototype.AddCommentById
+	Api.prototype['ReplaceCommentText'] = Api.prototype.ReplaceCommentText
 	Api.prototype['MoveToComment'] = Api.prototype.MoveToComment
 	Api.prototype['MoveToParagraph'] = Api.prototype.MoveToParagraph
 	Api.prototype["CreateParagraph"]                 = Api.prototype.CreateParagraph;
@@ -13534,6 +13562,8 @@
 	ApiDocument.prototype["AddComment"]              = ApiDocument.prototype.AddComment;
 	ApiDocument.prototype['RemoveAllSpecialComments'] =
 		ApiDocument.prototype.RemoveAllSpecialComments
+	ApiDocument.prototype['GetAllSpecialComments'] =
+		ApiDocument.prototype.GetAllSpecialComments
 	ApiDocument.prototype["GetBookmarkRange"]        = ApiDocument.prototype.GetBookmarkRange;
 	ApiDocument.prototype["GetSections"]             = ApiDocument.prototype.GetSections;
 	ApiDocument.prototype["GetAllTablesOnPage"]      = ApiDocument.prototype.GetAllTablesOnPage;

@@ -775,10 +775,40 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 		return null;
 	};
 
+	CComment.prototype.GetRealText = function () {
+		var pos = this.GetDocumentPosition()
+		var pId = pos[pos.length - 1].Class.GetId()
+		var oParagraph = g_oTableId.Get_ById(pId)
+		if (!(oParagraph instanceof Paragraph)) {
+			return []
+		}
+		var contents = oParagraph.Content
+		var result = ''
+		var isStart = false
+		for (var i = 0; i < contents.length; i += 1) {
+			var item = contents[i]
+			if (item instanceof ParaComment && item.GetCommentId() === this.Id && item.IsCommentStart()) {
+				isStart = true
+				continue
+			}
+			if (item instanceof ParaComment && item.GetCommentId() === this.Id && !item.IsCommentStart()) {
+				isStart = false
+				break
+			}
+			if (item instanceof ParaRun && isStart) {
+				result += item.GetText()
+			}
+		}
+		return result
+	}
+
 	CComment.prototype.GetPosition2 = function () {
 		var pos = this.GetDocumentPosition()
 		var pId = pos[pos.length - 1].Class.GetId()
 		var oParagraph = g_oTableId.Get_ById(pId)
+		if (!(oParagraph instanceof Paragraph)) {
+			return []
+		}
 		var contents = oParagraph.Content
 		var pages = oParagraph.Pages
 		var lines = oParagraph.Lines
@@ -800,6 +830,61 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 		var line = lines[lineIndex]
 		var y = pages[pageIndex].Y + line.Y
 		return [y, oParagraph.PageNum + pageIndex]
+	}
+
+	CComment.prototype.GetRange = function () {
+		var pos = this.GetDocumentPosition()
+		var pId = pos[pos.length - 1].Class.GetId()
+		var oParagraph = g_oTableId.Get_ById(pId)
+		if (!(oParagraph instanceof Paragraph)) {
+			return []
+		}
+		var contents = oParagraph.Content
+		var startIndex = -1
+		var endIndex = -1
+		var pos = 0
+		for (var i = 0; i < contents.length; i += 1) {
+			var item = contents[i]
+			if (item instanceof ParaComment) {
+				var cid = item.GetCommentId()
+				if (cid !== this.Id) continue
+				if (item.IsCommentStart()) {
+					startIndex = pos
+				} else {
+					endIndex = pos
+				}
+			} else if (item instanceof ParaRun) {
+				pos += item.GetText().length
+			}
+		}
+		return [oParagraph, startIndex, endIndex]
+	}
+
+	CComment.prototype.GetAllRuns = function () {
+		var pos = this.GetDocumentPosition()
+		var pId = pos[pos.length - 1].Class.GetId()
+		var oParagraph = g_oTableId.Get_ById(pId)
+		if (!(oParagraph instanceof Paragraph)) {
+			return []
+		}
+		var contents = oParagraph.Content
+		var runs = []
+		var isStart
+		for (var i = 0; i < contents.length; i += 1) {
+			var item = contents[i]
+			if (item instanceof ParaComment) {
+				var cid = item.GetCommentId()
+				if (cid !== this.Id) continue
+				if (item.IsCommentStart()) {
+					isStart = true
+				} else {
+					break
+				}
+			} else if (item instanceof ParaRun && isStart) {
+				runs.push(item)
+			}
+		}
+		return runs
 	}
 
 	CComment.prototype.ChangeNormal = function (message, author) {

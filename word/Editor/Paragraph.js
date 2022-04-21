@@ -2393,15 +2393,18 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 					var comments = Element.Additional.CommentId.map(function (id) {
 						return g_oTableId.Get_ById(id)
 					})
+					var showComments = window['__hy_ai_showComments'] || []
+					if (comments.length > 1) {
+						console.log(comments)
+					}
 					var allNormalComment = !comments.some(function (v) {
-						return v.GetIsSpecial()
+						return v.GetIsSpecial() && showComments.indexOf(v.Get_Id()) > -1
 					})
 					if (allNormalComment) {
 						if (Element.Additional.Active === true)
 							pGraphics.b_color1(240, 200, 120, 255)
 						else pGraphics.b_color1(248, 231, 195, 255)
 					} else {
-						var showComments = window['__hy_ai_showComments'] || []
 						var activeComments = window['__hy_ai_activeComments'] || []
 						var specialComment = comments.filter(function (v) {
 							return v.GetIsSpecial() && showComments.indexOf(v.Get_Id()) > -1

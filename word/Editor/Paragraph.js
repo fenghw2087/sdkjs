@@ -2393,18 +2393,18 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 					var comments = Element.Additional.CommentId.map(function (id) {
 						return g_oTableId.Get_ById(id)
 					})
-					var normalComment = comments.find(function (v) {
-						return !v.GetIsSpecial()
+					var allNormalComment = !comments.some(function (v) {
+						return v.GetIsSpecial()
 					})
-					if (normalComment) {
+					if (allNormalComment) {
 						if (Element.Additional.Active === true)
 							pGraphics.b_color1(240, 200, 120, 255)
 						else pGraphics.b_color1(248, 231, 195, 255)
 					} else {
-						var hideComments = window['__hy_ai_hideComments'] || []
+						var showComments = window['__hy_ai_showComments'] || []
 						var activeComments = window['__hy_ai_activeComments'] || []
 						var specialComment = comments.filter(function (v) {
-							return v.GetIsSpecial() && hideComments.indexOf(v.Get_Id()) === -1
+							return v.GetIsSpecial() && showComments.indexOf(v.Get_Id()) > -1
 						})
 						var isActive = specialComment.some(function (v) {
 							return activeComments.indexOf(v.Get_Id()) > -1

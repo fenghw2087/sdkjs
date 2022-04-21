@@ -152,7 +152,8 @@ function CCommentData()
 	}
 
 	this.Get_isSpecial = function () {
-		return this.m_isSepcial
+		console.log(this.m_sUserName)
+		return this.m_sUserName === '__hy_ai'
 	}
 
 	this.Get_Level = function () {
@@ -346,7 +347,7 @@ CCommentData.prototype.SetUserData = function(sData)
 	this.m_sUserData = sData;
 };
 CCommentData.prototype.GetIsSpecial = function () {
-	return this.m_isSepcial
+	return this.m_sUserName === '__hy_ai'
 }
 CCommentData.prototype.SetIsSpecial = function (m_isSepcial) {
 	this.m_isSepcial = m_isSepcial

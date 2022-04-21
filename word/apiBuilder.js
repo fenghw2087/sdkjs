@@ -3558,9 +3558,17 @@
 	}
 
 	Api.prototype.AddCommentById = function (commentId, message, author) {
+		var oLogicDocument = private_GetLogicDocument();
+		oLogicDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
 		var comment = AscCommon.g_oTableId.Get_ById(commentId)
 		if (comment instanceof AscCommon.CComment) {
-			return comment.ChangeNormal(message, author)
+			var r = comment.GetRange()
+			var range = new ApiRange(r[0], r[1], r[2] - 1)
+			if (!range.StartPos || !range.EndPos) {
+				return -1
+			}
+			var comment = range.AddComment(message, author, false, -1, true)
+			return comment.id
 		}
 	}
 

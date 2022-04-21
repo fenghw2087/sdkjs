@@ -11073,9 +11073,9 @@ CDocument.prototype.OnMouseDown = function(e, X, Y, PageIndex)
 		var oP = oSelectedContent.m_pParagraph
 		if (oP) {
 			var comments = oP.GetCurrentComments()
-			var hideComments = window['__hy_ai_hideComments'] || []
+			var showComments = window['__hy_ai_showComments'] || []
 			var commentIds = Object.keys(comments).filter(function (v) {
-				return hideComments.indexOf(v) === -1
+				return showComments.indexOf(v) > -1
 			})
 			var firstCommentId = commentIds[0]
 			var offsetTop = -9999

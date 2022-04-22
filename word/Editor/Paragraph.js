@@ -2397,10 +2397,12 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 					if (comments.length > 1) {
 						console.log(comments)
 					}
-					var allNormalComment = !comments.some(function (v) {
-						return v.GetIsSpecial() && showComments.indexOf(v.Get_Id()) > -1
+					var allNormalComment = comments.filter(function(v) {
+						return !v.GetIsSpecial() || showComments.indexOf(v.Get_Id()) > -1
 					})
-					if (allNormalComment) {
+					if (allNormalComment.length && allNormalComment.every(function (v) {
+						return !v.GetIsSpecial()
+					})) {
 						if (Element.Additional.Active === true)
 							pGraphics.b_color1(240, 200, 120, 255)
 						else pGraphics.b_color1(248, 231, 195, 255)

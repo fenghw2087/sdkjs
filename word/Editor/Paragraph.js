@@ -2394,9 +2394,6 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 						return g_oTableId.Get_ById(id)
 					})
 					var showComments = window['__hy_ai_showComments'] || []
-					if (comments.length > 1) {
-						console.log(comments)
-					}
 					var allNormalComment = comments.filter(function(v) {
 						return !v.GetIsSpecial() || showComments.indexOf(v.Get_Id()) > -1
 					})

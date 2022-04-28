@@ -1661,6 +1661,12 @@
 		CommentData.SetIsSpecial(IsSpecial || false)
 		CommentData.SetLevel(Level || 0)
 
+		if ("" === CommentData.m_sTime)
+			CommentData.m_sTime = ((new Date()).getTime() - (new Date()).getTimezoneOffset() * 60000).toString();
+
+		if ("" === CommentData.m_sOOTime)
+			CommentData.m_sOOTime = ((new Date()).getTime()).toString();
+
 		oDocument.Selection.Use = true
 		oDocument.SetContentSelection(this.StartPos, this.EndPos, 0, 0, 0)
 
@@ -3600,7 +3606,8 @@
 
 	Api.prototype.MoveToParagraphByIndex = function (index, moveCommentMode, screenTop) {
 		var oDocument = private_GetLogicDocument()
-		var p = getParaByLineIndex(index.split('-'), oDocument.Content)
+		var r = getParaByLineIndex(index.split('-'), oDocument.Content)
+		var p = r[0]
 		if (p instanceof Paragraph) {
 			if (p.Parent.Parent && p.Parent.Parent instanceof CTableCell) {
 				var cell = p.Parent.Parent
@@ -3608,14 +3615,13 @@
 				var table = cell.GetTable()
 				var rowIndex = row.Index
 				var trb = table.TableRowsBottom[rowIndex]
-				var rowPageIndex = trb.length
-				var y = trb[trb.length - 1]
-				if (y === 0) {
+				var r = getFirstCellRowBottom(trb)
+				if (r[0] === 0) {
 					console.log('表格高度计算错误')
 					return
 				}
-				var pageNum = table.PageNum + rowPageIndex - 1
-				editor.WordControl.ScrollToPosition3(y, pageNum, moveCommentMode, screenTop)
+				var pageNum = table.PageNum + r[1]
+				editor.WordControl.ScrollToPosition3(r[0], pageNum, moveCommentMode, screenTop)
 			} else {
 				var data = p.GetPosition()
 				editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop)
@@ -3623,11 +3629,21 @@
 		}
 	}
 
+	function getFirstCellRowBottom(arr) {
+		var i = 0
+		while (i < arr.length) {
+			if (arr[i] > 0) return [arr[i], i]
+			i += 1
+		}
+		return [0]
+	}
+
 	Api.prototype.MoveToParagraph = function (id, moveCommentMode, screenTop) {
 		var p = AscCommon.g_oTableId.Get_ById(id)
 		if (!p) {
 			var oDocument = private_GetLogicDocument()
-		 	p = getParaByLineIndex(id.split('-'), oDocument.Content)
+		 	var r = getParaByLineIndex(id.split('-'), oDocument.Content)
+			p = r[0]
 		}
 		if (p instanceof Paragraph) {
 			if (p.Parent.Parent && p.Parent.Parent instanceof CTableCell) {
@@ -4321,7 +4337,7 @@
 			oDocument.Selection.Use = true;
 			oDocument.SetContentSelection(StartPos, EndPos, 0, 0, 0);
 			
-			var COMENT = oDocument.AddComment(CommentData, false);
+			var COMENT = oDocument.AddComment(CommentData, false, true);
 			oDocument.RemoveSelection();
 			
 			if (null != COMENT)
@@ -4329,7 +4345,7 @@
 				editor.sync_AddComment(COMENT.Get_Id(), CommentData);
 			}
 
-			return true;
+			return COMENT.Get_Id();
 		}
 	};
 
@@ -4337,19 +4353,72 @@
 		var index = indexArr.shift()
 		var ele = content[index]
 		if (ele instanceof Paragraph) {
-			return ele
+			return [ele, ele]
 		} else if (ele instanceof CTable || ele instanceof CTableRow) {
 			return getParaByLineIndex(indexArr, ele.Content)
 		} else if (ele instanceof CTableCell) {
-			return ele.Content.Content[0]
+			return [ele.Content.Content[0], ele.Content.Content]
 		} else {
 			return null
+		}
+	}
+
+	Api.prototype.AddCommentByTableCell = function (paragraphs, params) {
+		var ops = paragraphs.filter(function (v) {
+			return v instanceof Paragraph
+		})
+		var isAll = params['isAll']
+		if (isAll) {
+			return ops.map(function (p) {
+				var op = new ApiParagraph(p)
+				return op.AddComment(
+					params['message'],
+					params['author'],
+					params['isSpecial'],
+					params['level'],
+					true
+				)
+			})
+		} else {
+			var opTexts = ops.map(function (p) {
+				return p.Content.reduce(function (o, r) {
+					if (r instanceof ParaRun) {
+						o += r.GetText()
+					}
+					return o
+				}, '')
+			})
+			var items = []
+			var startIndex = 0
+			var left = params['left']
+			var right = params['right']
+			for (let i = 0; i < opTexts.length; i += 1) {
+				var l = startIndex
+				var r = opTexts[i].length + startIndex
+				startIndex = r
+				if (l > right) break
+				if (r < left) continue
+				items.push({
+					pl: opTexts[i].length,
+					paragraph: ops[i],
+					left: Math.max(l , left) - startIndex + opTexts[i].length,
+					right: Math.min(r - 1, right) - startIndex + opTexts[i].length
+				})
+			}
+			return items.map(function (v) {
+				var range = new ApiRange(v.paragraph, v.left, v.right)
+				if (!range.StartPos || !range.EndPos) {
+					return -1
+				}
+				return range.AddComment(params['message'], params['author'], params['isSpecial'], params['level'], true)
+			})
 		}
 	}
 
 	Api.prototype.AddComments = function (params, clearHistory) {
 		var oDocument = private_GetLogicDocument();
 		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
+		var that = this
 		if (Object.prototype.toString.call(params) === '[object Array]') {
 			var commentIds = params.map(function (v) {
 				var lineNumber = v['lineNumber']
@@ -4361,7 +4430,11 @@
 				if (uid) {
 					op = AscCommon.g_oTableId.Get_ById(uid)
 				} else {
-					op = getParaByLineIndex(lineNumber.split('-'), oDocument.Content)
+					var r = getParaByLineIndex(lineNumber.split('-'), oDocument.Content)
+					if (Array.isArray(r[1])) {
+						return that.AddCommentByTableCell(r[1], v)
+					}
+					op = r[0]
 				}
 				if (isAll) {
 					var oParagraph = new ApiParagraph(op)
@@ -13466,6 +13539,7 @@
 	Api.prototype['ReplaceCommentText'] = Api.prototype.ReplaceCommentText
 	Api.prototype['MoveToComment'] = Api.prototype.MoveToComment
 	Api.prototype['MoveToParagraph'] = Api.prototype.MoveToParagraph
+	Api.prototype['MoveToParagraphByIndex'] = Api.prototype.MoveToParagraphByIndex
 	Api.prototype["CreateParagraph"]                 = Api.prototype.CreateParagraph;
 	Api.prototype["CreateTable"]                     = Api.prototype.CreateTable;
 	Api.prototype["AddComment"]                      = Api.prototype.AddComment;

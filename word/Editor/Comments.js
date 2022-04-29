@@ -486,6 +486,9 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 	CComment.prototype.GetLevel = function () {
 		return this.Data.GetLevel()
 	}
+	CComment.prototype.GetText = function () {
+		return this.Data.GetText()
+	}
 	CComment.prototype.Copy = function()
 	{
 		return new CComment(this.Parent, this.Data.Copy());
@@ -844,11 +847,22 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 		var startIndex = -1
 		var endIndex = -1
 		var pos = 0
+		var otherComment = {}
 		for (var i = 0; i < contents.length; i += 1) {
 			var item = contents[i]
 			if (item instanceof ParaComment) {
 				var cid = item.GetCommentId()
-				if (cid !== this.Id) continue
+				if (cid !== this.Id) {
+					if (!otherComment[cid]) {
+						otherComment[cid] = {}
+					}
+					if (item.IsCommentStart()) {
+						otherComment[cid].start = pos
+					} else {
+						otherComment[cid].end = pos
+					}
+					continue
+				}
 				if (item.IsCommentStart()) {
 					startIndex = pos
 				} else {
@@ -858,7 +872,13 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 				pos += item.GetText().length
 			}
 		}
-		return [oParagraph, startIndex, endIndex]
+		for (var cid in otherComment) {
+			var c = otherComment[cid]
+			if (c.start !== startIndex || c.end !== endIndex) {
+				delete otherComment[cid]
+			}
+		}
+		return [oParagraph, startIndex, endIndex, otherComment]
 	}
 
 	CComment.prototype.GetAllRuns = function () {

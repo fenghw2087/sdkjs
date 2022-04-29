@@ -3569,6 +3569,13 @@
 		var comment = AscCommon.g_oTableId.Get_ById(commentId)
 		if (comment instanceof AscCommon.CComment) {
 			var r = comment.GetRange()
+			var otherComment = r[3]
+			for (var cid in otherComment) {
+				var co = comment.Parent.Get_ById(cid)
+				if (co.GetUserName() === author && co.GetText() === message) {
+					return cid
+				}
+			}
 			var range = new ApiRange(r[0], r[1], r[2] - 1)
 			if (!range.StartPos || !range.EndPos) {
 				return -1

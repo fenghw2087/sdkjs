@@ -13971,6 +13971,21 @@ CDocument.prototype.GetAllSpecialComments = function () {
 	}
 	return result
 }
+
+CDocument.prototype.GetAllNormalComments = function () {
+	var comments = this.Comments.GetAllComments()
+	var result = []
+	for (var id in comments) {
+		var comment = comments[id]
+		if (!comment.GetIsSpecial()) {
+			result.push({
+				id: id,
+				text: comment.GetRealText()
+			})
+		}
+	}
+	return result
+}
 CDocument.prototype.CanAddComment = function()
 {
 	if (!this.CanEdit() && !this.IsEditCommentsMode())

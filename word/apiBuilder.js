@@ -1679,7 +1679,7 @@
 
 		return {
 			id: COMENT.Get_Id(),
-			text: COMENT.GetQuoteText()
+			text: COMENT.GetRealText()
 		}
 	}
 
@@ -3586,6 +3586,17 @@
 	}
 
 	Api.prototype.ReplaceCommentText = function (commentId, text) {
+		// var comment = AscCommon.g_oTableId.Get_ById(commentId)
+		// if (comment instanceof AscCommon.CComment) {
+		// 	var pos = comment.GetRange()
+		// 	var r2 = new ApiRange(pos[0], pos[2])
+		// 	r2.AddText(text, 'before')
+		// 	// var r1 = new ApiRange(pos[0], pos[1], pos[2] - 1)
+		// 	// r1.Delete()
+		// }
+		// var oLogicDocument = private_GetLogicDocument();
+		// oLogicDocument.RemoveComment(commentId, true)
+		// return
 		var comment = AscCommon.g_oTableId.Get_ById(commentId)
 		if (comment instanceof AscCommon.CComment) {
 			var runs = comment.GetAllRuns()
@@ -5188,6 +5199,10 @@
 	ApiDocument.prototype.GetAllSpecialComments = function () {
 		return this.Document.GetAllSpecialComments()
 	}
+
+	ApiDocument.prototype.GetAllNormalComments = function () {
+		return this.Document.GetAllNormalComments()
+	}
 	/**
 	 * Returns a bookmark range.
 	 * @memberof ApiDocument
@@ -5895,7 +5910,7 @@
 
 		return {
 			id: COMENT.Get_Id(),
-			text: COMENT.GetQuoteText()
+			text: COMENT.GetRealText()
 		}
 	};
 	/**
@@ -13653,6 +13668,8 @@
 		ApiDocument.prototype.RemoveAllSpecialComments
 	ApiDocument.prototype['GetAllSpecialComments'] =
 		ApiDocument.prototype.GetAllSpecialComments
+	ApiDocument.prototype['GetAllNormalComments'] =
+		ApiDocument.prototype.GetAllNormalComments
 	ApiDocument.prototype["GetBookmarkRange"]        = ApiDocument.prototype.GetBookmarkRange;
 	ApiDocument.prototype["GetSections"]             = ApiDocument.prototype.GetSections;
 	ApiDocument.prototype["GetAllTablesOnPage"]      = ApiDocument.prototype.GetAllTablesOnPage;

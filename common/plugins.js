@@ -671,6 +671,7 @@
             pluginData.setAttribute("isEmbedMode", this.api.isEmbedVersion);
             pluginData.setAttribute("lang", this.language);
             pluginData.setAttribute("documentId", this.api.documentId);
+			pluginData.setAttribute("uid", window['__hy_ai_uid']);
             pluginData.setAttribute("documentTitle", this.api.documentTitle);
             pluginData.setAttribute("documentCallbackUrl", this.api.documentCallbackUrl);
 

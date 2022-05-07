@@ -781,12 +781,13 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 
 	CComment.prototype.GetRealText = function () {
 		var pos = this.GetDocumentPosition()
+		if (!pos) return ''
 		var pId = pos[pos.length - 1].Class.GetId()
 		var oParagraph = g_oTableId.Get_ById(pId)
 		if (!(oParagraph instanceof Paragraph)) {
 			return []
 		}
-		var contents = oParagraph.Content
+		var contents = oParagraph.Content || []
 		var result = ''
 		var isStart = false
 		for (var i = 0; i < contents.length; i += 1) {
@@ -808,6 +809,7 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 
 	CComment.prototype.GetPosition2 = function () {
 		var pos = this.GetDocumentPosition()
+		if (!pos) return []
 		var pId = pos[pos.length - 1].Class.GetId()
 		var oParagraph = g_oTableId.Get_ById(pId)
 		if (!(oParagraph instanceof Paragraph)) {

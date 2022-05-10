@@ -4381,6 +4381,46 @@
 		}
 	}
 
+	Api.prototype.GetCursorPosition = function (oDocument, prevPos) {
+		if (!oDocument) {
+			oDocument = private_GetLogicDocument();
+		}
+		if (!prevPos) {
+			prevPos = []
+		}
+		var curPos = oDocument.CurPos
+		var curLine = curPos.ContentPos
+		prevPos.push(curLine)
+		var element = oDocument.Content[curLine]
+		if (element instanceof Paragraph) {
+			if (element.IsCursorAtBegin()) {
+				prevPos.push(0)
+				return prevPos
+			}
+			var runs = element.Content
+			var pos = 0
+			for (var i = 0; i < runs.length; i += 1) {
+				var run = runs[i]
+				if (run instanceof ParaRun) {
+					if (run.State && run.State.ContentPos) {
+						pos += run.State.ContentPos
+						break
+					} else {
+						pos += run.GetText().length
+					}
+				}
+			}
+			prevPos.push(pos)
+			return prevPos
+		} else if (element instanceof CTable) {
+			var curCell = element.CurCell
+			prevPos.push(curCell.Row.Index, curCell.Index)
+			return this.GetCursorPosition(curCell.Content, prevPos)
+		} else {
+			return prevPos
+		}
+	}
+
 	Api.prototype.AddCommentByTableCell = function (paragraphs, params) {
 		var ops = paragraphs.filter(function (v) {
 			return v instanceof Paragraph
@@ -13596,6 +13636,7 @@
 	Api.prototype["ReplaceTextSmart"]				 = Api.prototype.ReplaceTextSmart;
 	Api.prototype["CoAuthoringChatSendMessage"]		 = Api.prototype.CoAuthoringChatSendMessage;
 	Api.prototype["ConvertDocument"]		         = Api.prototype.ConvertDocument;
+	Api.prototype["GetCursorPosition"]		         = Api.prototype.GetCursorPosition;
 	
 	ApiUnsupported.prototype["GetClassType"]         = ApiUnsupported.prototype.GetClassType;
 

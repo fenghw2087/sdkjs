@@ -2418,7 +2418,8 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 									[255, 197, 61, 255],
 									[77, 180, 169, 255],
 									[236, 94, 80, 255],
-									[146, 84, 222, 255]
+									[146, 84, 222, 255],
+									[57, 120, 235, 255]
 									
 							  ]
 							: [
@@ -2427,7 +2428,8 @@ Paragraph.prototype.Internal_Draw_3 = function(CurPage, pGraphics, Pr)
 									[255, 241, 184, 255],
 									[135, 232, 222, 255],
 									[255, 204, 199, 255],
-									[211, 173, 247, 255]
+									[211, 173, 247, 255],
+									[87, 150, 235, 255]
 							  ]
 						// var colorArr = isActive
 						// 	? [
@@ -2973,6 +2975,17 @@ Paragraph.prototype.Internal_Draw_4 = function(CurPage, pGraphics, Pr, BgColor, 
 		}
 	}
 };
+
+Paragraph.prototype.GetRealText = function () {
+	return this.Content.map(function (v) {
+		if (v instanceof ParaRun) {
+			return v.GetText()
+		} else {
+			return ''
+		}
+	}).join('')
+}
+
 Paragraph.prototype.Internal_Draw_5 = function(CurPage, pGraphics, Pr, BgColor)
 {
 	var PDSL = g_oPDSL;
@@ -13605,6 +13618,18 @@ Paragraph.prototype.MoveCursorToCommentMark = function(sId)
 	this.MoveCursorToStartPos();
 	this.Document_SetThisElementCurrent(false);
 };
+
+Paragraph.prototype.HasSelectTempComment = function () {
+	var commentMap = this.GetCurrentComments()
+	for (var commentId in commentMap) {
+		var comment = g_oTableId.Get_ById(commentId)
+		if (comment.isTemp()) {
+			return true
+		}
+	}
+	return false
+}
+
 Paragraph.prototype.GetCurrentComments = function(oComments)
 {
 	if (!oComments)

@@ -4381,6 +4381,112 @@
 		}
 	}
 
+	Api.prototype.AddTempPoint = function (id) {
+		var oDocument = private_GetLogicDocument();
+		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
+		var selection = oDocument.Selection
+		var result
+		if (selection.Use) {
+			result = this.RemoveSelectionText()
+		} else {
+			result = this.GetCursorPosition()
+		}
+		if (result.error) {
+			return result
+		}
+		var paragraph = getParaByLineIndex(result[0].split('-'), oDocument.Content)[0]
+		if (paragraph instanceof Paragraph) {
+			var num = 12
+			var text = ' ' + new Array(num).fill('_').join('') + ' '
+			if (!paragraph.GetRealText().length) {
+				var p = new ApiParagraph(paragraph)
+				p.AddText(text.trim())
+				return p.AddComment(id, '__hy_ai', true, 6, true)
+			} else if (result[1] > 0) {
+				var range = new ApiRange(paragraph, 0, result[1] - 1)
+				range.AddText(text, 'after')
+			} else {
+				var range = new ApiRange(paragraph, result[1])
+				range.AddText(text, 'before')
+			}
+			var range2 = new ApiRange(paragraph, result[1] + 1, result[1] + num)
+			return range2.AddComment(id, '__hy_ai', true, 6, true)
+		} else {
+			return {
+				error: 11,
+				message: '选区有误，请重试'
+			}
+		}
+
+		return {}
+	}
+
+	Api.prototype.RemoveSelectionText = function () {
+		var oDocument = this.GetDocument()
+		var oLogicDocument = private_GetLogicDocument();
+		var selection = oLogicDocument.Selection
+		var startPos = Math.min(selection.StartPos, selection.EndPos)
+		var endPos = Math.max(selection.StartPos, selection.EndPos)
+		var i = startPos
+		var ele = oLogicDocument.Content[i]
+		var hasP = false
+		var hasT = false
+		var range = oDocument.GetRangeBySelect()
+		while (i <= endPos) {
+			if (ele instanceof CTable) {
+				hasT = true
+				var ps = range.GetAllParagraphs()
+				for (var pi = 0; pi < ps.length; pi += 1) {
+					var p = ps[pi]
+					if (p.Paragraph.HasSelectTempComment()) {
+						return {
+							error: 3,
+							message: '所选范围不能包含已标记的范围'
+						}
+					}
+				}
+			} else if (ele instanceof Paragraph) {
+				hasP = true
+				if (ele.HasSelectTempComment()) {
+					return {
+						error: 3,
+						message: '所选范围不能包含已标记的范围'
+					}
+				}
+			}
+			if (hasT && hasP) {
+				return {
+					error: 1,
+					message: '所选范围不能同时包含段落和表格'
+				}
+			}
+			if (hasT && !hasP && startPos !== endPos) {
+				return {
+					error: 2,
+					message: '所选范围不能包含多个表格'
+				}
+			}
+			i += 1
+			ele = oLogicDocument.Content[i]
+		}
+		if (startPos === endPos && oLogicDocument.Content[startPos] instanceof CTable) {
+			var tSelection = oLogicDocument.Content[startPos].Selection
+			if (tSelection.Data && tSelection.Data.length > 1) {
+				return {
+					error: 2,
+					message: '所选范围不能跨越多个单元格'
+				}
+			}
+		}
+		var times = 0
+		while (times < 2 && range) {
+			range.Delete()
+			range = oDocument.GetRangeBySelect()
+			times += 1
+		}
+		return this.GetCursorPosition()
+	}
+
 	Api.prototype.GetCursorPosition = function (oDocument, prevPos) {
 		if (!oDocument) {
 			oDocument = private_GetLogicDocument();
@@ -4393,25 +4499,23 @@
 		prevPos.push(curLine)
 		var element = oDocument.Content[curLine]
 		if (element instanceof Paragraph) {
-			if (element.IsCursorAtBegin()) {
-				prevPos.push(0)
-				return prevPos
-			}
-			var runs = element.Content
-			var pos = 0
-			for (var i = 0; i < runs.length; i += 1) {
-				var run = runs[i]
-				if (run instanceof ParaRun) {
-					if (run.State && run.State.ContentPos) {
-						pos += run.State.ContentPos
-						break
-					} else {
-						pos += run.GetText().length
-					}
+			if (element.HasSelectTempComment()) {
+				return {
+					error: 3,
+					message: '所选范围不能包含已标记的范围'
 				}
 			}
-			prevPos.push(pos)
-			return prevPos
+			var runIndex = element.CurPos.ContentPos
+			var runs = element.Content
+			var pos = 0
+			for (var i = 0; i < runIndex; i+= 1) {
+				var run = runs[i]
+				if (run instanceof ParaRun) {
+					pos += run.GetText().length
+				}
+			}
+			pos += runs[runIndex].State.ContentPos
+			return [prevPos.join('-'), pos]
 		} else if (element instanceof CTable) {
 			var curCell = element.CurCell
 			prevPos.push(curCell.Row.Index, curCell.Index)
@@ -13637,6 +13741,7 @@
 	Api.prototype["CoAuthoringChatSendMessage"]		 = Api.prototype.CoAuthoringChatSendMessage;
 	Api.prototype["ConvertDocument"]		         = Api.prototype.ConvertDocument;
 	Api.prototype["GetCursorPosition"]		         = Api.prototype.GetCursorPosition;
+	Api.prototype["AddTempPoint"]		         = Api.prototype.AddTempPoint
 	
 	ApiUnsupported.prototype["GetClassType"]         = ApiUnsupported.prototype.GetClassType;
 

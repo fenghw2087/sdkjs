@@ -480,6 +480,9 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 	CComment.prototype.IsSpecial = function () {
 		return this.GetUserName() === '__hy_ai'
 	}
+	CComment.prototype.isTemp = function () {
+		return this.IsSpecial() && this.GetLevel() === 6
+	}
 	CComment.prototype.GetIsSpecial = function () {
 		return this.Data.GetIsSpecial()
 	}

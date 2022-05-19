@@ -1106,21 +1106,29 @@ function CEditorPage(api)
 		this.OnUpdateOverlay();
 	};
 
-	this.ScrollToPosition2 = function(y, PageNum, screenTop) {
+	this.ScrollToPosition2 = function(y, PageNum, screenTop, screenTopPer) {
 		var nValueScrollVer = this.GetVerticalScrollTo(y, PageNum);
 		if (screenTop) {
 			this.m_oScrollVerApi.scrollToY(parseInt(nValueScrollVer - screenTop), false);
 		} else {
 			var _hh = this.m_oEditor.HtmlElement.height;
 			_hh /= AscCommon.AscBrowser.retinaPixelRatio;
-			this.m_oScrollVerApi.scrollToY(parseInt(nValueScrollVer - _hh * 0.4), false);
+			this.m_oScrollVerApi.scrollToY(parseInt(nValueScrollVer - _hh * (screenTopPer || 0.4)), false);
 		}
 	}
 
-	this.ScrollToPosition3 = function(y, PageNum, moveCommentMode, screenTop) {
+	this.GetEditorHeight = function () {
+		var _h       = 5;
+		var rectSize = (_h * this.m_nZoomValue * g_dKoef_mm_to_pix / 100);
+		var _hh = this.m_oEditor.HtmlElement.height;
+        _hh /= AscCommon.AscBrowser.retinaPixelRatio;
+		return _hh
+	}
+
+	this.ScrollToPosition3 = function(y, PageNum, moveCommentMode, screenTop, screenTopPer) {
 		moveCommentMode = moveCommentMode || (window['userCustomConfig'] ? window['userCustomConfig']['moveCommentMode'] : '')
-		if (moveCommentMode === 'every' || screenTop > 0) {
-			this.ScrollToPosition2(y, PageNum, screenTop)
+		if (moveCommentMode === 'every' || screenTop > 0 || screenTopPer !== undefined) {
+			this.ScrollToPosition2(y, PageNum, screenTop, screenTopPer)
 			return
 		} else if (moveCommentMode === 'origin') {
 			this.ScrollToPosition(0, y, PageNum)

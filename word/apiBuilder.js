@@ -3613,16 +3613,16 @@
 		}
 	}
 
-	Api.prototype.MoveToComment = function (commentId, moveCommentMode, screenTop) {
+	Api.prototype.MoveToComment = function (commentId, moveCommentMode, screenTop, screenTopPer) {
 		var comment = AscCommon.g_oTableId.Get_ById(commentId)
 		if (comment instanceof AscCommon.CComment) {
 			var data = comment.GetPosition2()
 			if (!data.length) return
-			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop)
+			editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop, screenTopPer)
 		}
 	}
 
-	Api.prototype.MoveToParagraphByIndex = function (index, moveCommentMode, screenTop) {
+	Api.prototype.MoveToParagraphByIndex = function (index, moveCommentMode, screenTop, screenTopPer) {
 		var oDocument = private_GetLogicDocument()
 		var r = getParaByLineIndex(index.split('-'), oDocument.Content)
 		var p = r[0]
@@ -3639,10 +3639,12 @@
 					return
 				}
 				var pageNum = table.PageNum + r[1]
-				editor.WordControl.ScrollToPosition3(r[0], pageNum, moveCommentMode, screenTop)
+				var firstLine = p.Lines[0]
+				var firstLineTop = firstLine ? firstLine.Y : 0
+				editor.WordControl.ScrollToPosition3(p.Y + firstLineTop, pageNum, moveCommentMode, screenTop, screenTopPer)
 			} else {
 				var data = p.GetPosition()
-				editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop)
+				editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop, screenTopPer)
 			}
 		}
 	}
@@ -3677,7 +3679,7 @@
 					return
 				}
 				var pageNum = table.PageNum + rowPageIndex - 1
-				editor.WordControl.ScrollToPosition3(y, pageNum, moveCommentMode, screenTop)
+				editor.WordControl.ScrollToPosition3(p.Y, pageNum, moveCommentMode, screenTop)
 			} else {
 				var data = p.GetPosition()
 				editor.WordControl.ScrollToPosition3(data[0], data[1], moveCommentMode, screenTop)
@@ -4417,8 +4419,6 @@
 				message: '选区有误，请重试'
 			}
 		}
-
-		return {}
 	}
 
 	Api.prototype.RemoveSelectionText = function () {
@@ -4508,7 +4508,7 @@
 			var runIndex = element.CurPos.ContentPos
 			var runs = element.Content
 			var pos = 0
-			for (var i = 0; i < runIndex; i+= 1) {
+			for (var i = 0; i < runIndex; i += 1) {
 				var run = runs[i]
 				if (run instanceof ParaRun) {
 					pos += run.GetText().length

@@ -11092,6 +11092,9 @@ CDocument.prototype.OnMouseDown = function(e, X, Y, PageIndex)
 					var pageNum = table.PageNum + rowPageIndex - 1
 					paraPos = [y, pageNum]
 					paraOffsetTop = editor.WordControl.GetVerticalScrollTo(paraPos[0], paraPos[1])
+					var firstComment = g_oTableId.Get_ById(firstCommentId)
+					var commentPos = firstComment.GetPosition2()
+					offsetTop = editor.WordControl.GetVerticalScrollTo(commentPos[0], commentPos[1])
 				} else {
 					var firstComment = g_oTableId.Get_ById(firstCommentId)
 					var commentPos = firstComment.GetPosition2()
@@ -11108,7 +11111,11 @@ CDocument.prototype.OnMouseDown = function(e, X, Y, PageIndex)
 			data['frameEditorId'] = window['frameEditorId']
 			data['eventType'] = 'commentClick'
 			if (offsetTop > -9999) {
-				data['screenTop'] = - editor.WordControl.m_dScrollY + offsetTop
+				var screenTop = - editor.WordControl.m_dScrollY + offsetTop
+				const eh = editor.WordControl.GetEditorHeight()
+				var screenTopPer = screenTop / eh
+				data['screenTop'] = screenTop
+				data['screenTopPer'] = screenTopPer
 			}
 			data['paraScreenTop'] = - editor.WordControl.m_dScrollY + paraOffsetTop
 			window['parent']['postMessage'](data, '*')

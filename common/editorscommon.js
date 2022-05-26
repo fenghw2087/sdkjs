@@ -3481,7 +3481,7 @@
 					if (url.indexOf('cache') > -1) {
 						var urlArr = url.split('/cache/')
 						urlArr.shift()
-						urlArr.unshift(window.location.origin + '/' + (window['__hy_ai_subPath'] || 'only-office'))
+						urlArr.unshift(window.location.origin + (window['__hy_ai_subPath'] ? `/${window['__hy_ai_subPath']}` : ''))
 						url = urlArr.join('/cache/')
 					}
 				}

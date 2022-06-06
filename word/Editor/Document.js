@@ -13972,7 +13972,8 @@ CDocument.prototype.GetAllSpecialComments = function () {
 		if (comment.GetIsSpecial()) {
 			result.push({
 				id: id,
-				text: comment.GetRealText()
+				text: comment.GetRealText(),
+				level: comment.GetLevel()
 			})
 		}
 	}

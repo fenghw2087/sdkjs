@@ -152,7 +152,6 @@ function CCommentData()
 	}
 
 	this.Get_isSpecial = function () {
-		console.log(this.m_sUserName)
 		return this.m_sUserName === '__hy_ai'
 	}
 
@@ -204,7 +203,6 @@ function CCommentData()
 		// String            : m_sUserData
         // Long              : Количество отетов
         // Array of Variable : Ответы
-
         var Count = this.m_aReplies.length;
         Writer.WriteString2( this.m_sText );
         Writer.WriteString2( this.m_sTime );
@@ -252,7 +250,6 @@ function CCommentData()
 		// String            : m_sUserData
         // Long              : Количество отетов
         // Array of Variable : Ответы
-
         this.m_sText     = Reader.GetString2();
         this.m_sTime     = Reader.GetString2();
 		this.m_sOOTime   = Reader.GetString2();
@@ -448,6 +445,17 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 		this.Id = AscCommon.g_oIdCounter.Get_NewId();
 
 		this.Parent = Parent;
+		if (Data && Data.GetIsSpecial()) {
+			var text = Data.GetText()
+			try {
+				if (text.indexOf('level') > -1) {
+					var obj = JSON.parse(text)
+					Data.SetLevel(obj.level)
+				}
+			} catch (error) {
+				
+			}
+		}
 		this.Data   = Data;
 
 		this.m_oTypeInfo = {
@@ -985,8 +993,7 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 	 * oLogicDocument {CDocument}
 	 * @constructor
 	 */
-	function CComments(oLogicDocument)
-{
+	function CComments(oLogicDocument){
     this.Id = AscCommon.g_oIdCounter.Get_NewId();
 
 	this.LogicDocument = oLogicDocument;

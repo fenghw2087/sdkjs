@@ -1656,7 +1656,15 @@
 		var oDocument = private_GetLogicDocument()
 
 		var CommentData = new AscCommon.CCommentData()
-		CommentData.SetText(Comment)
+		if (IsSpecial) {
+			var obj = {
+				text: Comment,
+				level: Level
+			}
+			CommentData.SetText(JSON.stringify(obj));
+		} else {
+			CommentData.SetText(Comment);
+		}
 		CommentData.SetUserName(Autor)
 		CommentData.SetIsSpecial(IsSpecial || false)
 		CommentData.SetLevel(Level || 0)
@@ -4338,7 +4346,15 @@
 			}
 			
 			var CommentData = new AscCommon.CCommentData();
-			CommentData.SetText(Comment);
+			if (IsSpecial) {
+				var obj = {
+					text: Comment,
+					level: Level
+				}
+				CommentData.SetText(JSON.stringify(obj));
+			} else {
+				CommentData.SetText(Comment);
+			}
 			CommentData.SetUserName(Autor);
 			CommentData.SetIsSpecial(IsSpecial)
 			CommentData.SetLevel(Level)
@@ -4593,6 +4609,7 @@
 					op = AscCommon.g_oTableId.Get_ById(uid)
 				} else {
 					var r = getParaByLineIndex(lineNumber.split('-'), oDocument.Content)
+					if (!r) return -1
 					if (Array.isArray(r[1])) {
 						return that.AddCommentByTableCell(r[1], v)
 					}
@@ -6019,9 +6036,17 @@
 			Autor = "";
 
 		var CommentData = new AscCommon.CCommentData();
-		CommentData.SetText(Comment);
-		CommentData.SetUserName(Autor);
 		CommentData.SetIsSpecial(IsSpecial || false)
+		if (IsSpecial) {
+			var obj = {
+				text: Comment,
+				level: Level
+			}
+			CommentData.SetText(JSON.stringify(obj));
+		} else {
+			CommentData.SetText(Comment);
+		}
+		CommentData.SetUserName(Autor);
 		CommentData.SetLevel(Level || 0)
 
 		var oDocument = private_GetLogicDocument()

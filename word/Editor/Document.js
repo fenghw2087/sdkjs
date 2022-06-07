@@ -13973,7 +13973,8 @@ CDocument.prototype.GetAllSpecialComments = function () {
 			result.push({
 				id: id,
 				text: comment.GetRealText(),
-				level: comment.GetLevel()
+				level: comment.GetLevel(),
+				message: comment.GetText()
 			})
 		}
 	}

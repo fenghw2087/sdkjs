@@ -152,7 +152,7 @@ function CCommentData()
 	}
 
 	this.Get_isSpecial = function () {
-		return this.m_sUserName === '__hy_ai'
+		return this.m_sUserName && this.m_sUserName.indexOf('hy_ai') > -1
 	}
 
 	this.Get_Level = function () {
@@ -344,7 +344,7 @@ CCommentData.prototype.SetUserData = function(sData)
 	this.m_sUserData = sData;
 };
 CCommentData.prototype.GetIsSpecial = function () {
-	return this.m_sUserName === '__hy_ai'
+	return this.m_sUserName && this.m_sUserName.indexOf('hy_ai') > -1
 }
 CCommentData.prototype.SetIsSpecial = function (m_isSepcial) {
 	this.m_isSepcial = m_isSepcial
@@ -449,7 +449,7 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 			var text = Data.GetText()
 			try {
 				if (text.indexOf('level') > -1) {
-					var obj = JSON.parse(text)
+					var obj = JSON.parse(decodeURIComponent(text))
 					Data.SetLevel(obj.level)
 				}
 			} catch (error) {
@@ -486,7 +486,7 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 		AscCommon.g_oTableId.Add(this, this.Id);
 	}
 	CComment.prototype.IsSpecial = function () {
-		return this.GetUserName() === '__hy_ai'
+		return this.GetUserName() && this.GetUserName().indexOf('hy_ai') > -1
 	}
 	CComment.prototype.isTemp = function () {
 		return this.IsSpecial() && this.GetLevel() === 6

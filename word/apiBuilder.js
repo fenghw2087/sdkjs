@@ -1687,7 +1687,8 @@
 
 		return {
 			id: COMENT.Get_Id(),
-			text: COMENT.GetRealText()
+			text: COMENT.GetRealText(),
+			message: CommentData.GetText()
 		}
 	}
 
@@ -4419,7 +4420,7 @@
 			if (!paragraph.GetRealText().length) {
 				var p = new ApiParagraph(paragraph)
 				p.AddText(text.trim())
-				return p.AddComment(id, '__hy_ai', true, 6, true)
+				return p.AddComment(id, '__hy_ai2', true, 6, true)
 			} else if (result[1] > 0) {
 				var range = new ApiRange(paragraph, 0, result[1] - 1)
 				range.AddText(text, 'after')
@@ -4428,13 +4429,23 @@
 				range.AddText(text, 'before')
 			}
 			var range2 = new ApiRange(paragraph, result[1] + 1, result[1] + num)
-			return range2.AddComment(id, '__hy_ai', true, 6, true)
+			return range2.AddComment(id, '__hy_ai2', true, 6, true)
 		} else {
 			return {
 				error: 11,
 				message: '选区有误，请重试'
 			}
 		}
+	}
+
+	Api.prototype.UpdateComment = function (commentId, text) {
+		var oDocument = private_GetLogicDocument();
+		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
+		var comment = g_oTableId.Get_ById(commentId)
+		if (!comment) return
+		var data = comment.Data
+		data.SetText(text)
+		comment.SetData(data)
 	}
 
 	Api.prototype.RemoveSelectionText = function () {
@@ -6079,7 +6090,8 @@
 
 		return {
 			id: COMENT.Get_Id(),
-			text: COMENT.GetRealText()
+			text: COMENT.GetRealText(),
+			message: CommentData.GetText()
 		}
 	};
 	/**
@@ -13767,6 +13779,7 @@
 	Api.prototype["ConvertDocument"]		         = Api.prototype.ConvertDocument;
 	Api.prototype["GetCursorPosition"]		         = Api.prototype.GetCursorPosition;
 	Api.prototype["AddTempPoint"]		         = Api.prototype.AddTempPoint
+	Api.prototype["UpdateComment"]                   =Api.prototype.UpdateComment
 	
 	ApiUnsupported.prototype["GetClassType"]         = ApiUnsupported.prototype.GetClassType;
 

@@ -13957,7 +13957,18 @@ CDocument.prototype.RemoveAllSpecialComments = function () {
 	var comments = this.Comments.GetAllComments()
 	var result = []
 	for (var id in comments) {
-		if (comments[id].GetIsSpecial()) {
+		if (comments[id].GetIsSpecial() && !comments[id].isTemp()) {
+			this.Comments.Remove_ById(id)
+			result.push(id)
+		}
+	}
+	return result
+}
+CDocument.prototype.RemoveAllTempComments = function () {
+	var comments = this.Comments.GetAllComments()
+	var result = []
+	for (var id in comments) {
+		if (comments[id].isTemp()) {
 			this.Comments.Remove_ById(id)
 			result.push(id)
 		}
@@ -13970,6 +13981,23 @@ CDocument.prototype.GetAllSpecialComments = function () {
 	for (var id in comments) {
 		var comment = comments[id]
 		if (comment.GetIsSpecial()) {
+			result.push({
+				id: id,
+				text: comment.GetRealText(),
+				level: comment.GetLevel(),
+				message: comment.GetText()
+			})
+		}
+	}
+	return result
+}
+
+CDocument.prototype.GetAllTempComments = function () {
+	var comments = this.Comments.GetAllComments()
+	var result = []
+	for (var id in comments) {
+		var comment = comments[id]
+		if (comment.isTemp()) {
 			result.push({
 				id: id,
 				text: comment.GetRealText(),

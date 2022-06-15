@@ -1656,7 +1656,7 @@
 		var oDocument = private_GetLogicDocument()
 
 		var CommentData = new AscCommon.CCommentData()
-		if (IsSpecial) {
+		if (Level === 6) {
 			var obj = {
 				text: Comment,
 				level: Level
@@ -5368,12 +5368,22 @@
 		return this.Document.RemoveAllSpecialComments()
 	}
 
+	ApiDocument.prototype.RemoveAllTempComments = function () {
+		var oDocument = private_GetLogicDocument();
+		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
+		return this.Document.RemoveAllTempComments()
+	}
+
 	ApiDocument.prototype.GetAllSpecialComments = function () {
 		return this.Document.GetAllSpecialComments()
 	}
 
 	ApiDocument.prototype.GetAllNormalComments = function () {
 		return this.Document.GetAllNormalComments()
+	}
+
+	ApiDocument.prototype.GetAllTempComments = function () {
+		return this.Document.GetAllTempComments()
 	}
 	/**
 	 * Returns a bookmark range.
@@ -6048,7 +6058,7 @@
 
 		var CommentData = new AscCommon.CCommentData();
 		CommentData.SetIsSpecial(IsSpecial || false)
-		if (IsSpecial) {
+		if (Level === 6) {
 			var obj = {
 				text: Comment,
 				level: Level
@@ -13848,8 +13858,8 @@
 	ApiDocument.prototype["Push"]                    = ApiDocument.prototype.Push;
 	ApiDocument.prototype["DeleteBookmark"]          = ApiDocument.prototype.DeleteBookmark;
 	ApiDocument.prototype["AddComment"]              = ApiDocument.prototype.AddComment;
-	ApiDocument.prototype['RemoveAllSpecialComments'] =
-		ApiDocument.prototype.RemoveAllSpecialComments
+	ApiDocument.prototype['RemoveAllSpecialComments'] = ApiDocument.prototype.RemoveAllSpecialComments
+	ApiDocument.prototype['RemoveAllTempComments'] = ApiDocument.prototype.RemoveAllTempComments
 	ApiDocument.prototype['GetAllSpecialComments'] =
 		ApiDocument.prototype.GetAllSpecialComments
 	ApiDocument.prototype['GetAllNormalComments'] =

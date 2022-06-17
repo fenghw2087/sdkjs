@@ -13864,6 +13864,7 @@
 		ApiDocument.prototype.GetAllSpecialComments
 	ApiDocument.prototype['GetAllNormalComments'] =
 		ApiDocument.prototype.GetAllNormalComments
+	ApiDocument.prototype['GetAllTempComments'] = ApiDocument.prototype.GetAllTempComments
 	ApiDocument.prototype["GetBookmarkRange"]        = ApiDocument.prototype.GetBookmarkRange;
 	ApiDocument.prototype["GetSections"]             = ApiDocument.prototype.GetSections;
 	ApiDocument.prototype["GetAllTablesOnPage"]      = ApiDocument.prototype.GetAllTablesOnPage;

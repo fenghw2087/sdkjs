@@ -13797,7 +13797,7 @@
 	Api.prototype["GetCursorPosition"]		         = Api.prototype.GetCursorPosition;
 	Api.prototype["AddTempPoint"]		         = Api.prototype.AddTempPoint
 	Api.prototype["UpdateComment"]                   =Api.prototype.UpdateComment
-	Api.prototype["Rename"]                          =Api.prototype.RenameDoc
+	Api.prototype["RenameDoc"]                          =Api.prototype.RenameDoc
 	
 	ApiUnsupported.prototype["GetClassType"]         = ApiUnsupported.prototype.GetClassType;
 

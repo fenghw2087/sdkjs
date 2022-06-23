@@ -4412,8 +4412,11 @@
 		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
 		var selection = oDocument.Selection
 		var result
+		var removeText = ''
 		if (selection.Use) {
-			result = this.RemoveSelectionText()
+			var r = this.RemoveSelectionText()
+			result = r[0]
+			removeText = r[1]
 		} else {
 			result = this.GetCursorPosition()
 		}
@@ -4427,7 +4430,9 @@
 			if (!paragraph.GetRealText().length) {
 				var p = new ApiParagraph(paragraph)
 				p.AddText(text.trim())
-				return p.AddComment(id, '__hy_ai2', true, 6, true)
+				var comment = p.AddComment(id, '__hy_ai2', true, 6, true)
+				comment.removeText = removeText
+				return comment
 			} else if (result[1] > 0) {
 				var range = new ApiRange(paragraph, 0, result[1] - 1)
 				range.AddText(text, 'after')
@@ -4436,7 +4441,9 @@
 				range.AddText(text, 'before')
 			}
 			var range2 = new ApiRange(paragraph, result[1] + 1, result[1] + num)
-			return range2.AddComment(id, '__hy_ai2', true, 6, true)
+			var comment = range2.AddComment(id, '__hy_ai2', true, 6, true)
+			comment.removeText = removeText
+			return comment
 		} else {
 			return {
 				error: 11,
@@ -4513,12 +4520,14 @@
 			}
 		}
 		var times = 0
+		var text = ''
 		while (times < 2 && range) {
+			text += range.GetText()
 			range.Delete()
 			range = oDocument.GetRangeBySelect()
 			times += 1
 		}
-		return this.GetCursorPosition()
+		return [this.GetCursorPosition(), text]
 	}
 
 	Api.prototype.GetCursorPosition = function (oDocument, prevPos) {

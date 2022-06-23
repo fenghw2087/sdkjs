@@ -3572,6 +3572,13 @@
 		}
 	}
 
+	Api.prototype.RenameDoc = function (name) {
+		var dom = document.getElementById('rib-doc-name')
+		if (dom) {
+			dom.innerHTML = name
+		}
+	}
+
 	Api.prototype.AddCommentById = function (commentId, message, author) {
 		var oLogicDocument = private_GetLogicDocument();
 		oLogicDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
@@ -13790,6 +13797,7 @@
 	Api.prototype["GetCursorPosition"]		         = Api.prototype.GetCursorPosition;
 	Api.prototype["AddTempPoint"]		         = Api.prototype.AddTempPoint
 	Api.prototype["UpdateComment"]                   =Api.prototype.UpdateComment
+	Api.prototype["Rename"]                          =Api.prototype.RenameDoc
 	
 	ApiUnsupported.prototype["GetClassType"]         = ApiUnsupported.prototype.GetClassType;
 

@@ -4401,7 +4401,7 @@
 		} else if (ele instanceof CTable || ele instanceof CTableRow) {
 			return getParaByLineIndex(indexArr, ele.Content)
 		} else if (ele instanceof CTableCell) {
-			return [ele.Content.Content[0], ele.Content.Content]
+			return [ele.Content.Content[indexArr[0] || 0], ele.Content.Content]
 		} else {
 			return null
 		}
@@ -4420,6 +4420,7 @@
 		} else {
 			result = this.GetCursorPosition()
 		}
+		console.log(result)
 		if (result.error) {
 			return result
 		}

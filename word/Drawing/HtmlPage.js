@@ -1134,8 +1134,8 @@ function CEditorPage(api)
 			this.ScrollToPosition(0, y, PageNum)
 			return
 		}
-		if (PageNum < 0 || PageNum >= this.m_oDrawingDocument.m_lCountCalculatePages)
-			return;
+		// if (PageNum < 0 || PageNum >= this.m_oDrawingDocument.m_lCountCalculatePages)
+		// 	return;
 
 		var _h       = 5;
 		var rectSize = (_h * this.m_nZoomValue * g_dKoef_mm_to_pix / 100);

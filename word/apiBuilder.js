@@ -4420,7 +4420,6 @@
 		} else {
 			result = this.GetCursorPosition()
 		}
-		console.log(result)
 		if (result.error) {
 			return result
 		}
@@ -4432,7 +4431,7 @@
 				var p = new ApiParagraph(paragraph)
 				p.AddText(text.trim())
 				var comment = p.AddComment(id, '__hy_ai2', true, 6, true)
-				comment.removeText = removeText
+				comment['removeText'] = removeText
 				return comment
 			} else if (result[1] > 0) {
 				var range = new ApiRange(paragraph, 0, result[1] - 1)
@@ -4443,7 +4442,7 @@
 			}
 			var range2 = new ApiRange(paragraph, result[1] + 1, result[1] + num)
 			var comment = range2.AddComment(id, '__hy_ai2', true, 6, true)
-			comment.removeText = removeText
+			comment['removeText'] = removeText
 			return comment
 		} else {
 			return {

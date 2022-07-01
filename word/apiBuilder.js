@@ -1656,7 +1656,15 @@
 		var oDocument = private_GetLogicDocument()
 
 		var CommentData = new AscCommon.CCommentData()
-		CommentData.SetText(Comment)
+		if (Level === 6) {
+			var obj = {
+				text: Comment,
+				level: Level
+			}
+			CommentData.SetText(JSON.stringify(obj));
+		} else {
+			CommentData.SetText(Comment);
+		}
 		CommentData.SetUserName(Autor)
 		CommentData.SetIsSpecial(IsSpecial || false)
 		CommentData.SetLevel(Level || 0)
@@ -1679,7 +1687,8 @@
 
 		return {
 			id: COMENT.Get_Id(),
-			text: COMENT.GetRealText()
+			text: COMENT.GetRealText(),
+			message: CommentData.GetText()
 		}
 	}
 
@@ -3563,6 +3572,13 @@
 		}
 	}
 
+	Api.prototype.RenameDoc = function (name) {
+		var dom = document.getElementById('rib-doc-name')
+		if (dom) {
+			dom.innerHTML = name
+		}
+	}
+
 	Api.prototype.AddCommentById = function (commentId, message, author) {
 		var oLogicDocument = private_GetLogicDocument();
 		oLogicDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
@@ -4338,7 +4354,15 @@
 			}
 			
 			var CommentData = new AscCommon.CCommentData();
-			CommentData.SetText(Comment);
+			if (IsSpecial) {
+				var obj = {
+					text: Comment,
+					level: Level
+				}
+				CommentData.SetText(JSON.stringify(obj));
+			} else {
+				CommentData.SetText(Comment);
+			}
 			CommentData.SetUserName(Autor);
 			CommentData.SetIsSpecial(IsSpecial)
 			CommentData.SetLevel(Level)
@@ -4377,7 +4401,7 @@
 		} else if (ele instanceof CTable || ele instanceof CTableRow) {
 			return getParaByLineIndex(indexArr, ele.Content)
 		} else if (ele instanceof CTableCell) {
-			return [ele.Content.Content[0], ele.Content.Content]
+			return [ele.Content.Content[indexArr[0] || 0], ele.Content.Content]
 		} else {
 			return null
 		}
@@ -4388,8 +4412,11 @@
 		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
 		var selection = oDocument.Selection
 		var result
+		var removeText = ''
 		if (selection.Use) {
-			result = this.RemoveSelectionText()
+			var r = this.RemoveSelectionText()
+			result = r[0]
+			removeText = r[1]
 		} else {
 			result = this.GetCursorPosition()
 		}
@@ -4403,7 +4430,9 @@
 			if (!paragraph.GetRealText().length) {
 				var p = new ApiParagraph(paragraph)
 				p.AddText(text.trim())
-				return p.AddComment(id, '__hy_ai', true, 6, true)
+				var comment = p.AddComment(id, '__hy_ai2', true, 6, true)
+				comment['removeText'] = removeText
+				return comment
 			} else if (result[1] > 0) {
 				var range = new ApiRange(paragraph, 0, result[1] - 1)
 				range.AddText(text, 'after')
@@ -4412,13 +4441,25 @@
 				range.AddText(text, 'before')
 			}
 			var range2 = new ApiRange(paragraph, result[1] + 1, result[1] + num)
-			return range2.AddComment(id, '__hy_ai', true, 6, true)
+			var comment = range2.AddComment(id, '__hy_ai2', true, 6, true)
+			comment['removeText'] = removeText
+			return comment
 		} else {
 			return {
 				error: 11,
 				message: '选区有误，请重试'
 			}
 		}
+	}
+
+	Api.prototype.UpdateComment = function (commentId, text) {
+		var oDocument = private_GetLogicDocument();
+		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
+		var comment = g_oTableId.Get_ById(commentId)
+		if (!comment) return
+		var data = comment.Data
+		data.SetText(text)
+		comment.SetData(data)
 	}
 
 	Api.prototype.RemoveSelectionText = function () {
@@ -4479,12 +4520,14 @@
 			}
 		}
 		var times = 0
+		var text = ''
 		while (times < 2 && range) {
+			text += range.GetText()
 			range.Delete()
 			range = oDocument.GetRangeBySelect()
 			times += 1
 		}
-		return this.GetCursorPosition()
+		return [this.GetCursorPosition(), text]
 	}
 
 	Api.prototype.GetCursorPosition = function (oDocument, prevPos) {
@@ -4593,6 +4636,7 @@
 					op = AscCommon.g_oTableId.Get_ById(uid)
 				} else {
 					var r = getParaByLineIndex(lineNumber.split('-'), oDocument.Content)
+					if (!r) return -1
 					if (Array.isArray(r[1])) {
 						return that.AddCommentByTableCell(r[1], v)
 					}
@@ -5340,12 +5384,22 @@
 		return this.Document.RemoveAllSpecialComments()
 	}
 
+	ApiDocument.prototype.RemoveAllTempComments = function () {
+		var oDocument = private_GetLogicDocument();
+		oDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_ApiBuilder);
+		return this.Document.RemoveAllTempComments()
+	}
+
 	ApiDocument.prototype.GetAllSpecialComments = function () {
 		return this.Document.GetAllSpecialComments()
 	}
 
 	ApiDocument.prototype.GetAllNormalComments = function () {
 		return this.Document.GetAllNormalComments()
+	}
+
+	ApiDocument.prototype.GetAllTempComments = function () {
+		return this.Document.GetAllTempComments()
 	}
 	/**
 	 * Returns a bookmark range.
@@ -6019,9 +6073,17 @@
 			Autor = "";
 
 		var CommentData = new AscCommon.CCommentData();
-		CommentData.SetText(Comment);
-		CommentData.SetUserName(Autor);
 		CommentData.SetIsSpecial(IsSpecial || false)
+		if (Level === 6) {
+			var obj = {
+				text: Comment,
+				level: Level
+			}
+			CommentData.SetText(JSON.stringify(obj));
+		} else {
+			CommentData.SetText(Comment);
+		}
+		CommentData.SetUserName(Autor);
 		CommentData.SetLevel(Level || 0)
 
 		var oDocument = private_GetLogicDocument()
@@ -6054,7 +6116,8 @@
 
 		return {
 			id: COMENT.Get_Id(),
-			text: COMENT.GetRealText()
+			text: COMENT.GetRealText(),
+			message: CommentData.GetText()
 		}
 	};
 	/**
@@ -13742,6 +13805,8 @@
 	Api.prototype["ConvertDocument"]		         = Api.prototype.ConvertDocument;
 	Api.prototype["GetCursorPosition"]		         = Api.prototype.GetCursorPosition;
 	Api.prototype["AddTempPoint"]		         = Api.prototype.AddTempPoint
+	Api.prototype["UpdateComment"]                   =Api.prototype.UpdateComment
+	Api.prototype["RenameDoc"]                          =Api.prototype.RenameDoc
 	
 	ApiUnsupported.prototype["GetClassType"]         = ApiUnsupported.prototype.GetClassType;
 
@@ -13810,12 +13875,13 @@
 	ApiDocument.prototype["Push"]                    = ApiDocument.prototype.Push;
 	ApiDocument.prototype["DeleteBookmark"]          = ApiDocument.prototype.DeleteBookmark;
 	ApiDocument.prototype["AddComment"]              = ApiDocument.prototype.AddComment;
-	ApiDocument.prototype['RemoveAllSpecialComments'] =
-		ApiDocument.prototype.RemoveAllSpecialComments
+	ApiDocument.prototype['RemoveAllSpecialComments'] = ApiDocument.prototype.RemoveAllSpecialComments
+	ApiDocument.prototype['RemoveAllTempComments'] = ApiDocument.prototype.RemoveAllTempComments
 	ApiDocument.prototype['GetAllSpecialComments'] =
 		ApiDocument.prototype.GetAllSpecialComments
 	ApiDocument.prototype['GetAllNormalComments'] =
 		ApiDocument.prototype.GetAllNormalComments
+	ApiDocument.prototype['GetAllTempComments'] = ApiDocument.prototype.GetAllTempComments
 	ApiDocument.prototype["GetBookmarkRange"]        = ApiDocument.prototype.GetBookmarkRange;
 	ApiDocument.prototype["GetSections"]             = ApiDocument.prototype.GetSections;
 	ApiDocument.prototype["GetAllTablesOnPage"]      = ApiDocument.prototype.GetAllTablesOnPage;

@@ -1675,11 +1675,19 @@
 		if ("" === CommentData.m_sOOTime)
 			CommentData.m_sOOTime = ((new Date()).getTime()).toString();
 
-		oDocument.Selection.Use = true
-		oDocument.SetContentSelection(this.StartPos, this.EndPos, 0, 0, 0)
-
-		var COMENT = oDocument.AddComment(CommentData, false, forceAdd)
-		oDocument.RemoveSelection()
+		var StartPos = this.StartPos
+		var EndPos = this.EndPos
+		var COMENT
+		if (!(StartPos[0].Class instanceof CDocument)) {
+			this.Select()
+			var COMENT = oDocument.AddComment(CommentData, false, forceAdd)
+		} else {
+			oDocument.Selection.Use = true
+			oDocument.SetContentSelection(StartPos, EndPos, 0, 0, 0)
+	
+			var COMENT = oDocument.AddComment(CommentData, false, forceAdd)
+			oDocument.RemoveSelection()
+		}
 
 		if (null != COMENT) {
 			editor.sync_AddComment(COMENT.Get_Id(), CommentData)
@@ -4397,7 +4405,21 @@
 		var index = indexArr.shift()
 		var ele = content[index]
 		if (ele instanceof Paragraph) {
+			if (indexArr.length) {
+				var allRuns = ele.Content
+				var allParaDrawings = allRuns.reduce(function(o, r) {
+					r.Content.forEach(function(rc) {
+						if (rc instanceof ParaDrawing) {
+							o.push(rc)
+						}
+					})
+					return o
+				}, [])
+				return getParaByLineIndex(indexArr, allParaDrawings)
+			}
 			return [ele, ele]
+		} else if (ele instanceof ParaDrawing) {
+			return getParaByLineIndex(indexArr, ele.GraphicObj.textBoxContent.Content)
 		} else if (ele instanceof CTable || ele instanceof CTableRow) {
 			return getParaByLineIndex(indexArr, ele.Content)
 		} else if (ele instanceof CTableCell) {
@@ -4415,7 +4437,7 @@
 		var removeText = ''
 		if (selection.Use) {
 			var r = this.RemoveSelectionText()
-			result = r[0]
+			result = r[0] || r
 			removeText = r[1]
 		} else {
 			result = this.GetCursorPosition()
@@ -4473,6 +4495,18 @@
 		var hasP = false
 		var hasT = false
 		var range = oDocument.GetRangeBySelect()
+		if (!range) {
+			return {
+				error: 4,
+				message: '暂未支持的选区方式'
+			}
+		}
+		if (range.StartPos && !(range.StartPos[0].Class instanceof CDocument)) {
+			return {
+				error: 4,
+				message: '暂不支持在文本框内选区'
+			}
+		}
 		while (i <= endPos) {
 			if (ele instanceof CTable) {
 				hasT = true
@@ -4542,6 +4576,12 @@
 		prevPos.push(curLine)
 		var element = oDocument.Content[curLine]
 		if (element instanceof Paragraph) {
+			if (element.GetAllDrawingObjects().length) {
+				return {
+					error: 3,
+					message: '暂不支持在文本框内选区'
+				}
+			}
 			if (element.HasSelectTempComment()) {
 				return {
 					error: 3,
@@ -4655,6 +4695,10 @@
 					var range = new ApiRange(op, left, right)
 					if (!range.StartPos || !range.EndPos) {
 						return -1
+					}
+					if (range.StartPos[0].Class instanceof CDocumentContent) {
+						var range2 = new ApiRange(range.StartPos[0].Class, range.StartPos, range.EndPos)
+						return range2.AddComment(v['message'], v['author'], v['isSpecial'], v['level'], true)
 					}
 					return range.AddComment(v['message'], v['author'], v['isSpecial'], v['level'], true)
 				}

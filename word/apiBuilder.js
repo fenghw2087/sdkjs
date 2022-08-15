@@ -4594,10 +4594,10 @@
 			for (var i = 0; i < runIndex; i += 1) {
 				var run = runs[i]
 				if (run instanceof ParaRun) {
-					pos += run.GetText().length
+					pos += run.GetSelectedText(true).length
 				}
 			}
-			pos += runs[runIndex].State.ContentPos
+			pos += runs[runIndex].GetSelectedText(false, null, undefined, runs[runIndex].State.ContentPos).length
 			return [prevPos.join('-'), pos]
 		} else if (element instanceof CTable) {
 			var curCell = element.CurCell
@@ -4787,7 +4787,7 @@
 		} else if (ele instanceof ParaRun) {
 			return {
 				type: 'run',
-				text: ele.GetText(),
+				text: ele.GetText2(),
 			}
 		} else if (ele instanceof CTableRow) {
 			return {

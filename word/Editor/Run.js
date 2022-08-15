@@ -2880,10 +2880,10 @@ ParaRun.prototype.Get_AllFontNames = function(AllFonts)
 	}
 };
 
-ParaRun.prototype.GetSelectedText = function(bAll, bClearText, oPr)
+ParaRun.prototype.GetSelectedText = function(bAll, bClearText, oPr, end)
 {
     var StartPos = 0;
-    var EndPos   = 0;
+    var EndPos   = end || 0;
 
     if ( true === bAll )
     {

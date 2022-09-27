@@ -50,7 +50,13 @@
         this.fonts_streams = [];
 
         // теперь вся информация о всех возможных шрифтах. Они во всех редакторах должны быть одни и те же
-        this.fontFilesPath = "../../../../fonts/";
+        // this.fontFilesPath = "../../../../fonts/";
+        // 字体位置特殊处理
+        if (window['__hy_ai_subPath']) {
+            this.fontFilesPath = 'https://hetong.ai.163.com/' + window['__hy_ai_subPath'] + '/fonts/'
+        } else {
+            this.fontFilesPath = "../../../../fonts/";
+        }
         this.fontFiles = AscFonts.g_font_files;
         this.fontInfos = AscFonts.g_font_infos;
         this.map_font_index = AscFonts.g_map_font_index;

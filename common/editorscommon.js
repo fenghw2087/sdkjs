@@ -373,9 +373,13 @@
 
 	function getBaseUrl()
 	{
+		// 资源路径特殊处理
+		if (window['__hy_ai_subPath']) {
+			return 'https://hetong.ai.163.com/' + window['__hy_ai_subPath'] + '/web-apps/apps/documenteditor/main/'
+		}
 		var indexHtml = window["location"]["href"];
 		var questInd = indexHtml.indexOf("?");
-    		if (questInd > 0)
+		if (questInd > 0)
 		{
 			indexHtml = indexHtml.substring(0, questInd);
 		}

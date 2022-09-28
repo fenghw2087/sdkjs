@@ -882,7 +882,7 @@ function CCommentDrawingRect(X, Y, W, H, CommentId, InvertTransform)
 					endIndex = pos
 				}
 			} else if (item instanceof ParaRun) {
-				pos += item.GetText().length
+				pos += item.GetSelectedText(true).length
 			}
 		}
 		for (var cid in otherComment) {
